@@ -9,6 +9,8 @@ import ProjectFourImage from "@/assets/images/project4.png";
 import ProjectSixImage from "@/assets/images/project6.png";
 import ProjectSevenImage from "@/assets/images/project7.png";
 import ProjectEightImage from "@/assets/images/project8.png";
+import ProjectNineImage from "@/assets/images/project9.png";
+import ProjectTenImage from "@/assets/images/project10.png";
 
 const Projects = () => {
   const projects = [
@@ -60,6 +62,30 @@ const Projects = () => {
       websiteLink: "https://crypto-ducklings.vercel.app/",
       githubLink: "https://github.com/musamusakannike/watchwave",
     },
+    {
+      title: "CryptoDuckling: A crypto site",
+      description:
+        "A beautiful and responsive landing page for for a crypto project.",
+      image: ProjectEightImage,
+      websiteLink: "https://crypto-ducklings.vercel.app/",
+      githubLink: "https://github.com/musamusakannike/watchwave",
+    },
+    {
+      title: "CryptoDuckling: A crypto site",
+      description:
+        "A beautiful and responsive landing page for for a crypto project.",
+      image: ProjectNineImage,
+      websiteLink: "https://crypto-ducklings.vercel.app/",
+      githubLink: "https://github.com/musamusakannike/watchwave",
+    },
+    {
+        title: "CryptoDuckling: A crypto site",
+        description:
+          "A beautiful and responsive landing page for for a crypto project.",
+        image: ProjectTenImage,
+        websiteLink: "https://crypto-ducklings.vercel.app/",
+        githubLink: "https://github.com/musamusakannike/watchwave",
+      },
   ];
 
   return (
