@@ -30,7 +30,7 @@ const Hero = () => {
           <span className="font-semibold"> Node.js</span>, and
           <span className="font-semibold"> Next.js</span>
         </p>
-        <Link href="/projects" className="inline-block bg-white text-indigo-600 font-bold text-lg px-8 py-4 rounded-full shadow-lg hover:bg-indigo-100 transition duration-300 ease-in-out animate-fade-in-up animation-delay-400">
+        <Link href="#projects" className="inline-block bg-white text-indigo-600 font-bold text-lg px-8 py-4 rounded-full shadow-lg hover:bg-indigo-100 transition duration-300 ease-in-out animate-fade-in-up animation-delay-400">
           View My Work
         </Link>
       </div>

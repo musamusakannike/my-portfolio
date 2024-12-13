@@ -29,7 +29,7 @@ const Footer = () => {
             <ul className="space-y-2">
               <li>
                 <Link
-                  href="#home"
+                  href="#"
                   className="text-gray-300 hover:text-white transition-colors"
                 >
                   Home
@@ -77,7 +77,7 @@ const Footer = () => {
             </h3>
             <div className="flex justify-center space-x-4">
               <a
-                href="https://github.com/yourusername"
+                href="https://github.com/musamusakannike"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-300 hover:text-white transition-colors"
@@ -85,7 +85,7 @@ const Footer = () => {
                 <FaGithub className="text-2xl" />
               </a>
               <a
-                href="https://linkedin.com/in/yourusername"
+                href="https://linkedin.com/in/musamusakannike"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-300 hover:text-white transition-colors"
@@ -93,7 +93,7 @@ const Footer = () => {
                 <FaLinkedin className="text-2xl" />
               </a>
               <a
-                href="https://twitter.com/yourusername"
+                href="https://twitter.com/musa_codes"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-300 hover:text-white transition-colors"
@@ -101,7 +101,7 @@ const Footer = () => {
                 <FaTwitter className="text-2xl" />
               </a>
               <a
-                href="mailto:your.email@example.com"
+                href="mailto:musamusakannike@gmail.com"
                 className="text-gray-300 hover:text-white transition-colors"
               >
                 <FaEnvelope className="text-2xl" />

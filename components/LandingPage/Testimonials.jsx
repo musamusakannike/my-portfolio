@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { ScrollMenu, VisibilityContext } from "react-horizontal-scrolling-menu";
 import { FaQuoteLeft } from "react-icons/fa";
+import "react-horizontal-scrolling-menu/dist/styles.css";
 
 const Testimonials = () => {
   const testimonials = [
@@ -42,42 +43,8 @@ const Testimonials = () => {
     },
   ];
 
-  const carouselRef = useRef(null);
-
-  useEffect(() => {
-    const carousel = carouselRef.current;
-    let scrollInterval;
-
-    const startScroll = () => {
-      scrollInterval = setInterval(() => {
-        if (
-          carousel.scrollLeft + carousel.clientWidth >=
-          carousel.scrollWidth
-        ) {
-          carousel.scrollLeft = 0;
-        } else {
-          carousel.scrollLeft += 1;
-        }
-      }, 30);
-    };
-
-    const stopScroll = () => {
-      clearInterval(scrollInterval);
-    };
-
-    startScroll();
-    carousel.addEventListener("mouseenter", stopScroll);
-    carousel.addEventListener("mouseleave", startScroll);
-
-    return () => {
-      stopScroll();
-      carousel.removeEventListener("mouseenter", stopScroll);
-      carousel.removeEventListener("mouseleave", startScroll);
-    };
-  }, []);
-
   return (
-    <section className="relative py-20 overflow-hidden">
+    <section id="testimonials" className="relative py-20 overflow-hidden">
       {/* Space-themed background */}
       <div className="absolute inset-0 bg-gradient-to-b from-gray-900 via-purple-900 to-indigo-900">
         <div
@@ -96,15 +63,11 @@ const Testimonials = () => {
         <h2 className="text-4xl font-bold text-center mb-12 text-white animate-fade-in-up">
           Testimonials
         </h2>
-        <div
-          ref={carouselRef}
-          className="flex overflow-x-hidden flex-auto space-x-6 pb-8 animate-fade-in-up"
-          style={{ scrollBehavior: "smooth" }}
-        >
+        <ScrollMenu>
           {testimonials.concat(testimonials).map((testimonial, index) => (
             <div
               key={index}
-              className="flex-shrink-0 w-80 bg-white bg-opacity-10 rounded-lg p-6 backdrop-filter backdrop-blur-lg shadow-lg"
+              className="flex-shrink-0 w-80 bg-white bg-opacity-10 rounded-lg p-6 backdrop-filter backdrop-blur-lg shadow-lg mx-2"
             >
               <FaQuoteLeft className="text-blue-400 text-2xl mb-4" />
               <p className="text-gray-300 mb-4">{testimonial.feedback}</p>
@@ -126,7 +89,7 @@ const Testimonials = () => {
               </div>
             </div>
           ))}
-        </div>
+        </ScrollMenu>
       </div>
     </section>
   );

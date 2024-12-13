@@ -79,17 +79,17 @@ const Projects = () => {
       githubLink: "https://github.com/musamusakannike/watchwave",
     },
     {
-        title: "CryptoDuckling: A crypto site",
-        description:
-          "A beautiful and responsive landing page for for a crypto project.",
-        image: ProjectTenImage,
-        websiteLink: "https://crypto-ducklings.vercel.app/",
-        githubLink: "https://github.com/musamusakannike/watchwave",
-      },
+      title: "CryptoDuckling: A crypto site",
+      description:
+        "A beautiful and responsive landing page for for a crypto project.",
+      image: ProjectTenImage,
+      websiteLink: "https://crypto-ducklings.vercel.app/",
+      githubLink: "https://github.com/musamusakannike/watchwave",
+    },
   ];
 
   return (
-    <section className="relative py-20 overflow-hidden">
+    <section id="projects" className="relative py-20 overflow-hidden">
       {/* Space-themed background */}
       <div className="absolute inset-0 bg-gradient-to-b from-gray-900 via-purple-900 to-indigo-900">
         <div
