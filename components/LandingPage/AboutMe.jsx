@@ -70,10 +70,14 @@ const AboutMe = () => {
     <section id="about" className="relative py-24 overflow-hidden bg-[#0a0a0a]">
       {/* Background pattern */}
       <div className="absolute inset-0 opacity-30">
-        <div className="absolute inset-0" style={{
-          backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(255,255,255,0.05) 1px, transparent 0)',
-          backgroundSize: '40px 40px'
-        }}></div>
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle at 1px 1px, rgba(255,255,255,0.05) 1px, transparent 0)",
+            backgroundSize: "40px 40px",
+          }}
+        ></div>
       </div>
 
       {/* Decorative gradient orbs */}
@@ -83,7 +87,9 @@ const AboutMe = () => {
       <div className="relative z-10 container mx-auto px-6 sm:px-8 lg:px-16">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <p className="text-gray-500 uppercase tracking-widest text-sm mb-4 animate-fade-in-up">Get to know me</p>
+          <p className="text-gray-500 uppercase tracking-widest text-sm mb-4 animate-fade-in-up">
+            Get to know me
+          </p>
           <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white animate-fade-in-up">
             About Me
           </h2>
@@ -115,20 +121,22 @@ const AboutMe = () => {
 
               {/* Right Panel - Bio */}
               <div className="md:w-2/3 p-8 lg:p-10">
-                <h4 className="text-xl font-semibold text-white mb-4">Who I Am</h4>
+                <h4 className="text-xl font-semibold text-white mb-4">
+                  Who I Am
+                </h4>
                 <p className="text-gray-400 leading-relaxed mb-4 animate-fade-in-up animation-delay-200">
-                  Hello! I&apos;m Musa, an 18-year-old passionate fullstack developer
-                  with a love for coding. My journey in the world of programming
-                  has been exciting, and I&apos;m constantly expanding my skills and
-                  knowledge. I specialize in creating responsive and dynamic web
-                  applications using a variety of modern technologies.
+                  I am a highly skilled and results-oriented Software Engineer
+                  with a robust background in full-stack development,
+                  specializing in the MERN stack. Proven ability to design,
+                  develop, and deploy scalable applications for diverse sectors.
+                  I am an expert in leveraging technologies such as Node.js,
+                  Express, MongoDB, and the React ecosystem (React.js, Next.js,
+                  React Native) to deliver successful, high-quality projects.
                 </p>
                 <p className="text-gray-400 leading-relaxed animate-fade-in-up animation-delay-400">
-                  My expertise spans both frontend and backend development, and
-                  I&apos;m always eager to learn new technologies. Currently, I&apos;m
-                  diving deeper into mobile app development with React Native,
-                  exploring new ways to create seamless cross-platform
-                  experiences.
+                  My expertise spans frontend, mobile and backend development, and
+                  I&apos;m always eager to learn new technologies. Currently,
+                  I&apos;m diving deeper into AI and Machine Learning technologies using Python.
                 </p>
 
                 {/* Stats */}
