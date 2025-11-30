@@ -7,36 +7,46 @@ const Experiences = () => {
 
   const experiences = [
     {
+      title: "Backend Developer",
+      company: "360gadgetsafrica",
+      location: "Remote",
+      period: "Oct 2024 - Present",
+      description:
+        "Designed and implemented RESTful APIs using Node.js and Express. Optimized database queries and implemented caching mechanisms for improved performance. Collaborated with cross-functional teams to deliver secure and scalable backend solutions.",
+      skills: ["Node.js", "Express", "MongoDB", "REST API"],
+    },
+    {
       title: "Mobile App Developer Intern",
       company: "Terrachow Logistics",
       location: "Remote",
-      period: "Oct 2024 - Present",
+      period: "Jan 2024 - Oct 2024",
       description:
         "Developed and maintained complex mobile application using React Native. Implemented new features and optimized existing codebase for better performance.",
       skills: ["React Native", "TypeScript", "Redux"],
     },
     {
-      title: "Frontend Developer Intern",
-      company: "WebCraft Solutions",
-      location: "Remote",
-      period: "Jun 2022 - Dec 2022",
-      description:
-        "Assisted in building responsive user interfaces using React and Next.js. Collaborated with the design team to implement pixel-perfect layouts and animations.",
-      skills: ["React", "Next.js", "Tailwind CSS"],
-    },
-    {
       title: "Freelance Web Developer",
       company: "Self-employed",
       location: "Remote",
-      period: "Jan 2022 - May 2022",
+      period: "Jan 2022 - Present",
       description:
         "Created custom websites for small businesses using HTML, CSS, and JavaScript. Managed client relationships and delivered projects on time and within budget.",
-      skills: ["HTML", "CSS", "JavaScript"],
+      skills: [
+        "Next.js",
+        "Tailwind CSS",
+        "Node.js",
+        "Express",
+        "MongoDB",
+        "REST API",
+      ],
     },
   ];
 
   return (
-    <section id="experience" className="relative py-24 overflow-hidden bg-[#0a0a0a]">
+    <section
+      id="experience"
+      className="relative py-24 overflow-hidden bg-[#0a0a0a]"
+    >
       {/* Background pattern */}
       <div className="absolute inset-0">
         <div
