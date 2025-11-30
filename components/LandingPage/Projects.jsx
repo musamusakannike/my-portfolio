@@ -1,99 +1,88 @@
 import Link from "next/link";
-import Image from "next/image";
-import { FaGithub, FaExternalLinkAlt } from "react-icons/fa";
-
-import ProjectOneImage from "@/assets/images/project1.png";
-import ProjectTwoImage from "@/assets/images/project2.png";
-import ProjectThreeImage from "@/assets/images/project3.png";
-import ProjectFourImage from "@/assets/images/project4.png";
-import ProjectSixImage from "@/assets/images/project6.png";
-import ProjectSevenImage from "@/assets/images/project7.png";
-import ProjectEightImage from "@/assets/images/project8.png";
-import ProjectNineImage from "@/assets/images/project9.png";
-import ProjectTenImage from "@/assets/images/project10.png";
+import {
+  FaGithub,
+  FaExternalLinkAlt,
+  FaGooglePlay,
+  FaApple,
+  FaDesktop,
+  FaServer,
+  FaMobileAlt,
+  FaCode,
+} from "react-icons/fa";
 
 const Projects = () => {
   const projects = [
     {
-      title: "Dishful Recipe Generator",
+      title: "Synapse AI",
+      subtitle: "AI-Powered Learning Assistant",
       description:
-        "Dishful is an AI-powered recipe generator that can create mouthwatering dishes from your text and images.",
-      image: ProjectOneImage,
-      websiteLink: "https://dishful-frontend.vercel.app/",
-      githubLink: "https://github.com/musamusakannike/dishful",
-      tags: ["React", "AI", "Node.js"],
+        "An intelligent learning assistant powered by Google's Gemini API. Synapse helps students and learners understand complex topics through conversational AI, providing personalized explanations and study support across web and mobile platforms.",
+      tags: ["React", "Node.js", "Gemini API", "React Native", "MongoDB"],
+      role: "Sole Developer",
+      links: {
+        website: "https://synapsebot.vercel.app",
+        github: {
+          frontend: "https://github.com/musamusakannike/synapse/tree/main/frontend",
+          server: "https://github.com/musamusakannike/synapse/tree/main/server",
+          mobile: "https://github.com/musamusakannike/synapse/tree/main/mobile",
+        },
+      },
     },
     {
-      title: "BitHub: Social Media for Devs",
+      title: "Proffyemphy's Ideal Academy",
+      subtitle: "E-Learning Platform for Nigerian Students",
       description:
-        "A platform to Connect, Share, and Engage with Like-Minded Programmers",
-      image: ProjectTwoImage,
-      websiteLink: "https://bithub-social.vercel.app/",
-      githubLink: "https://github.com/musamusakannike/bithub",
-      tags: ["Next.js", "MongoDB", "Tailwind"],
+        "A comprehensive learning platform designed for Nigerian students in secondary and tertiary institutions. Features include video lessons, practice tests, and progress tracking. Available on web, iOS, Android, and Windows desktop.",
+      tags: ["Next.js", "React Native", "Electron", "Node.js", "MongoDB"],
+      role: "Developer",
+      isPrivate: true,
+      links: {
+        website: "https://proffyemphy.vercel.app/",
+        playStore: "https://play.google.com/store/apps/details?id=com.musamusakannike.proffyemphymobileapp",
+        appStore: "https://apps.apple.com/us/app/proffyemphy-ideal-academy/id6744728561",
+        desktop: "https://pub-c55ee396a09e45e6b0bd6191ca45d178.r2.dev/proffyemphyidealacademy/desktop-1.0.0-setup.exe",
+      },
     },
     {
-      title: "WatchWave: Movie App",
+      title: "Terrachow",
+      subtitle: "B2C Food Logistics Platform",
       description:
-        "Discover latest, trending and big hit movies across a vast number of categories on WatchWave.",
-      image: ProjectThreeImage,
-      websiteLink: "https://watch-wave2.vercel.app/",
-      githubLink: "https://github.com/musamusakannike/watchwave",
-      tags: ["React", "API", "CSS"],
+        "A food logistics platform serving the Nigerian region, connecting consumers with restaurants and food vendors. Features real-time order tracking, secure payments, and seamless delivery coordination.",
+      tags: ["React Native", "Node.js", "MongoDB", "Express", "REST API"],
+      role: "Team Member",
+      isPrivate: true,
+      links: {
+        website: "https://terrachow.com/",
+        playStore: "https://play.google.com/store/apps/details?id=com.terrachow.terrachow",
+        appStore: "https://apps.apple.com/us/app/terrachow/id1587526296",
+      },
     },
     {
-      title: "Creator AI",
+      title: "360GadgetsAfrica",
+      subtitle: "E-Commerce & VTU Platform",
       description:
-        "Innovative AI tool for content creators, streamlining the creative process.",
-      image: ProjectFourImage,
-      websiteLink: "https://creatortest.vercel.app/",
-      githubLink: "https://github.com/musamusakannike/watchwave",
-      tags: ["AI", "Next.js", "OpenAI"],
+        "A comprehensive e-commerce platform for Nigerians to purchase tech gadgets from trusted vendors. Also provides VTU (Virtual Top-Up) services for airtime and data purchases, combining retail and fintech solutions.",
+      tags: ["React", "React Native", "Node.js", "Payment Integration", "E-commerce"],
+      role: "Team Member",
+      isPrivate: true,
+      links: {
+        website: "https://360gadgetsafrica.com/",
+        playStore: "https://play.google.com/store/apps/details?id=com.gadgetsafrica.gadgetsafrica",
+        appStore: "https://apps.apple.com/us/app/360gadgetsafrica/id6736353137",
+      },
     },
     {
-      title: "Captain Levi",
+      title: "TaasHAM",
+      subtitle: "Freelance Platform for Event Planners",
       description:
-        "A portfolio website for a web 3 based community manager and content creator.",
-      image: ProjectSixImage,
-      websiteLink: "https://captain-levi.vercel.app/",
-      githubLink: "https://github.com/musamusakannike/watchwave",
-      tags: ["React", "Web3", "Portfolio"],
-    },
-    {
-      title: "CryptoDuckling: A crypto site",
-      description:
-        "A beautiful and responsive landing page for for a crypto project.",
-      image: ProjectSevenImage,
-      websiteLink: "https://crypto-ducklings.vercel.app/",
-      githubLink: "https://github.com/musamusakannike/watchwave",
-      tags: ["React", "Crypto", "Landing"],
-    },
-    {
-      title: "CryptoDuckling: A crypto site",
-      description:
-        "A beautiful and responsive landing page for for a crypto project.",
-      image: ProjectEightImage,
-      websiteLink: "https://crypto-ducklings.vercel.app/",
-      githubLink: "https://github.com/musamusakannike/watchwave",
-      tags: ["React", "Crypto", "Landing"],
-    },
-    {
-      title: "CryptoDuckling: A crypto site",
-      description:
-        "A beautiful and responsive landing page for for a crypto project.",
-      image: ProjectNineImage,
-      websiteLink: "https://crypto-ducklings.vercel.app/",
-      githubLink: "https://github.com/musamusakannike/watchwave",
-      tags: ["React", "Crypto", "Landing"],
-    },
-    {
-      title: "CryptoDuckling: A crypto site",
-      description:
-        "A beautiful and responsive landing page for for a crypto project.",
-      image: ProjectTenImage,
-      websiteLink: "https://crypto-ducklings.vercel.app/",
-      githubLink: "https://github.com/musamusakannike/watchwave",
-      tags: ["React", "Crypto", "Landing"],
+        "A Saudi Arabia-based freelance marketplace connecting event planners with clients. Features include profile management, project bidding, secure payments, and review systems. Currently in closed testing phase.",
+      tags: ["Next.js", "Node.js", "MongoDB", "Payment Gateway", "Arabic RTL"],
+      role: "Sole Developer",
+      isPrivate: true,
+      isBeta: true,
+      links: {
+        website: "https://taasham.com",
+      },
     },
   ];
 
@@ -131,79 +120,163 @@ const Projects = () => {
           {projects.map((project, index) => (
             <div
               key={index}
-              className="group glass rounded-2xl overflow-hidden transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl animate-fade-in-up"
+              className="group glass rounded-2xl overflow-hidden transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl animate-fade-in-up flex flex-col"
               style={{ animationDelay: `${index * 100}ms` }}
             >
-              {/* Image Container */}
-              <div className="relative h-52 overflow-hidden">
-                <Image
-                  src={project.image}
-                  alt={project.title}
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                {/* Overlay on hover */}
-                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4">
-                  <Link
-                    href={project.websiteLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-3 bg-white rounded-full text-black hover:scale-110 transition-transform"
-                  >
-                    <FaExternalLinkAlt className="text-lg" />
-                  </Link>
-                  <Link
-                    href={project.githubLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-3 bg-white rounded-full text-black hover:scale-110 transition-transform"
-                  >
-                    <FaGithub className="text-lg" />
-                  </Link>
-                </div>
-              </div>
-
-              {/* Content */}
-              <div className="p-6">
-                {/* Tags */}
+              {/* Header with badges */}
+              <div className="p-6 pb-0">
+                {/* Status badges */}
                 <div className="flex flex-wrap gap-2 mb-3">
+                  {project.isBeta && (
+                    <span className="text-xs px-3 py-1 rounded-full bg-yellow-500/20 text-yellow-400 border border-yellow-500/30">
+                      Beta
+                    </span>
+                  )}
+                  {project.isPrivate && (
+                    <span className="text-xs px-3 py-1 rounded-full bg-gray-500/20 text-gray-400 border border-gray-500/30">
+                      Private Codebase
+                    </span>
+                  )}
+                  <span className="text-xs px-3 py-1 rounded-full bg-white/10 text-gray-300">
+                    {project.role}
+                  </span>
+                </div>
+
+                {/* Title & Subtitle */}
+                <h3 className="text-xl font-bold text-white group-hover:text-gray-200 transition-colors">
+                  {project.title}
+                </h3>
+                <p className="text-sm text-gray-400 mb-3">{project.subtitle}</p>
+
+                {/* Tech Tags */}
+                <div className="flex flex-wrap gap-2 mb-4">
                   {project.tags?.map((tag, tagIndex) => (
                     <span
                       key={tagIndex}
-                      className="text-xs px-3 py-1 rounded-full bg-white/10 text-gray-400"
+                      className="text-xs px-2 py-1 rounded-md bg-white/5 text-gray-500"
                     >
                       {tag}
                     </span>
                   ))}
                 </div>
+              </div>
 
-                <h3 className="text-xl font-bold mb-2 text-white group-hover:text-gray-200 transition-colors">
-                  {project.title}
-                </h3>
-                <p className="text-gray-400 text-sm leading-relaxed mb-4">
+              {/* Description */}
+              <div className="px-6 flex-grow">
+                <p className="text-gray-400 text-sm leading-relaxed">
                   {project.description}
                 </p>
+              </div>
 
-                {/* Links */}
-                <div className="flex justify-between items-center pt-4 border-t border-white/10">
-                  <Link
-                    href={project.websiteLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-white hover:text-gray-300 transition-colors duration-300 flex items-center text-sm font-medium"
-                  >
-                    <FaExternalLinkAlt className="mr-2 text-xs" />
-                    Live Demo
-                  </Link>
-                  <Link
-                    href={project.githubLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-gray-400 hover:text-white transition-colors duration-300 flex items-center text-sm"
-                  >
-                    <FaGithub className="mr-2" />
-                    Source
-                  </Link>
+              {/* Links Section */}
+              <div className="p-6 pt-4 mt-auto">
+                <div className="border-t border-white/10 pt-4">
+                  {/* Primary Links Row */}
+                  <div className="flex flex-wrap gap-3 mb-3">
+                    {project.links.website && (
+                      <Link
+                        href={project.links.website}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white text-black text-sm font-medium hover:bg-gray-200 transition-all duration-300 hover:scale-105"
+                      >
+                        <FaExternalLinkAlt className="text-xs" />
+                        Website
+                      </Link>
+                    )}
+                  </div>
+
+                  {/* App Store Links */}
+                  {(project.links.playStore || project.links.appStore || project.links.desktop) && (
+                    <div className="flex flex-wrap gap-2 mb-3">
+                      {project.links.playStore && (
+                        <Link
+                          href={project.links.playStore}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/10 text-gray-300 text-xs hover:bg-white/20 transition-colors"
+                        >
+                          <FaGooglePlay className="text-green-400" />
+                          Play Store
+                        </Link>
+                      )}
+                      {project.links.appStore && (
+                        <Link
+                          href={project.links.appStore}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/10 text-gray-300 text-xs hover:bg-white/20 transition-colors"
+                        >
+                          <FaApple className="text-gray-300" />
+                          App Store
+                        </Link>
+                      )}
+                      {project.links.desktop && (
+                        <Link
+                          href={project.links.desktop}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/10 text-gray-300 text-xs hover:bg-white/20 transition-colors"
+                        >
+                          <FaDesktop className="text-blue-400" />
+                          Windows
+                        </Link>
+                      )}
+                    </div>
+                  )}
+
+                  {/* GitHub Links */}
+                  {project.links.github && (
+                    <div className="flex flex-wrap gap-2">
+                      {typeof project.links.github === "string" ? (
+                        <Link
+                          href={project.links.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 text-gray-400 text-xs hover:bg-white/10 hover:text-white transition-colors"
+                        >
+                          <FaGithub />
+                          Source Code
+                        </Link>
+                      ) : (
+                        <>
+                          {project.links.github.frontend && (
+                            <Link
+                              href={project.links.github.frontend}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 text-gray-400 text-xs hover:bg-white/10 hover:text-white transition-colors"
+                            >
+                              <FaCode className="text-cyan-400" />
+                              Frontend
+                            </Link>
+                          )}
+                          {project.links.github.server && (
+                            <Link
+                              href={project.links.github.server}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 text-gray-400 text-xs hover:bg-white/10 hover:text-white transition-colors"
+                            >
+                              <FaServer className="text-green-400" />
+                              Server
+                            </Link>
+                          )}
+                          {project.links.github.mobile && (
+                            <Link
+                              href={project.links.github.mobile}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 text-gray-400 text-xs hover:bg-white/10 hover:text-white transition-colors"
+                            >
+                              <FaMobileAlt className="text-purple-400" />
+                              Mobile
+                            </Link>
+                          )}
+                        </>
+                      )}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
