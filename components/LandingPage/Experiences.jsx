@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { FaBriefcase, FaCalendar } from "react-icons/fa";
+import { FaBriefcase, FaCalendar, FaMapMarkerAlt } from "react-icons/fa";
 
 const Experiences = () => {
   const [activeExperience, setActiveExperience] = useState(null);
@@ -9,77 +9,130 @@ const Experiences = () => {
     {
       title: "Mobile App Developer Intern",
       company: "Terrachow Logistics",
+      location: "Remote",
       period: "Oct 2024 - Present",
       description:
         "Developed and maintained complex mobile application using React Native. Implemented new features and optimized existing codebase for better performance.",
+      skills: ["React Native", "TypeScript", "Redux"],
     },
     {
       title: "Frontend Developer Intern",
       company: "WebCraft Solutions",
+      location: "Remote",
       period: "Jun 2022 - Dec 2022",
       description:
         "Assisted in building responsive user interfaces using React and Next.js. Collaborated with the design team to implement pixel-perfect layouts and animations.",
+      skills: ["React", "Next.js", "Tailwind CSS"],
     },
     {
       title: "Freelance Web Developer",
       company: "Self-employed",
+      location: "Remote",
       period: "Jan 2022 - May 2022",
       description:
         "Created custom websites for small businesses using HTML, CSS, and JavaScript. Managed client relationships and delivered projects on time and within budget.",
+      skills: ["HTML", "CSS", "JavaScript"],
     },
   ];
 
   return (
-    <section id="experience" className="relative py-20 overflow-hidden">
-      {/* Space-themed background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-indigo-900 via-purple-900 to-gray-900">
+    <section id="experience" className="relative py-24 overflow-hidden bg-[#0a0a0a]">
+      {/* Background pattern */}
+      <div className="absolute inset-0">
         <div
           className="absolute inset-0"
           style={{
             backgroundImage:
-              "radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px)",
-            backgroundSize: "50px 50px",
-            opacity: 0.2,
+              "radial-gradient(circle at 1px 1px, rgba(255,255,255,0.03) 1px, transparent 0)",
+            backgroundSize: "40px 40px",
           }}
         ></div>
       </div>
 
-      <div className="relative container mx-auto px-4">
-        <h2 className="text-4xl font-bold text-center mb-12 text-white animate-fade-in-up">
-          My Experiences
-        </h2>
-        <div className="max-w-4xl mx-auto">
+      {/* Decorative elements */}
+      <div className="absolute top-20 right-20 w-72 h-72 bg-white/5 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-20 left-20 w-96 h-96 bg-white/5 rounded-full blur-3xl"></div>
+
+      <div className="relative container mx-auto px-6 sm:px-8 lg:px-16">
+        {/* Section Header */}
+        <div className="text-center mb-16">
+          <p className="text-gray-500 uppercase tracking-widest text-sm mb-4 animate-fade-in-up">
+            My Journey
+          </p>
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white animate-fade-in-up">
+            Work Experience
+          </h2>
+        </div>
+
+        {/* Timeline */}
+        <div className="max-w-4xl mx-auto relative">
+          {/* Vertical line */}
+          <div className="absolute left-0 md:left-1/2 transform md:-translate-x-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-white/20 via-white/10 to-transparent"></div>
+
           {experiences.map((exp, index) => (
             <div
               key={index}
-              className="mb-8 animate-fade-in-up"
+              className={`relative mb-12 animate-fade-in-up ${
+                index % 2 === 0 ? "md:pr-1/2" : "md:pl-1/2 md:ml-auto"
+              }`}
               style={{ animationDelay: `${index * 150}ms` }}
             >
+              {/* Timeline dot */}
+              <div className="absolute left-0 md:left-1/2 transform -translate-x-1/2 w-4 h-4 rounded-full bg-white border-4 border-[#0a0a0a] z-10"></div>
+
+              {/* Card */}
               <div
-                className={`bg-white bg-opacity-10 rounded-lg p-6 backdrop-filter backdrop-blur-lg shadow-lg transition-all duration-300 ${
-                  activeExperience === index ? "scale-105" : "hover:scale-102"
+                className={`ml-8 md:ml-0 ${
+                  index % 2 === 0 ? "md:mr-8" : "md:ml-8"
                 }`}
-                onMouseEnter={() => setActiveExperience(index)}
-                onMouseLeave={() => setActiveExperience(null)}
               >
-                <div className="flex flex-col md:flex-row md:items-center justify-between mb-4">
-                  <h3 className="text-xl font-semibold text-white mb-2 md:mb-0">
-                    {exp.title}
-                  </h3>
-                  <div className="flex items-center text-blue-300">
-                    <FaCalendar className="mr-2" />
+                <div
+                  className={`glass rounded-2xl p-6 transition-all duration-300 ${
+                    activeExperience === index
+                      ? "scale-[1.02] shadow-xl"
+                      : "hover:scale-[1.01]"
+                  }`}
+                  onMouseEnter={() => setActiveExperience(index)}
+                  onMouseLeave={() => setActiveExperience(null)}
+                >
+                  {/* Period badge */}
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-gray-400 text-sm mb-4">
+                    <FaCalendar className="text-xs" />
                     <span>{exp.period}</span>
                   </div>
+
+                  <h3 className="text-xl font-bold text-white mb-2">
+                    {exp.title}
+                  </h3>
+
+                  <div className="flex flex-wrap items-center gap-4 text-gray-400 text-sm mb-4">
+                    <div className="flex items-center gap-2">
+                      <FaBriefcase className="text-xs" />
+                      <span>{exp.company}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <FaMapMarkerAlt className="text-xs" />
+                      <span>{exp.location}</span>
+                    </div>
+                  </div>
+
+                  <p className="text-gray-400 leading-relaxed mb-4">
+                    {exp.description}
+                  </p>
+
+                  {/* Skills */}
+                  <div className="flex flex-wrap gap-2">
+                    {exp.skills?.map((skill, skillIndex) => (
+                      <span
+                        key={skillIndex}
+                        className="text-xs px-3 py-1 rounded-full bg-white/5 text-gray-300 border border-white/10"
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-                <div className="flex items-center text-gray-300 mb-4">
-                  <FaBriefcase className="mr-2" />
-                  <span>{exp.company}</span>
-                </div>
-                <p className="text-gray-300">{exp.description}</p>
               </div>
-              {index < experiences.length - 1 && (
-                <div className="w-px h-8 bg-blue-400 mx-auto my-2 animate-pulse"></div>
-              )}
             </div>
           ))}
         </div>

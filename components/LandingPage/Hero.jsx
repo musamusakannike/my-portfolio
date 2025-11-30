@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa'
+import { HiArrowDown } from 'react-icons/hi'
 
 const Hero = () => {
   const [mounted, setMounted] = useState(false)
@@ -15,30 +17,94 @@ const Hero = () => {
   }
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#0B0D17] via-[#1A1A40] to-[#3A0CA3]">
-      {/* Decorative Elements */}
-      <div className="absolute top-0 left-0 w-72 h-72 bg-white opacity-10 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-white opacity-10 rounded-full translate-x-1/3 translate-y-1/3"></div>
-      
-      <div className="relative z-10 text-center px-8 py-16 sm:px-16 md:py-24 lg:py-32">
-        <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold text-white mb-6 animate-fade-in-up">
-          Fullstack Developer
-        </h1>
-        <p className="text-xl sm:text-2xl md:text-3xl text-indigo-100 mb-8 animate-fade-in-up animation-delay-200">
-          Crafting seamless web experiences with
-          <span className="font-semibold"> React</span>,
-          <span className="font-semibold"> Node.js</span>, and
-          <span className="font-semibold"> Next.js</span>
-        </p>
-        <Link href="#projects" className="inline-block bg-white text-indigo-600 font-bold text-lg px-8 py-4 rounded-full shadow-lg hover:bg-indigo-100 transition duration-300 ease-in-out animate-fade-in-up animation-delay-400">
-          View My Work
-        </Link>
+    <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-[#0a0a0a] via-[#111111] to-[#0a0a0a]">
+      {/* Animated background grid */}
+      <div className="absolute inset-0 opacity-20">
+        <div className="absolute inset-0" style={{
+          backgroundImage: 'linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)',
+          backgroundSize: '50px 50px'
+        }}></div>
       </div>
 
-      {/* SVG Shapes */}
-      <svg className="absolute bottom-0 left-0 w-full" viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg">
-        <path fill="#ffffff" fillOpacity="0.1" d="M0,288L48,272C96,256,192,224,288,197.3C384,171,480,149,576,165.3C672,181,768,235,864,250.7C960,267,1056,245,1152,250.7C1248,256,1344,288,1392,304L1440,320L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
-      </svg>
+      {/* Decorative gradient orbs */}
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-white/5 rounded-full blur-3xl animate-float"></div>
+      <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-white/5 rounded-full blur-3xl animate-float animation-delay-400"></div>
+      
+      {/* Main content */}
+      <div className="relative z-10 text-center px-8 py-16 sm:px-16 md:py-24 lg:py-32 max-w-5xl mx-auto">
+        {/* Greeting */}
+        <p className="text-gray-400 text-lg sm:text-xl mb-4 animate-fade-in-up tracking-widest uppercase">
+          Hello, I&apos;m
+        </p>
+        
+        {/* Name */}
+        <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold text-white mb-4 animate-fade-in-up gradient-text">
+          Musa Musa Kannike
+        </h1>
+        
+        {/* Title */}
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-300 mb-6 animate-fade-in-up animation-delay-200">
+          Fullstack Developer
+        </h2>
+        
+        {/* Description */}
+        <p className="text-lg sm:text-xl text-gray-400 mb-10 max-w-2xl mx-auto animate-fade-in-up animation-delay-400 leading-relaxed">
+          Crafting seamless web experiences with
+          <span className="text-white font-semibold"> React</span>,
+          <span className="text-white font-semibold"> Node.js</span>, and
+          <span className="text-white font-semibold"> Next.js</span>
+        </p>
+
+        {/* CTA Buttons */}
+        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12 animate-fade-in-up animation-delay-600">
+          <Link 
+            href="#projects" 
+            className="group relative inline-flex items-center gap-2 bg-white text-black font-bold text-lg px-8 py-4 rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 ease-out"
+          >
+            View My Work
+            <span className="group-hover:translate-x-1 transition-transform duration-300">→</span>
+          </Link>
+          <Link 
+            href="#about" 
+            className="inline-flex items-center gap-2 border-2 border-white/20 text-white font-bold text-lg px-8 py-4 rounded-full hover:bg-white/10 hover:border-white/40 transition-all duration-300 ease-out"
+          >
+            About Me
+          </Link>
+        </div>
+
+        {/* Social Links */}
+        <div className="flex justify-center gap-6 animate-fade-in-up animation-delay-600">
+          <a 
+            href="https://github.com/musamusakannike" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-gray-400 hover:text-white transition-colors duration-300 hover:scale-110 transform"
+          >
+            <FaGithub className="text-2xl" />
+          </a>
+          <a 
+            href="https://linkedin.com/in/musamusakannike" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-gray-400 hover:text-white transition-colors duration-300 hover:scale-110 transform"
+          >
+            <FaLinkedin className="text-2xl" />
+          </a>
+          <a 
+            href="https://twitter.com/musa_codes" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-gray-400 hover:text-white transition-colors duration-300 hover:scale-110 transform"
+          >
+            <FaTwitter className="text-2xl" />
+          </a>
+        </div>
+      </div>
+
+      {/* Scroll indicator */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+        <HiArrowDown className="text-gray-500 text-2xl" />
+      </div>
     </div>
   )
 }

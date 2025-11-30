@@ -21,6 +21,7 @@ const Projects = () => {
       image: ProjectOneImage,
       websiteLink: "https://dishful-frontend.vercel.app/",
       githubLink: "https://github.com/musamusakannike/dishful",
+      tags: ["React", "AI", "Node.js"],
     },
     {
       title: "BitHub: Social Media for Devs",
@@ -29,6 +30,7 @@ const Projects = () => {
       image: ProjectTwoImage,
       websiteLink: "https://bithub-social.vercel.app/",
       githubLink: "https://github.com/musamusakannike/bithub",
+      tags: ["Next.js", "MongoDB", "Tailwind"],
     },
     {
       title: "WatchWave: Movie App",
@@ -37,6 +39,7 @@ const Projects = () => {
       image: ProjectThreeImage,
       websiteLink: "https://watch-wave2.vercel.app/",
       githubLink: "https://github.com/musamusakannike/watchwave",
+      tags: ["React", "API", "CSS"],
     },
     {
       title: "Creator AI",
@@ -45,6 +48,7 @@ const Projects = () => {
       image: ProjectFourImage,
       websiteLink: "https://creatortest.vercel.app/",
       githubLink: "https://github.com/musamusakannike/watchwave",
+      tags: ["AI", "Next.js", "OpenAI"],
     },
     {
       title: "Captain Levi",
@@ -53,6 +57,7 @@ const Projects = () => {
       image: ProjectSixImage,
       websiteLink: "https://captain-levi.vercel.app/",
       githubLink: "https://github.com/musamusakannike/watchwave",
+      tags: ["React", "Web3", "Portfolio"],
     },
     {
       title: "CryptoDuckling: A crypto site",
@@ -61,6 +66,7 @@ const Projects = () => {
       image: ProjectSevenImage,
       websiteLink: "https://crypto-ducklings.vercel.app/",
       githubLink: "https://github.com/musamusakannike/watchwave",
+      tags: ["React", "Crypto", "Landing"],
     },
     {
       title: "CryptoDuckling: A crypto site",
@@ -69,6 +75,7 @@ const Projects = () => {
       image: ProjectEightImage,
       websiteLink: "https://crypto-ducklings.vercel.app/",
       githubLink: "https://github.com/musamusakannike/watchwave",
+      tags: ["React", "Crypto", "Landing"],
     },
     {
       title: "CryptoDuckling: A crypto site",
@@ -77,6 +84,7 @@ const Projects = () => {
       image: ProjectNineImage,
       websiteLink: "https://crypto-ducklings.vercel.app/",
       githubLink: "https://github.com/musamusakannike/watchwave",
+      tags: ["React", "Crypto", "Landing"],
     },
     {
       title: "CryptoDuckling: A crypto site",
@@ -85,68 +93,116 @@ const Projects = () => {
       image: ProjectTenImage,
       websiteLink: "https://crypto-ducklings.vercel.app/",
       githubLink: "https://github.com/musamusakannike/watchwave",
+      tags: ["React", "Crypto", "Landing"],
     },
   ];
 
   return (
-    <section id="projects" className="relative py-20 overflow-hidden">
-      {/* Space-themed background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-gray-900 via-purple-900 to-indigo-900">
+    <section id="projects" className="relative py-24 overflow-hidden bg-[#0d0d0d]">
+      {/* Background pattern */}
+      <div className="absolute inset-0">
         <div
           className="absolute inset-0"
           style={{
             backgroundImage:
-              "radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px)",
-            backgroundSize: "550px 550px",
-            backgroundPosition: "0 0,40px 60px",
-            opacity: 0.1,
+              "radial-gradient(circle at 1px 1px, rgba(255,255,255,0.03) 1px, transparent 0)",
+            backgroundSize: "40px 40px",
           }}
         ></div>
       </div>
 
-      <div className="relative container mx-auto px-4">
-        <h2 className="text-4xl font-bold text-center mb-12 text-white animate-fade-in-up">
-          My Projects
-        </h2>
+      {/* Decorative elements */}
+      <div className="absolute top-40 left-10 w-80 h-80 bg-white/5 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-40 right-10 w-96 h-96 bg-white/5 rounded-full blur-3xl"></div>
+
+      <div className="relative container mx-auto px-6 sm:px-8 lg:px-16">
+        {/* Section Header */}
+        <div className="text-center mb-16">
+          <p className="text-gray-500 uppercase tracking-widest text-sm mb-4 animate-fade-in-up">
+            My Work
+          </p>
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white animate-fade-in-up">
+            Featured Projects
+          </h2>
+        </div>
+
+        {/* Projects Grid */}
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {projects.map((project, index) => (
             <div
               key={index}
-              className="bg-white bg-opacity-10 rounded-lg overflow-hidden shadow-lg backdrop-filter backdrop-blur-lg transition-transform duration-300 hover:scale-105 animate-fade-in-up"
-              style={{ animationDelay: `${index * 150}ms` }}
+              className="group glass rounded-2xl overflow-hidden transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl animate-fade-in-up"
+              style={{ animationDelay: `${index * 100}ms` }}
             >
-              <div className="relative h-48">
+              {/* Image Container */}
+              <div className="relative h-52 overflow-hidden">
                 <Image
                   src={project.image}
                   alt={project.title}
-                  layout="fill"
-                  objectFit="cover"
-                  className="transition-transform duration-300 hover:scale-110"
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-110"
                 />
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-semibold mb-2 text-white">
-                  {project.title}
-                </h3>
-                <p className="text-gray-300 mb-4">{project.description}</p>
-                <div className="flex justify-between items-center">
+                {/* Overlay on hover */}
+                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4">
                   <Link
                     href={project.websiteLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-400 hover:text-blue-300 transition-colors duration-300 flex items-center"
+                    className="p-3 bg-white rounded-full text-black hover:scale-110 transition-transform"
                   >
-                    <FaExternalLinkAlt className="mr-2" />
-                    Visit Site
+                    <FaExternalLinkAlt className="text-lg" />
                   </Link>
                   <Link
                     href={project.githubLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-gray-400 hover:text-gray-300 transition-colors duration-300 flex items-center"
+                    className="p-3 bg-white rounded-full text-black hover:scale-110 transition-transform"
+                  >
+                    <FaGithub className="text-lg" />
+                  </Link>
+                </div>
+              </div>
+
+              {/* Content */}
+              <div className="p-6">
+                {/* Tags */}
+                <div className="flex flex-wrap gap-2 mb-3">
+                  {project.tags?.map((tag, tagIndex) => (
+                    <span
+                      key={tagIndex}
+                      className="text-xs px-3 py-1 rounded-full bg-white/10 text-gray-400"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+
+                <h3 className="text-xl font-bold mb-2 text-white group-hover:text-gray-200 transition-colors">
+                  {project.title}
+                </h3>
+                <p className="text-gray-400 text-sm leading-relaxed mb-4">
+                  {project.description}
+                </p>
+
+                {/* Links */}
+                <div className="flex justify-between items-center pt-4 border-t border-white/10">
+                  <Link
+                    href={project.websiteLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-white hover:text-gray-300 transition-colors duration-300 flex items-center text-sm font-medium"
+                  >
+                    <FaExternalLinkAlt className="mr-2 text-xs" />
+                    Live Demo
+                  </Link>
+                  <Link
+                    href={project.githubLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-gray-400 hover:text-white transition-colors duration-300 flex items-center text-sm"
                   >
                     <FaGithub className="mr-2" />
-                    View Code
+                    Source
                   </Link>
                 </div>
               </div>
