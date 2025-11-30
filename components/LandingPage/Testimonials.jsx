@@ -7,49 +7,36 @@ import "react-horizontal-scrolling-menu/dist/styles.css";
 const Testimonials = () => {
   const testimonials = [
     {
-      name: "Sarah Johnson",
-      role: "Project Manager",
-      company: "TechCorp Solutions",
+      name: "Jimoh Abdullah",
+      role: "Co-founder",
+      company: "Synapse AI",
       feedback:
         "Musa is an exceptional developer with a keen eye for detail. His ability to translate complex requirements into elegant code is truly impressive.",
       rating: 5,
     },
     {
-      name: "Alex Rodriguez",
-      role: "CTO",
-      company: "StartUp Innovators",
+      name: "Ibrahim Mubaraq",
+      role: "Co-founder",
+      company: "Synapse AI",
       feedback:
         "Working with Musa was a game-changer for our project. His technical skills and problem-solving abilities are top-notch.",
       rating: 5,
     },
     {
-      name: "Emily Chen",
-      role: "UX Designer",
-      company: "DesignHub Agency",
-      feedback:
-        "Musa's frontend development skills brought our designs to life beautifully. His attention to user experience made our collaboration seamless.",
-      rating: 5,
-    },
-    {
-      name: "Michael Brown",
-      role: "Freelance Client",
-      company: null,
+      name: "Abdulrahman Habeeb",
+      role: "CEO",
+      company: "360gadgetsafrica",
       feedback:
         "I hired Musa for a complex web application, and he delivered beyond my expectations. His communication and project management skills are excellent.",
-      rating: 5,
-    },
-    {
-      name: "Lisa Taylor",
-      role: "Senior Developer",
-      company: "CodeCraft Inc.",
-      feedback:
-        "As a colleague, I can attest to Musa's dedication and skill. He's always eager to learn and consistently delivers high-quality code.",
       rating: 5,
     },
   ];
 
   return (
-    <section id="testimonials" className="relative py-24 overflow-hidden bg-[#0d0d0d]">
+    <section
+      id="testimonials"
+      className="relative py-24 overflow-hidden bg-[#0d0d0d]"
+    >
       {/* Background pattern */}
       <div className="absolute inset-0">
         <div
