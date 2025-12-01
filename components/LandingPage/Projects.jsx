@@ -77,7 +77,7 @@ const Projects = () => {
       description:
         "A Saudi Arabia-based freelance marketplace connecting event planners with clients. Features include profile management, project bidding, secure payments, and review systems. Currently in closed testing phase.",
       tags: ["Next.js", "Node.js", "MongoDB", "Payment Gateway", "Arabic RTL"],
-      role: "Sole Developer",
+      role: "Team Member",
       isPrivate: true,
       isBeta: true,
       links: {
