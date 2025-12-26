@@ -84,6 +84,18 @@ const Projects = () => {
         website: "https://taasham.com",
       },
     },
+    {
+      title: "LamatFikr",
+      subtitle: "International Social & Marketplace Platform",
+      description:
+        "An international social site for users to chat, connect, play, sell and more. LamatFikr combines the main features of a typical social platform — profiles, feeds, real-time chat, and community interactions — with a built-in marketplace for buying and selling items. The platform focuses on rich social experiences across web and mobile, with social feeds, groups, messaging, and commerce features.",
+      tags: ["Node.js", "MongoDB", "GetStream", "Express", "Next.js", "Tailwind"],
+      role: "Team Member",
+      isPrivate: true,
+      links: {
+        website: "https://lamatfikr.com",
+      },
+    },
   ];
 
   return (
