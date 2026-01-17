@@ -7,6 +7,14 @@ const Experiences = () => {
 
   const experiences = [
     {
+      title: "Fullstack Developer",
+      company: "Cloudstech",
+      location: "Remote",
+      period: "Jan 2026 - Present",
+      description: "Engineering high-performance web and mobile applications for a global clientele. Responsible for architecting scalable full-stack solutions, integrating complex APIs, and delivering seamless cross-platform user experiences using modern JavaScript frameworks.",
+      skills: ["Next.js", "Express", "MongoDB", "React Native", "Redux", "Tailwind CSS"]
+    },
+    {
       title: "Backend Developer",
       company: "360gadgetsafrica",
       location: "Remote",
