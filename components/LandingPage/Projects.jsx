@@ -96,6 +96,21 @@ const Projects = () => {
         website: "https://lamatfikr.com",
       },
     },
+    {
+      title: "AI Word Processor",
+      subtitle: "Create Documents with AI Magic",
+      description:
+        "A full-stack application designed to transform natural language prompts into professional Microsoft Word (DOCX) documents. By leveraging the Google Gemini 1.5 Flash model, the system interprets user instructions to generate and execute precise Python code, resulting in high-quality, formatted documents.",
+      tags: ["Next.js", "Python", "Fast API", "Gemini API"],
+      role: "Sole Developer",
+      links: {
+        website: "https://ai-word-processor.vercel.app",
+        github: {
+          frontend: "https://github.com/musamusakannike/AI-Word-Processor/tree/main/frontend",
+          server: "https://github.com/musamusakannike/AI-Word-Processor/tree/main/server",
+        },
+      },
+    },
   ];
 
   return (
