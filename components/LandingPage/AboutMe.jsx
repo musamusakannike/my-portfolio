@@ -5,12 +5,12 @@ import {
   FaHtml5,
   FaCss3Alt,
   FaJs,
-  FaBootstrap,
   FaReact,
   FaNodeJs,
   FaGitAlt,
   FaGithub,
   FaDownload,
+  FaPython
 } from "react-icons/fa";
 import {
   SiTailwindcss,
@@ -37,8 +37,8 @@ const AboutMe = () => {
     { name: "CSS", icon: <FaCss3Alt className="text-4xl text-blue-500" /> },
     { name: "JavaScript", icon: <FaJs className="text-4xl text-yellow-400" /> },
     {
-      name: "Bootstrap",
-      icon: <FaBootstrap className="text-4xl text-purple-500" />,
+      name: "Python",
+      icon: <FaPython className="text-4xl text-purple-500" />,
     },
     {
       name: "Tailwind",
@@ -143,7 +143,7 @@ const AboutMe = () => {
 
         {/* Main Content Card */}
         <div className="max-w-6xl mx-auto">
-          <div className="bg-neutral-900/30 backdrop-blur-sm border border-white/5 rounded-3xl overflow-hidden shadow-2xl">
+          <div className="overflow-hidden">
             <div className="md:flex">
               {/* Left Panel - Profile */}
               <div ref={profileRef} className="md:w-1/3 bg-black/40 p-10 flex flex-col items-center justify-center text-center border-r border-white/5 relative overflow-hidden">
