@@ -11,6 +11,14 @@ import {
   FaMobileAlt,
   FaCode,
 } from "react-icons/fa";
+import Image from "next/image";
+import terrachowImg from "@/assets/images/terrachow.png";
+import lamatfikrImg from "@/assets/images/lamatfikr.png";
+import proffyemphyImg from "@/assets/images/proffyemphy.png";
+import swiftratesImg from "@/assets/images/swiftrates.png";
+import synapseImg from "@/assets/images/synapse.png";
+import taashamImg from "@/assets/images/taasham.png";
+import aiWordProcessorImg from "@/assets/images/ai-word-processor.png";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -28,9 +36,10 @@ const Projects = () => {
         "A food logistics platform serving the Nigerian region, connecting consumers with restaurants and food vendors. Features real-time order tracking, secure payments, and seamless delivery coordination.",
       tags: ["React Native", "Node.js", "MongoDB", "Express", "REST API"],
       role: "Team Member",
+      image: terrachowImg,
       isPrivate: true,
       links: {
-        website: "https://terrachow.com/",
+        website: "https://store.terrachow.com/",
         playStore:
           "https://play.google.com/store/apps/details?id=com.terrachow.terrachow",
         appStore: "https://apps.apple.com/us/app/terrachow/id1587526296",
@@ -72,6 +81,7 @@ const Projects = () => {
         "Tailwind",
       ],
       role: "Team Member",
+      image: lamatfikrImg,
       isPrivate: true,
       links: {
         website: "https://lamatfikr.com",
@@ -84,6 +94,7 @@ const Projects = () => {
         "An intelligent learning assistant powered by Google's Gemini API. Synapse helps students and learners understand complex topics through conversational AI, providing personalized explanations and study support across web and mobile platforms.",
       tags: ["React", "Node.js", "Gemini API", "React Native", "MongoDB"],
       role: "Sole Developer",
+      image: synapseImg,
       links: {
         website: "https://synapsebot.vercel.app",
         github: {
@@ -101,6 +112,7 @@ const Projects = () => {
         "A dynamic currency converter that integrates third-party exchange rate APIs to provide live market data. Implemented custom logic for precision-based currency conversions and designed a minimalist, responsive UI focused on accessibility and intuitive navigation.",
       tags: ["React Native", "REST API", "NativeWind"],
       role: "Developer",
+      image: swiftratesImg,
       isPrivate: true,
       links: {
         website: "https://swiftrates.net",
@@ -116,6 +128,7 @@ const Projects = () => {
         "A comprehensive learning platform designed for Nigerian students in secondary and tertiary institutions. Features include video lessons, practice tests, and progress tracking. Available on web, iOS, Android, and Windows desktop.",
       tags: ["Next.js", "React Native", "Electron", "Node.js", "MongoDB"],
       role: "Developer",
+      image: proffyemphyImg,
       isPrivate: true,
       links: {
         website: "https://proffyemphy.vercel.app/",
@@ -134,6 +147,7 @@ const Projects = () => {
         "A Saudi Arabia-based freelance marketplace connecting event planners with clients. Features include profile management, project bidding, secure payments, and review systems. Currently in closed testing phase.",
       tags: ["Next.js", "Node.js", "MongoDB", "Payment Gateway", "Arabic RTL"],
       role: "Team Member",
+      image: taashamImg,
       isPrivate: true,
       isBeta: true,
       links: {
@@ -147,6 +161,7 @@ const Projects = () => {
         "A full-stack application designed to transform natural language prompts into professional Microsoft Word (DOCX) documents. By leveraging the Google Gemini 1.5 Flash model, the system interprets user instructions to generate and execute precise Python code, resulting in high-quality, formatted documents.",
       tags: ["Next.js", "Python", "Fast API", "Gemini API"],
       role: "Sole Developer",
+      image: aiWordProcessorImg,
       links: {
         website: "https://ai-word-processor.vercel.app",
         github: {
@@ -234,6 +249,26 @@ const Projects = () => {
               key={index}
               className="project-card group relative bg-neutral-900/50 border border-white/5 rounded-0 overflow-hidden hover:border-white/10 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-cyan-900/20 flex flex-col"
             >
+              {/* Image Container */}
+              <div className="relative h-48 w-full overflow-hidden border-b border-white/5">
+                {project.image ? (
+                  <Image
+                    src={project.image}
+                    alt={project.title}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                ) : (
+                  <div className="absolute inset-0 bg-gradient-to-br from-neutral-800 to-neutral-900 flex items-center justify-center">
+                    <span className="text-4xl text-white/10 font-bold">
+                      {project.title.charAt(0)}
+                    </span>
+                  </div>
+                )}
+                {/* Overlay */}
+                <div className="absolute inset-0 bg-black/50 group-hover:bg-transparent transition-colors duration-500" />
+              </div>
+
               <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
               {/* Header with badges */}
