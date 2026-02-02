@@ -11,7 +11,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 const Testimonials = () => {
   const containerRef = useRef(null);
-  
+
   const testimonials = [
     {
       name: "Jimoh Abdullah",
@@ -41,7 +41,8 @@ const Testimonials = () => {
 
   useEffect(() => {
     let ctx = gsap.context(() => {
-      gsap.fromTo(containerRef.current.children,
+      gsap.fromTo(
+        containerRef.current.children,
         { y: 50, opacity: 0 },
         {
           y: 0,
@@ -51,8 +52,8 @@ const Testimonials = () => {
           scrollTrigger: {
             trigger: containerRef.current,
             start: "top 70%",
-          }
-        }
+          },
+        },
       );
     }, containerRef);
 
@@ -105,7 +106,7 @@ const Testimonials = () => {
                 {/* Rating */}
                 <div className="flex gap-1 mb-6">
                   {[...Array(testimonial.rating)].map((_, i) => (
-                    <FaStar key={i} className="text-yellow-500 text-sm" />
+                    <FaStar key={i} className="text-cyan-500 text-sm" />
                   ))}
                 </div>
 
@@ -123,7 +124,9 @@ const Testimonials = () => {
                     <h3 className="text-white font-bold text-lg group-hover:text-cyan-400 transition-colors">
                       {testimonial.name}
                     </h3>
-                    <p className="text-cyan-400 text-sm font-medium">{testimonial.role}</p>
+                    <p className="text-cyan-400 text-sm font-medium">
+                      {testimonial.role}
+                    </p>
                     {testimonial.company && (
                       <p className="text-gray-500 text-xs uppercase tracking-wider mt-1">
                         {testimonial.company}

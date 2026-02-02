@@ -34,35 +34,95 @@ const AboutMe = () => {
   const skillsRef = useRef(null);
 
   const skills = [
-    { name: "HTML", icon: <FaHtml5 className="text-4xl text-orange-500" /> },
-    { name: "CSS", icon: <FaCss3Alt className="text-4xl text-blue-500" /> },
-    { name: "JavaScript", icon: <FaJs className="text-4xl text-yellow-400" /> },
+    {
+      name: "HTML",
+      icon: (
+        <FaHtml5 className="text-4xl text-gray-400 group-hover:text-cyan-400 transition-colors" />
+      ),
+    },
+    {
+      name: "CSS",
+      icon: (
+        <FaCss3Alt className="text-4xl text-gray-400 group-hover:text-cyan-400 transition-colors" />
+      ),
+    },
+    {
+      name: "JavaScript",
+      icon: (
+        <FaJs className="text-4xl text-gray-400 group-hover:text-cyan-400 transition-colors" />
+      ),
+    },
     {
       name: "Python",
-      icon: <FaPython className="text-4xl text-purple-500" />,
+      icon: (
+        <FaPython className="text-4xl text-gray-400 group-hover:text-cyan-400 transition-colors" />
+      ),
     },
     {
       name: "Tailwind",
-      icon: <SiTailwindcss className="text-4xl text-cyan-400" />,
+      icon: (
+        <SiTailwindcss className="text-4xl text-gray-400 group-hover:text-cyan-400 transition-colors" />
+      ),
     },
-    { name: "jQuery", icon: <SiJquery className="text-4xl text-blue-600" /> },
-    { name: "React", icon: <FaReact className="text-4xl text-blue-400" /> },
-    { name: "Next.js", icon: <SiNextdotjs className="text-4xl text-white" /> },
+    {
+      name: "jQuery",
+      icon: (
+        <SiJquery className="text-4xl text-gray-400 group-hover:text-cyan-400 transition-colors" />
+      ),
+    },
+    {
+      name: "React",
+      icon: (
+        <FaReact className="text-4xl text-gray-400 group-hover:text-cyan-400 transition-colors" />
+      ),
+    },
+    {
+      name: "Next.js",
+      icon: (
+        <SiNextdotjs className="text-4xl text-gray-400 group-hover:text-cyan-400 transition-colors" />
+      ),
+    },
     {
       name: "TypeScript",
-      icon: <SiTypescript className="text-4xl text-blue-600" />,
+      icon: (
+        <SiTypescript className="text-4xl text-gray-400 group-hover:text-cyan-400 transition-colors" />
+      ),
     },
-    { name: "Node.js", icon: <FaNodeJs className="text-4xl text-green-500" /> },
-    { name: "Express", icon: <SiExpress className="text-4xl text-white" /> }, // Changed color to white for visibility
+    {
+      name: "Node.js",
+      icon: (
+        <FaNodeJs className="text-4xl text-gray-400 group-hover:text-cyan-400 transition-colors" />
+      ),
+    },
+    {
+      name: "Express",
+      icon: (
+        <SiExpress className="text-4xl text-gray-400 group-hover:text-cyan-400 transition-colors" />
+      ),
+    },
     {
       name: "MongoDB",
-      icon: <SiMongodb className="text-4xl text-green-500" />,
+      icon: (
+        <SiMongodb className="text-4xl text-gray-400 group-hover:text-cyan-400 transition-colors" />
+      ),
     },
-    { name: "Git", icon: <FaGitAlt className="text-4xl text-orange-600" /> },
-    { name: "GitHub", icon: <FaGithub className="text-4xl text-white" /> },
+    {
+      name: "Git",
+      icon: (
+        <FaGitAlt className="text-4xl text-gray-400 group-hover:text-cyan-400 transition-colors" />
+      ),
+    },
+    {
+      name: "GitHub",
+      icon: (
+        <FaGithub className="text-4xl text-gray-400 group-hover:text-cyan-400 transition-colors" />
+      ),
+    },
     {
       name: "React Native",
-      icon: <TbBrandReactNative className="text-4xl text-blue-500" />,
+      icon: (
+        <TbBrandReactNative className="text-4xl text-gray-400 group-hover:text-cyan-400 transition-colors" />
+      ),
     },
   ];
 
@@ -133,7 +193,7 @@ const AboutMe = () => {
       {/* Background Stylings */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute right-0 top-1/4 w-[500px] h-[500px] bg-cyan-900/10 rounded-full blur-[100px]" />
-        <div className="absolute left-0 bottom-1/4 w-[500px] h-[500px] bg-purple-900/10 rounded-full blur-[100px]" />
+        <div className="absolute left-0 bottom-1/4 w-[500px] h-[500px] bg-blue-900/10 rounded-full blur-[100px]" />
       </div>
 
       <div className="relative z-10 container mx-auto px-2 md:px-8 lg:px-16">
@@ -157,7 +217,7 @@ const AboutMe = () => {
                 ref={profileRef}
                 className="md:w-1/3 bg-black/40 p-10 flex flex-col items-center justify-center text-center border-r border-white/5 relative overflow-hidden"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-purple-500/5" />
+                <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-blue-500/5" />
 
                 {/* Avatar */}
                 <div className="relative z-10 w-40 h-40 rounded-0 p-1 bg-cyan-400 mb-8 shadow-lg shadow-cyan-500/20">
