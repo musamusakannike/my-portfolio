@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useRef } from "react";
 import {
   FaHtml5,
   FaCss3Alt,
@@ -21,17 +21,16 @@ import {
   SiMongodb,
 } from "react-icons/si";
 import { TbBrandReactNative } from "react-icons/tb";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const AboutMe = () => {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) {
-    return null;
-  }
+  const containerRef = useRef(null);
+  const profileRef = useRef(null);
+  const contentRef = useRef(null);
+  const skillsRef = useRef(null);
 
   const skills = [
     { name: "HTML", icon: <FaHtml5 className="text-4xl text-orange-500" /> },
@@ -53,7 +52,7 @@ const AboutMe = () => {
       icon: <SiTypescript className="text-4xl text-blue-600" />,
     },
     { name: "Node.js", icon: <FaNodeJs className="text-4xl text-green-500" /> },
-    { name: "Express", icon: <SiExpress className="text-4xl text-gray-400" /> },
+    { name: "Express", icon: <SiExpress className="text-4xl text-white" /> }, // Changed color to white for visibility
     {
       name: "MongoDB",
       icon: <SiMongodb className="text-4xl text-green-500" />,
@@ -66,113 +65,164 @@ const AboutMe = () => {
     },
   ];
 
-  return (
-    <section id="about" className="relative py-24 overflow-hidden bg-[#0a0a0a]">
-      {/* Background pattern */}
-      <div className="absolute inset-0 opacity-30">
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 1px 1px, rgba(255,255,255,0.05) 1px, transparent 0)",
-            backgroundSize: "40px 40px",
-          }}
-        ></div>
-      </div>
+  useEffect(() => {
+    let ctx = gsap.context(() => {
+      // Profile Section Animation
+      gsap.fromTo(profileRef.current, 
+        { x: -50, opacity: 0 },
+        { 
+          x: 0, 
+          opacity: 1, 
+          duration: 1, 
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top 70%",
+          }
+        }
+      );
 
-      {/* Decorative gradient orbs */}
-      <div className="absolute top-20 right-20 w-72 h-72 bg-white/5 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-20 left-20 w-96 h-96 bg-white/5 rounded-full blur-3xl"></div>
+      // Content Section Animation relative to Profile
+      gsap.fromTo(contentRef.current.children,
+        { y: 30, opacity: 0 },
+        { 
+          y: 0, 
+          opacity: 1, 
+          duration: 0.8, 
+          stagger: 0.2,
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top 70%",
+          }
+        }
+      );
+
+      // Skills Animation
+      gsap.fromTo(skillsRef.current.children,
+        { scale: 0.8, opacity: 0 },
+        {
+          scale: 1,
+          opacity: 1,
+          duration: 0.5,
+          stagger: {
+            amount: 1,
+            grid: "auto",
+            from: "center"
+          },
+          ease: "back.out(1.7)",
+          scrollTrigger: {
+            trigger: skillsRef.current,
+            start: "top 85%",
+          }
+        }
+      );
+
+    }, containerRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  return (
+    <section id="about" ref={containerRef} className="relative py-32 overflow-hidden bg-[#0a0a0a]">
+      {/* Background Stylings */}
+      <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute right-0 top-1/4 w-[500px] h-[500px] bg-cyan-900/10 rounded-full blur-[100px]" />
+          <div className="absolute left-0 bottom-1/4 w-[500px] h-[500px] bg-purple-900/10 rounded-full blur-[100px]" />
+      </div>
 
       <div className="relative z-10 container mx-auto px-6 sm:px-8 lg:px-16">
         {/* Section Header */}
-        <div className="text-center mb-16">
-          <p className="text-gray-500 uppercase tracking-widest text-sm mb-4 animate-fade-in-up">
-            Get to know me
-          </p>
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white animate-fade-in-up">
+        <div className="text-center mb-20">
+          <p className="text-cyan-400 font-medium tracking-[0.2em] uppercase text-sm mb-4">
             About Me
+          </p>
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6">
+            Who I Am
           </h2>
+          <div className="w-24 h-1 bg-gradient-to-r from-cyan-500 to-blue-600 mx-auto rounded-full" />
         </div>
 
         {/* Main Content Card */}
-        <div className="max-w-5xl mx-auto">
-          <div className="glass rounded-2xl overflow-hidden glow">
+        <div className="max-w-6xl mx-auto">
+          <div className="bg-neutral-900/30 backdrop-blur-sm border border-white/5 rounded-3xl overflow-hidden shadow-2xl">
             <div className="md:flex">
               {/* Left Panel - Profile */}
-              <div className="md:w-1/3 bg-gradient-to-br from-[#1a1a1a] to-[#0d0d0d] p-8 flex flex-col items-center justify-center text-center border-r border-white/5">
-                {/* Avatar placeholder */}
-                <div className="w-32 h-32 rounded-full bg-gradient-to-br from-gray-700 to-gray-900 flex items-center justify-center mb-6 ring-4 ring-white/10">
-                  <span className="text-4xl font-bold text-white">MM</span>
+              <div ref={profileRef} className="md:w-1/3 bg-black/40 p-10 flex flex-col items-center justify-center text-center border-r border-white/5 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-purple-500/5" />
+                
+                {/* Avatar */}
+                <div className="relative z-10 w-40 h-40 rounded-full p-1 bg-gradient-to-br from-cyan-400 to-purple-500 mb-8 shadow-lg shadow-cyan-500/20">
+                    <div className="w-full h-full rounded-full bg-neutral-900 flex items-center justify-center overflow-hidden">
+                         <span className="text-5xl font-bold text-white">MM</span>
+                         {/* Replace with <Image /> if image is available */}
+                    </div>
                 </div>
-                <h3 className="text-2xl lg:text-3xl font-bold text-white mb-2">
+
+                <h3 className="relative z-10 text-2xl font-bold text-white mb-2">
                   Musa Musa Kannike
                 </h3>
-                <p className="text-gray-400 mb-6">Fullstack Developer</p>
+                <p className="relative z-10 text-cyan-400 font-medium mb-8">Fullstack Developer</p>
+                
                 <a
                   href="/Musa Musa Kannike CV.pdf"
                   download
-                  className="group inline-flex items-center gap-2 bg-white text-black px-6 py-3 rounded-full text-sm font-bold hover:bg-gray-200 transition-all duration-300 hover:scale-105"
+                  className="relative z-10 group inline-flex items-center gap-2 bg-white text-black px-6 py-3 rounded-full text-sm font-bold hover:bg-cyan-50 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-cyan-500/20"
                 >
-                  <FaDownload className="text-sm group-hover:animate-bounce" />
+                  <FaDownload className="text-sm group-hover:translate-y-0.5 transition-transform" />
                   Download Resume
                 </a>
               </div>
 
               {/* Right Panel - Bio */}
-              <div className="md:w-2/3 p-8 lg:p-10">
-                <h4 className="text-xl font-semibold text-white mb-4">
-                  Who I Am
-                </h4>
-                <p className="text-gray-400 leading-relaxed mb-4 animate-fade-in-up animation-delay-200">
-                  I am a highly skilled and results-oriented Software Engineer
-                  with a robust background in full-stack development,
-                  specializing in the MERN stack. Proven ability to design,
-                  develop, and deploy scalable applications for diverse sectors.
-                  I am an expert in leveraging technologies such as Node.js,
-                  Express, MongoDB, and the React ecosystem (React.js, Next.js,
-                  React Native) to deliver successful, high-quality projects.
-                </p>
-                <p className="text-gray-400 leading-relaxed animate-fade-in-up animation-delay-400">
-                  My expertise spans frontend, mobile and backend development, and
-                  I&apos;m always eager to learn new technologies. Currently,
-                  I&apos;m diving deeper into AI and Machine Learning technologies using Python.
-                </p>
+              <div className="md:w-2/3 p-10 lg:p-12">
+                <div ref={contentRef}>
+                    <h4 className="text-2xl font-bold text-white mb-6">
+                      Passionate about building scalable solutions.
+                    </h4>
+                    <p className="text-gray-400 leading-relaxed mb-6 text-lg">
+                      I am a highly skilled and results-oriented Software Engineer
+                      with a robust background in full-stack development,
+                      specializing in the MERN stack. I have a proven ability to design,
+                      develop, and deploy scalable applications for diverse sectors.
+                    </p>
+                    <p className="text-gray-400 leading-relaxed mb-8 text-lg">
+                      My expertise spans frontend, mobile and backend development. Currently,
+                      I&apos;m diving deeper into AI and Machine Learning technologies using Python to build the next generation of intelligent applications.
+                    </p>
 
-                {/* Stats */}
-                <div className="grid grid-cols-3 gap-4 mt-8 pt-8 border-t border-white/10">
-                  <div className="text-center">
-                    <p className="text-3xl font-bold text-white">3+</p>
-                    <p className="text-gray-500 text-sm">Years Experience</p>
-                  </div>
-                  <div className="text-center">
-                    <p className="text-3xl font-bold text-white">20+</p>
-                    <p className="text-gray-500 text-sm">Projects Completed</p>
-                  </div>
-                  <div className="text-center">
-                    <p className="text-3xl font-bold text-white">15+</p>
-                    <p className="text-gray-500 text-sm">Happy Clients</p>
-                  </div>
+                    {/* Stats */}
+                    <div className="grid grid-cols-3 gap-8 pt-8 border-t border-white/5">
+                      <div>
+                        <p className="text-4xl font-bold text-white mb-1">3+</p>
+                        <p className="text-gray-500 text-sm font-medium uppercase tracking-wider">Years Exp.</p>
+                      </div>
+                      <div>
+                        <p className="text-4xl font-bold text-white mb-1">20+</p>
+                        <p className="text-gray-500 text-sm font-medium uppercase tracking-wider">Projects</p>
+                      </div>
+                      <div>
+                        <p className="text-4xl font-bold text-white mb-1">15+</p>
+                        <p className="text-gray-500 text-sm font-medium uppercase tracking-wider">Happy Clients</p>
+                      </div>
+                    </div>
                 </div>
               </div>
             </div>
 
             {/* Tech Stack Section */}
-            <div className="bg-[#0d0d0d] p-8 border-t border-white/5">
-              <h4 className="text-xl font-semibold text-white mb-6 text-center">
-                My Tech Stack
+            <div className="bg-black/20 p-10 border-t border-white/5">
+              <h4 className="text-xl font-bold text-white mb-8 text-center">
+                Technical Arsenal
               </h4>
-              <div className="grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-5 gap-4">
+              <div ref={skillsRef} className="grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-5 gap-6">
                 {skills.map((skill, index) => (
                   <div
                     key={skill.name}
-                    className="group flex flex-col items-center justify-center p-4 rounded-xl bg-white/5 border border-white/5 transition-all duration-300 ease-out hover:bg-white/10 hover:border-white/10 hover:scale-105 animate-fade-in-up"
-                    style={{ animationDelay: `${index * 50}ms` }}
+                    className="group flex flex-col items-center justify-center p-4 rounded-xl bg-white/5 border border-white/5 transition-all duration-300 hover:bg-white/10 hover:border-cyan-500/30 hover:-translate-y-1 relative"
                   >
-                    <div className="group-hover:scale-110 transition-transform duration-300">
+                    <div className="mb-3 transform group-hover:scale-110 transition-transform duration-300 drop-shadow-lg">
                       {skill.icon}
                     </div>
-                    <span className="mt-2 text-sm text-gray-400 text-center group-hover:text-white transition-colors">
+                    <span className="text-xs font-medium text-gray-400 group-hover:text-cyan-400 transition-colors">
                       {skill.name}
                     </span>
                   </div>

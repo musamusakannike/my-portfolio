@@ -1,9 +1,15 @@
 "use client";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { FaBriefcase, FaCalendar, FaMapMarkerAlt } from "react-icons/fa";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const Experiences = () => {
   const [activeExperience, setActiveExperience] = useState(null);
+  const containerRef = useRef(null);
+  const lineRef = useRef(null);
 
   const experiences = [
     {
@@ -50,105 +56,139 @@ const Experiences = () => {
     },
   ];
 
+  useEffect(() => {
+    let ctx = gsap.context(() => {
+        // Line growth animation
+        gsap.fromTo(lineRef.current,
+            { scaleY: 0, transformOrigin: "top" },
+            {
+                scaleY: 1,
+                duration: 1.5,
+                ease: "power3.inOut",
+                scrollTrigger: {
+                    trigger: containerRef.current,
+                    start: "top 60%",
+                    end: "bottom 80%",
+                    scrub: 1,
+                }
+            }
+        );
+
+        // Experience Cards Animation
+        const items = gsap.utils.toArray('.experience-item');
+        items.forEach((item, index) => {
+            const isLeft = index % 2 === 0;
+            gsap.fromTo(item, 
+                { x: isLeft ? -50 : 50, opacity: 0 },
+                {
+                    x: 0,
+                    opacity: 1,
+                    duration: 1,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: item,
+                        start: "top 85%",
+                    }
+                }
+            );
+        });
+
+    }, containerRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
     <section
       id="experience"
-      className="relative py-24 overflow-hidden bg-[#0a0a0a]"
+      ref={containerRef}
+      className="relative py-32 overflow-hidden bg-[#0a0a0a]"
     >
       {/* Background pattern */}
-      <div className="absolute inset-0">
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 1px 1px, rgba(255,255,255,0.03) 1px, transparent 0)",
+      <div className="absolute inset-0 pointer-events-none opacity-20">
+        <div className="absolute inset-0" style={{
+            backgroundImage: "radial-gradient(circle at 1px 1px, rgba(255,255,255,0.05) 1px, transparent 0)",
             backgroundSize: "40px 40px",
           }}
-        ></div>
+        />
       </div>
 
-      {/* Decorative elements */}
-      <div className="absolute top-20 right-20 w-72 h-72 bg-white/5 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-20 left-20 w-96 h-96 bg-white/5 rounded-full blur-3xl"></div>
-
-      <div className="relative container mx-auto px-6 sm:px-8 lg:px-16">
+      <div className="relative container mx-auto px-6 sm:px-8 lg:px-16 z-10">
         {/* Section Header */}
-        <div className="text-center mb-16">
-          <p className="text-gray-500 uppercase tracking-widest text-sm mb-4 animate-fade-in-up">
+        <div className="text-center mb-20">
+          <p className="text-cyan-400 font-medium tracking-[0.2em] uppercase text-sm mb-4">
             My Journey
           </p>
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white animate-fade-in-up">
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6">
             Work Experience
           </h2>
+          <div className="w-24 h-1 bg-gradient-to-r from-cyan-500 to-blue-600 mx-auto rounded-full" />
         </div>
 
         {/* Timeline */}
         <div className="max-w-4xl mx-auto relative">
           {/* Vertical line */}
-          <div className="absolute left-0 md:left-1/2 transform md:-translate-x-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-white/20 via-white/10 to-transparent"></div>
+          <div ref={lineRef} className="absolute left-0 md:left-1/2 transform md:-translate-x-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-cyan-500 via-purple-500 to-transparent shadow-[0_0_15px_rgba(6,182,212,0.5)] rounded-full"></div>
 
           {experiences.map((exp, index) => (
             <div
               key={index}
-              className={`relative mb-12 animate-fade-in-up ${
-                index % 2 === 0 ? "md:pr-1/2" : "md:pl-1/2 md:ml-auto"
-              }`}
-              style={{ animationDelay: `${index * 150}ms` }}
+              className={`experience-item relative mb-12 ${
+                index % 2 === 0 ? "md:pr-12 md:text-right" : "md:pl-12 md:ml-auto"
+              } md:w-1/2 w-full pl-8 md:pl-0`}
             >
               {/* Timeline dot */}
-              <div className="absolute left-0 md:left-1/2 transform -translate-x-1/2 w-4 h-4 rounded-full bg-white border-4 border-[#0a0a0a] z-10"></div>
+              <div className="absolute left-[-5px] md:left-auto md:right-auto md:top-6 top-1 transform md:-translate-x-1/2 w-3 h-3 rounded-full bg-white border-2 border-cyan-500 shadow-[0_0_10px_rgba(255,255,255,0.8)] z-20" 
+                   style={index % 2 === 0 ? { right: '-6px' } : { left: '-6px' }}
+              ></div>
 
               {/* Card */}
               <div
-                className={`ml-8 md:ml-0 ${
-                  index % 2 === 0 ? "md:mr-8" : "md:ml-8"
+                className={`group relative bg-neutral-900/50 backdrop-blur-md border border-white/5 rounded-2xl p-8 transition-all duration-300 hover:border-cyan-500/30 hover:-translate-y-1 hover:shadow-2xl hover:shadow-cyan-900/10 ${
+                    activeExperience === index ? "border-cyan-500/50" : ""
                 }`}
+                onMouseEnter={() => setActiveExperience(index)}
+                onMouseLeave={() => setActiveExperience(null)}
               >
-                <div
-                  className={`glass rounded-2xl p-6 transition-all duration-300 ${
-                    activeExperience === index
-                      ? "scale-[1.02] shadow-xl"
-                      : "hover:scale-[1.01]"
-                  }`}
-                  onMouseEnter={() => setActiveExperience(index)}
-                  onMouseLeave={() => setActiveExperience(null)}
-                >
-                  {/* Period badge */}
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-gray-400 text-sm mb-4">
-                    <FaCalendar className="text-xs" />
-                    <span>{exp.period}</span>
-                  </div>
+                <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl pointer-events-none" />
 
-                  <h3 className="text-xl font-bold text-white mb-2">
-                    {exp.title}
-                  </h3>
-
-                  <div className="flex flex-wrap items-center gap-4 text-gray-400 text-sm mb-4">
-                    <div className="flex items-center gap-2">
-                      <FaBriefcase className="text-xs" />
-                      <span>{exp.company}</span>
+                <div className={`flex flex-col ${index % 2 === 0 ? "md:items-end" : "md:items-start"}`}>
+                    {/* Period badge */}
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-400 text-xs font-bold uppercase tracking-wider mb-4 border border-cyan-500/20">
+                      <FaCalendar className="text-xs" />
+                      <span>{exp.period}</span>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <FaMapMarkerAlt className="text-xs" />
-                      <span>{exp.location}</span>
+
+                    <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors">
+                      {exp.title}
+                    </h3>
+
+                    <div className={`flex flex-wrap items-center gap-4 text-gray-400 text-sm mb-6 ${index % 2 === 0 ? "md:justify-end" : "md:justify-start"}`}>
+                      <div className="flex items-center gap-2">
+                        <FaBriefcase className="text-cyan-500" />
+                        <span className="font-medium text-gray-300">{exp.company}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <FaMapMarkerAlt className="text-cyan-500" />
+                        <span>{exp.location}</span>
+                      </div>
                     </div>
-                  </div>
 
-                  <p className="text-gray-400 leading-relaxed mb-4">
-                    {exp.description}
-                  </p>
+                    <p className="text-gray-400 leading-relaxed mb-6 text-sm">
+                      {exp.description}
+                    </p>
 
-                  {/* Skills */}
-                  <div className="flex flex-wrap gap-2">
-                    {exp.skills?.map((skill, skillIndex) => (
-                      <span
-                        key={skillIndex}
-                        className="text-xs px-3 py-1 rounded-full bg-white/5 text-gray-300 border border-white/10"
-                      >
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
+                    {/* Skills */}
+                    <div className={`flex flex-wrap gap-2 ${index % 2 === 0 ? "md:justify-end" : "md:justify-start"}`}>
+                      {exp.skills?.map((skill, skillIndex) => (
+                        <span
+                          key={skillIndex}
+                          className="text-[10px] font-bold px-2 py-1 rounded bg-white/5 text-gray-400 border border-white/5 hover:bg-white/10 hover:text-white transition-colors"
+                        >
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
                 </div>
               </div>
             </div>

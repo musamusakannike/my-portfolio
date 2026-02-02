@@ -1,3 +1,5 @@
+"use client"
+import { useEffect, useRef } from "react";
 import Link from "next/link";
 import {
   FaGithub,
@@ -9,8 +11,15 @@ import {
   FaMobileAlt,
   FaCode,
 } from "react-icons/fa";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const Projects = () => {
+  const containerRef = useRef(null);
+  const headerRef = useRef(null);
+
   const projects = [
     {
       title: "Synapse AI",
@@ -113,33 +122,63 @@ const Projects = () => {
     },
   ];
 
+  useEffect(() => {
+    let ctx = gsap.context(() => {
+      // Header Animation
+      gsap.fromTo(headerRef.current.children, 
+        { y: 30, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          stagger: 0.2,
+          scrollTrigger: {
+            trigger: headerRef.current,
+            start: "top 80%",
+            toggleActions: "play none none reverse"
+          }
+        }
+      );
+
+      // Projects Animation
+      const cards = gsap.utils.toArray('.project-card');
+      gsap.fromTo(cards, 
+        { y: 50, opacity: 0 },
+        { 
+          y: 0, 
+          opacity: 1, 
+          duration: 0.8, 
+          stagger: 0.15,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top 75%",
+            toggleActions: "play none none reverse",
+          }
+        }
+      );
+    }, containerRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section id="projects" className="relative py-24 overflow-hidden bg-[#0d0d0d]">
-      {/* Background pattern */}
-      <div className="absolute inset-0">
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 1px 1px, rgba(255,255,255,0.03) 1px, transparent 0)",
-            backgroundSize: "40px 40px",
-          }}
-        ></div>
+    <section id="projects" ref={containerRef} className="relative py-32 overflow-hidden bg-[#0a0a0a]">
+      {/* Background Ambience */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-0 transform -translate-y-1/2 left-0 w-full h-[500px] bg-gradient-to-b from-[#111] to-transparent opacity-50" />
       </div>
 
-      {/* Decorative elements */}
-      <div className="absolute top-40 left-10 w-80 h-80 bg-white/5 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-40 right-10 w-96 h-96 bg-white/5 rounded-full blur-3xl"></div>
-
-      <div className="relative container mx-auto px-6 sm:px-8 lg:px-16">
+      <div className="relative container mx-auto px-6 sm:px-8 lg:px-16 z-10">
         {/* Section Header */}
-        <div className="text-center mb-16">
-          <p className="text-gray-500 uppercase tracking-widest text-sm mb-4 animate-fade-in-up">
-            My Work
+        <div ref={headerRef} className="text-center mb-20">
+          <p className="text-cyan-400 font-medium tracking-[0.2em] uppercase text-sm mb-4">
+            Portfolio
           </p>
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white animate-fade-in-up">
-            Featured Projects
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6">
+            Featured <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-100 to-gray-500">Works.</span>
           </h2>
+          <div className="w-24 h-1 bg-gradient-to-r from-cyan-500 to-blue-600 mx-auto rounded-full" />
         </div>
 
         {/* Projects Grid */}
@@ -147,40 +186,39 @@ const Projects = () => {
           {projects.map((project, index) => (
             <div
               key={index}
-              className="group glass rounded-2xl overflow-hidden transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl animate-fade-in-up flex flex-col"
-              style={{ animationDelay: `${index * 100}ms` }}
+              className="project-card group relative bg-neutral-900/50 border border-white/5 rounded-2xl overflow-hidden hover:border-white/10 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-cyan-900/20 flex flex-col"
             >
+              <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+              
               {/* Header with badges */}
-              <div className="p-6 pb-0">
-                {/* Status badges */}
-                <div className="flex flex-wrap gap-2 mb-3">
+              <div className="p-8 pb-0 z-10">
+                <div className="flex flex-wrap gap-2 mb-4">
                   {project.isBeta && (
-                    <span className="text-xs px-3 py-1 rounded-full bg-yellow-500/20 text-yellow-400 border border-yellow-500/30">
+                    <span className="text-[10px] font-bold px-2 py-1 rounded border border-yellow-500/30 text-yellow-500 uppercase tracking-wide">
                       Beta
                     </span>
                   )}
                   {project.isPrivate && (
-                    <span className="text-xs px-3 py-1 rounded-full bg-gray-500/20 text-gray-400 border border-gray-500/30">
-                      Private Codebase
+                    <span className="text-[10px] font-bold px-2 py-1 rounded border border-red-500/30 text-red-500 uppercase tracking-wide">
+                      Private
                     </span>
                   )}
-                  <span className="text-xs px-3 py-1 rounded-full bg-white/10 text-gray-300">
+                  <span className="text-[10px] font-bold px-2 py-1 rounded bg-white/5 text-gray-300 uppercase tracking-wide">
                     {project.role}
                   </span>
                 </div>
 
-                {/* Title & Subtitle */}
-                <h3 className="text-xl font-bold text-white group-hover:text-gray-200 transition-colors">
+                <h3 className="text-2xl font-bold text-white group-hover:text-cyan-400 transition-colors mb-2">
                   {project.title}
                 </h3>
-                <p className="text-sm text-gray-400 mb-3">{project.subtitle}</p>
+                <p className="text-sm font-medium text-gray-400 mb-6">{project.subtitle}</p>
 
                 {/* Tech Tags */}
-                <div className="flex flex-wrap gap-2 mb-4">
+                <div className="flex flex-wrap gap-2 mb-6">
                   {project.tags?.map((tag, tagIndex) => (
                     <span
                       key={tagIndex}
-                      className="text-xs px-2 py-1 rounded-md bg-white/5 text-gray-500"
+                      className="text-xs px-2.5 py-1 rounded-full bg-white/5 text-gray-400 border border-white/5"
                     >
                       {tag}
                     </span>
@@ -189,121 +227,75 @@ const Projects = () => {
               </div>
 
               {/* Description */}
-              <div className="px-6 flex-grow">
-                <p className="text-gray-400 text-sm leading-relaxed">
+              <div className="px-8 flex-grow z-10">
+                <p className="text-gray-400 text-sm leading-relaxed line-clamp-4 group-hover:line-clamp-none transition-all duration-300">
                   {project.description}
                 </p>
               </div>
 
               {/* Links Section */}
-              <div className="p-6 pt-4 mt-auto">
-                <div className="border-t border-white/10 pt-4">
-                  {/* Primary Links Row */}
-                  <div className="flex flex-wrap gap-3 mb-3">
-                    {project.links.website && (
-                      <Link
-                        href={project.links.website}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white text-black text-sm font-medium hover:bg-gray-200 transition-all duration-300 hover:scale-105"
-                      >
-                        <FaExternalLinkAlt className="text-xs" />
-                        Website
+              <div className="p-8 pt-6 mt-auto z-10">
+                <div className="border-t border-white/5 pt-6 flex flex-wrap gap-3">
+                  {project.links.website && (
+                    <Link
+                      href={project.links.website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-white text-black text-xs font-bold uppercase tracking-wide hover:bg-cyan-400 transition-colors"
+                    >
+                      <FaExternalLinkAlt />
+                      Live Demo
+                    </Link>
+                  )}
+
+                  {/* Other Links Dropdown style or simply wrapped */}
+                  <div className="flex flex-wrap gap-2">
+                   {/* Play Store */}
+                   {project.links.playStore && (
+                      <Link href={project.links.playStore} target="_blank" className="p-2 bg-white/5 rounded-lg hover:bg-white/10 text-gray-400 hover:text-green-400 transition-colors">
+                        <FaGooglePlay className="text-lg" />
                       </Link>
-                    )}
+                   )}
+                   {/* App Store */}
+                   {project.links.appStore && (
+                      <Link href={project.links.appStore} target="_blank" className="p-2 bg-white/5 rounded-lg hover:bg-white/10 text-gray-400 hover:text-white transition-colors">
+                        <FaApple className="text-lg" />
+                      </Link>
+                   )}
+                   {/* Desktop */}
+                   {project.links.desktop && (
+                      <Link href={project.links.desktop} target="_blank" className="p-2 bg-white/5 rounded-lg hover:bg-white/10 text-gray-400 hover:text-blue-400 transition-colors">
+                        <FaDesktop className="text-lg" />
+                      </Link>
+                   )}
+                   
+                   {/* GitHub */}
+                   {project.links.github && (
+                     typeof project.links.github === "string" ? (
+                       <Link href={project.links.github} target="_blank" className="p-2 bg-white/5 rounded-lg hover:bg-white/10 text-gray-400 hover:text-white transition-colors">
+                         <FaGithub className="text-lg" />
+                       </Link>
+                     ) : (
+                       <>
+                         {project.links.github.frontend && (
+                           <Link href={project.links.github.frontend} target="_blank" title="Frontend Code" className="p-2 bg-white/5 rounded-lg hover:bg-white/10 text-gray-400 hover:text-cyan-400 transition-colors">
+                             <FaCode className="text-lg" />
+                           </Link>
+                         )}
+                         {project.links.github.server && (
+                           <Link href={project.links.github.server} target="_blank" title="Server Code" className="p-2 bg-white/5 rounded-lg hover:bg-white/10 text-gray-400 hover:text-green-400 transition-colors">
+                             <FaServer className="text-lg" />
+                           </Link>
+                         )}
+                         {project.links.github.mobile && (
+                           <Link href={project.links.github.mobile} target="_blank" title="Mobile Code" className="p-2 bg-white/5 rounded-lg hover:bg-white/10 text-gray-400 hover:text-purple-400 transition-colors">
+                             <FaMobileAlt className="text-lg" />
+                           </Link>
+                         )}
+                       </>
+                     )
+                   )}
                   </div>
-
-                  {/* App Store Links */}
-                  {(project.links.playStore || project.links.appStore || project.links.desktop) && (
-                    <div className="flex flex-wrap gap-2 mb-3">
-                      {project.links.playStore && (
-                        <Link
-                          href={project.links.playStore}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/10 text-gray-300 text-xs hover:bg-white/20 transition-colors"
-                        >
-                          <FaGooglePlay className="text-green-400" />
-                          Play Store
-                        </Link>
-                      )}
-                      {project.links.appStore && (
-                        <Link
-                          href={project.links.appStore}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/10 text-gray-300 text-xs hover:bg-white/20 transition-colors"
-                        >
-                          <FaApple className="text-gray-300" />
-                          App Store
-                        </Link>
-                      )}
-                      {project.links.desktop && (
-                        <Link
-                          href={project.links.desktop}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/10 text-gray-300 text-xs hover:bg-white/20 transition-colors"
-                        >
-                          <FaDesktop className="text-blue-400" />
-                          Windows
-                        </Link>
-                      )}
-                    </div>
-                  )}
-
-                  {/* GitHub Links */}
-                  {project.links.github && (
-                    <div className="flex flex-wrap gap-2">
-                      {typeof project.links.github === "string" ? (
-                        <Link
-                          href={project.links.github}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 text-gray-400 text-xs hover:bg-white/10 hover:text-white transition-colors"
-                        >
-                          <FaGithub />
-                          Source Code
-                        </Link>
-                      ) : (
-                        <>
-                          {project.links.github.frontend && (
-                            <Link
-                              href={project.links.github.frontend}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 text-gray-400 text-xs hover:bg-white/10 hover:text-white transition-colors"
-                            >
-                              <FaCode className="text-cyan-400" />
-                              Frontend
-                            </Link>
-                          )}
-                          {project.links.github.server && (
-                            <Link
-                              href={project.links.github.server}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 text-gray-400 text-xs hover:bg-white/10 hover:text-white transition-colors"
-                            >
-                              <FaServer className="text-green-400" />
-                              Server
-                            </Link>
-                          )}
-                          {project.links.github.mobile && (
-                            <Link
-                              href={project.links.github.mobile}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 text-gray-400 text-xs hover:bg-white/10 hover:text-white transition-colors"
-                            >
-                              <FaMobileAlt className="text-purple-400" />
-                              Mobile
-                            </Link>
-                          )}
-                        </>
-                      )}
-                    </div>
-                  )}
                 </div>
               </div>
             </div>

@@ -1,101 +1,161 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa'
 import { HiArrowDown } from 'react-icons/hi'
+import gsap from 'gsap'
 
 const Hero = () => {
-  const [mounted, setMounted] = useState(false)
+  const containerRef = useRef(null)
+  const nameRef = useRef(null)
+  const titleRef = useRef(null)
+  const descRef = useRef(null)
+  const buttonsRef = useRef(null)
+  const socialRef = useRef(null)
+  const decorativeRef = useRef(null)
 
   useEffect(() => {
-    setMounted(true)
+    const ctx = gsap.context(() => {
+      // Timeline for initial load
+      const tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
+
+      // Initial state hide
+      gsap.set([nameRef.current, titleRef.current, descRef.current, buttonsRef.current, socialRef.current], {
+        opacity: 0,
+        y: 50
+      })
+
+      // Decorative background elements animation
+      gsap.to('.orb', {
+        y: 'random(-50, 50)',
+        x: 'random(-50, 50)',
+        scale: 'random(0.8, 1.2)',
+        duration: 'random(3, 5)',
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut',
+        stagger: 1
+      })
+
+      // Main Content Animation
+      tl.to(nameRef.current, {
+        opacity: 1,
+        y: 0,
+        duration: 1.2,
+        delay: 0.2
+      })
+      .to(titleRef.current, {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+      }, '-=0.8')
+      .to(descRef.current, {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+      }, '-=0.8')
+      .to(buttonsRef.current, {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+      }, '-=0.6')
+      .to(socialRef.current, {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+      }, '-=0.6')
+
+    }, containerRef)
+
+    return () => ctx.revert()
   }, [])
 
-  if (!mounted) {
-    return null
-  }
-
   return (
-    <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-[#0a0a0a] via-[#111111] to-[#0a0a0a]">
-      {/* Animated background grid */}
-      <div className="absolute inset-0 opacity-20">
-        <div className="absolute inset-0" style={{
-          backgroundImage: 'linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)',
-          backgroundSize: '50px 50px'
+    <div ref={containerRef} className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#0a0a0a]">
+      {/* Dynamic Background */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {/* Grid Pattern with fade mask */}
+        <div className="absolute inset-0 opacity-[0.15]" style={{
+          backgroundImage: 'linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)',
+          backgroundSize: '40px 40px',
+          maskImage: 'radial-gradient(circle at center, black 40%, transparent 100%)'
         }}></div>
+        
+        {/* Animated Orbs */}
+        <div ref={decorativeRef}>
+          <div className="orb absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-purple-600/20 rounded-full blur-[100px] mix-blend-screen" />
+          <div className="orb absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-blue-600/10 rounded-full blur-[100px] mix-blend-screen" />
+          <div className="orb absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-indigo-500/10 rounded-full blur-[120px] mix-blend-screen" />
+        </div>
       </div>
 
-      {/* Decorative gradient orbs */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-white/5 rounded-full blur-3xl animate-float"></div>
-      <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-white/5 rounded-full blur-3xl animate-float animation-delay-400"></div>
-      
       {/* Main content */}
-      <div className="relative z-10 text-center px-8 py-16 sm:px-16 md:py-24 lg:py-32 max-w-5xl mx-auto">
-        {/* Greeting */}
-        <p className="text-gray-400 text-lg sm:text-xl mb-4 animate-fade-in-up tracking-widest uppercase">
-          Hello, I&apos;m
+      <div className="relative z-10 text-center px-6 max-w-6xl mx-auto">
+        {/* Greeting - Subtle */}
+        <p className="text-sm md:text-base font-medium tracking-[0.2em] text-cyan-400 uppercase mb-6">
+          Welcome to my portfolio
         </p>
         
-        {/* Name */}
-        <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold text-white mb-4 animate-fade-in-up gradient-text">
-          Musa Musa Kannike
-        </h1>
+        {/* Name - Massive & Bold */}
+        <div ref={nameRef} className="mb-6 mix-blend-lighten">
+          <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-gray-500 tracking-tighter leading-none">
+            MUSA MUSA
+          </h1>
+          <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black text-transparent bg-clip-text bg-gradient-to-b from-gray-500 via-gray-700 to-gray-900 tracking-tighter leading-none mt-[-0.2em]">
+            KANNIKE
+          </h1>
+        </div>
         
-        {/* Title */}
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-300 mb-6 animate-fade-in-up animation-delay-200">
-          Fullstack Developer
+        {/* Title - Clean & Sharp */}
+        <h2 ref={titleRef} className="text-2xl sm:text-3xl md:text-4xl font-light text-gray-300 mb-8 max-w-3xl mx-auto">
+          <span className="font-semibold text-white">Fullstack Developer</span> specialized in building exceptional digital experiences.
         </h2>
         
-        {/* Description */}
-        <p className="text-lg sm:text-xl text-gray-400 mb-10 max-w-2xl mx-auto animate-fade-in-up animation-delay-400 leading-relaxed">
-          Crafting seamless web experiences with
-          <span className="text-white font-semibold"> React</span>,
-          <span className="text-white font-semibold"> Node.js</span>, and
-          <span className="text-white font-semibold"> Next.js</span>
+        {/* Description - Readable & Contrast */}
+        <p ref={descRef} className="text-lg text-gray-400 mb-12 max-w-2xl mx-auto leading-relaxed">
+          Transforming ideas into reality with <span className="text-cyan-400">React</span>, <span className="text-purple-400">Next.js</span>, and <span className="text-green-400">Node.js</span>. I build scalable, accessible, and performant web applications.
         </p>
 
-        {/* CTA Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12 animate-fade-in-up animation-delay-600">
+        {/* CTA Buttons - Interactive */}
+        <div ref={buttonsRef} className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16">
           <Link 
             href="#projects" 
-            className="group relative inline-flex items-center gap-2 bg-white text-black font-bold text-lg px-8 py-4 rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 ease-out"
+            className="group relative px-8 py-4 bg-white text-black font-bold rounded-full overflow-hidden transition-transform hover:scale-105 active:scale-95"
           >
-            View My Work
-            <span className="group-hover:translate-x-1 transition-transform duration-300">→</span>
+            <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-blue-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            <span className="relative z-10 flex items-center gap-2 group-hover:text-white transition-colors duration-300">
+              View My Work
+              <HiArrowDown className="group-hover:rotate-[-90deg] transition-transform duration-300" />
+            </span>
           </Link>
           <Link 
-            href="#about" 
-            className="inline-flex items-center gap-2 border-2 border-white/20 text-white font-bold text-lg px-8 py-4 rounded-full hover:bg-white/10 hover:border-white/40 transition-all duration-300 ease-out"
+            href="#contact" 
+            className="group px-8 py-4 border border-white/20 text-white font-medium rounded-full hover:bg-white/10 transition-all duration-300 hover:border-white/50"
           >
-            About Me
+            Contact Me
           </Link>
         </div>
 
-        {/* Social Links */}
-        <div className="flex justify-center gap-6 animate-fade-in-up animation-delay-600">
-          <a 
-            href="https://github.com/musamusakannike" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="text-gray-400 hover:text-white transition-colors duration-300 hover:scale-110 transform"
-          >
-            <FaGithub className="text-2xl" />
-          </a>
-          <a 
-            href="https://twitter.com/musa_codes" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="text-gray-400 hover:text-white transition-colors duration-300 hover:scale-110 transform"
-          >
-            <FaTwitter className="text-2xl" />
-          </a>
+        {/* Social Links - Minimalist */}
+        <div ref={socialRef} className="flex justify-center gap-8">
+          {[
+            { Icon: FaGithub, href: "https://github.com/musamusakannike", label: "GitHub" },
+            { Icon: FaTwitter, href: "https://twitter.com/musa_codes", label: "Twitter" },
+            { Icon: FaLinkedin, href: "https://linkedin.com", label: "LinkedIn" } // Add LinkedIn if available or remove
+          ].map(({ Icon, href, label }, i) => (
+            <a 
+              key={i}
+              href={href} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              aria-label={label}
+              className="text-gray-500 hover:text-white hover:scale-110 transition-all duration-300"
+            >
+              <Icon size={28} />
+            </a>
+          ))}
         </div>
-      </div>
-
-      {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-        <HiArrowDown className="text-gray-500 text-2xl" />
       </div>
     </div>
   )

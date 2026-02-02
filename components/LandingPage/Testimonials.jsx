@@ -1,10 +1,17 @@
 "use client";
 
+import { useRef, useEffect } from "react";
 import { ScrollMenu } from "react-horizontal-scrolling-menu";
 import { FaQuoteLeft, FaStar } from "react-icons/fa";
 import "react-horizontal-scrolling-menu/dist/styles.css";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const Testimonials = () => {
+  const containerRef = useRef(null);
+  
   const testimonials = [
     {
       name: "Jimoh Abdullah",
@@ -32,13 +39,34 @@ const Testimonials = () => {
     },
   ];
 
+  useEffect(() => {
+    let ctx = gsap.context(() => {
+      gsap.fromTo(containerRef.current.children,
+        { y: 50, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          stagger: 0.2,
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top 70%",
+          }
+        }
+      );
+    }, containerRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
     <section
       id="testimonials"
-      className="relative py-24 overflow-hidden bg-[#0d0d0d]"
+      ref={containerRef}
+      className="relative py-32 overflow-hidden bg-[#0d0d0d]"
     >
       {/* Background pattern */}
-      <div className="absolute inset-0">
+      <div className="absolute inset-0 pointer-events-none opacity-30">
         <div
           className="absolute inset-0"
           style={{
@@ -49,58 +77,55 @@ const Testimonials = () => {
         ></div>
       </div>
 
-      {/* Decorative elements */}
-      <div className="absolute top-40 left-20 w-80 h-80 bg-white/5 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-40 right-20 w-96 h-96 bg-white/5 rounded-full blur-3xl"></div>
-
-      <div className="relative container mx-auto px-6 sm:px-8 lg:px-16">
+      <div className="relative container mx-auto px-6 sm:px-8 lg:px-16 z-10">
         {/* Section Header */}
-        <div className="text-center mb-16">
-          <p className="text-gray-500 uppercase tracking-widest text-sm mb-4 animate-fade-in-up">
-            What People Say
-          </p>
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white animate-fade-in-up">
+        <div className="text-center mb-20">
+          <p className="text-cyan-400 font-medium tracking-[0.2em] uppercase text-sm mb-4">
             Testimonials
+          </p>
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6">
+            What People Say
           </h2>
+          <div className="w-24 h-1 bg-gradient-to-r from-cyan-500 to-blue-600 mx-auto rounded-full" />
         </div>
 
         {/* Testimonials Carousel */}
-        <div className="animate-fade-in-up animation-delay-200">
+        <div>
           <ScrollMenu>
             {testimonials.concat(testimonials).map((testimonial, index) => (
               <div
                 key={index}
-                className="flex-shrink-0 w-[350px] glass rounded-2xl p-8 mx-3 transition-all duration-300 hover:scale-[1.02]"
+                className="flex-shrink-0 w-[400px] bg-neutral-900/50 backdrop-blur-md border border-white/5 rounded-3xl p-10 mx-4 transition-all duration-300 hover:border-cyan-500/30 hover:shadow-2xl hover:shadow-cyan-900/10 group"
               >
                 {/* Quote Icon */}
-                <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center mb-6">
-                  <FaQuoteLeft className="text-white text-lg" />
+                <div className="w-14 h-14 rounded-full bg-cyan-500/10 flex items-center justify-center mb-8">
+                  <FaQuoteLeft className="text-cyan-400 text-xl" />
                 </div>
 
                 {/* Rating */}
-                <div className="flex gap-1 mb-4">
+                <div className="flex gap-1 mb-6">
                   {[...Array(testimonial.rating)].map((_, i) => (
                     <FaStar key={i} className="text-yellow-500 text-sm" />
                   ))}
                 </div>
 
                 {/* Feedback */}
-                <p className="text-gray-300 leading-relaxed mb-6 text-sm">
+                <p className="text-gray-300 leading-relaxed mb-8 text-base italic">
                   &quot;{testimonial.feedback}&quot;
                 </p>
 
                 {/* Author */}
-                <div className="flex items-center pt-6 border-t border-white/10">
-                  <div className="w-12 h-12 bg-gradient-to-br from-gray-700 to-gray-900 rounded-full flex items-center justify-center text-white font-bold text-lg ring-2 ring-white/10">
+                <div className="flex items-center pt-8 border-t border-white/5">
+                  <div className="w-12 h-12 bg-gradient-to-br from-cyan-400 to-blue-600 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg">
                     {testimonial.name.charAt(0)}
                   </div>
                   <div className="ml-4">
-                    <h3 className="text-white font-semibold">
+                    <h3 className="text-white font-bold text-lg group-hover:text-cyan-400 transition-colors">
                       {testimonial.name}
                     </h3>
-                    <p className="text-gray-400 text-sm">{testimonial.role}</p>
+                    <p className="text-cyan-400 text-sm font-medium">{testimonial.role}</p>
                     {testimonial.company && (
-                      <p className="text-gray-500 text-xs">
+                      <p className="text-gray-500 text-xs uppercase tracking-wider mt-1">
                         {testimonial.company}
                       </p>
                     )}
