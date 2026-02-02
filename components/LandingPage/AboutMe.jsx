@@ -33,95 +33,95 @@ const AboutMe = () => {
   const contentRef = useRef(null);
   const skillsRef = useRef(null);
 
-  const skills = [
+const skills = [
     {
       name: "HTML",
       icon: (
-        <FaHtml5 className="text-4xl text-gray-400 group-hover:text-cyan-400 transition-colors" />
+        <FaHtml5 className="text-4xl text-[#E34F26] transition-colors" />
       ),
     },
     {
       name: "CSS",
       icon: (
-        <FaCss3Alt className="text-4xl text-gray-400 group-hover:text-cyan-400 transition-colors" />
+        <FaCss3Alt className="text-4xl text-[#1572B6] transition-colors" />
       ),
     },
     {
       name: "JavaScript",
       icon: (
-        <FaJs className="text-4xl text-gray-400 group-hover:text-cyan-400 transition-colors" />
+        <FaJs className="text-4xl text-[#F7DF1E] transition-colors" />
       ),
     },
     {
       name: "Python",
       icon: (
-        <FaPython className="text-4xl text-gray-400 group-hover:text-cyan-400 transition-colors" />
+        <FaPython className="text-4xl text-[#3776AB] transition-colors" />
       ),
     },
     {
       name: "Tailwind",
       icon: (
-        <SiTailwindcss className="text-4xl text-gray-400 group-hover:text-cyan-400 transition-colors" />
+        <SiTailwindcss className="text-4xl text-[#06B6D4] transition-colors" />
       ),
     },
     {
       name: "jQuery",
       icon: (
-        <SiJquery className="text-4xl text-gray-400 group-hover:text-cyan-400 transition-colors" />
+        <SiJquery className="text-4xl text-[#0769AD] transition-colors" />
       ),
     },
     {
       name: "React",
       icon: (
-        <FaReact className="text-4xl text-gray-400 group-hover:text-cyan-400 transition-colors" />
+        <FaReact className="text-4xl text-[#61DAFB] transition-colors" />
       ),
     },
     {
       name: "Next.js",
       icon: (
-        <SiNextdotjs className="text-4xl text-gray-400 group-hover:text-cyan-400 transition-colors" />
+        <SiNextdotjs className="text-4xl text-white transition-colors" />
       ),
     },
     {
       name: "TypeScript",
       icon: (
-        <SiTypescript className="text-4xl text-gray-400 group-hover:text-cyan-400 transition-colors" />
+        <SiTypescript className="text-4xl text-[#3178C6] transition-colors" />
       ),
     },
     {
       name: "Node.js",
       icon: (
-        <FaNodeJs className="text-4xl text-gray-400 group-hover:text-cyan-400 transition-colors" />
+        <FaNodeJs className="text-4xl text-[#339933] transition-colors" />
       ),
     },
     {
       name: "Express",
       icon: (
-        <SiExpress className="text-4xl text-gray-400 group-hover:text-cyan-400 transition-colors" />
+        <SiExpress className="text-4xl text-white transition-colors" />
       ),
     },
     {
       name: "MongoDB",
       icon: (
-        <SiMongodb className="text-4xl text-gray-400 group-hover:text-cyan-400 transition-colors" />
+        <SiMongodb className="text-4xl text-[#47A248] transition-colors" />
       ),
     },
     {
       name: "Git",
       icon: (
-        <FaGitAlt className="text-4xl text-gray-400 group-hover:text-cyan-400 transition-colors" />
+        <FaGitAlt className="text-4xl text-[#F05032] transition-colors" />
       ),
     },
     {
       name: "GitHub",
       icon: (
-        <FaGithub className="text-4xl text-gray-400 group-hover:text-cyan-400 transition-colors" />
+        <FaGithub className="text-4xl text-white transition-colors" />
       ),
     },
     {
       name: "React Native",
       icon: (
-        <TbBrandReactNative className="text-4xl text-gray-400 group-hover:text-cyan-400 transition-colors" />
+        <TbBrandReactNative className="text-4xl text-[#61DAFB] transition-colors" />
       ),
     },
   ];
@@ -220,7 +220,7 @@ const AboutMe = () => {
                 <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-blue-500/5" />
 
                 {/* Avatar */}
-                <div className="relative z-10 w-40 h-40 rounded-0 p-1 bg-cyan-400 mb-8 shadow-lg shadow-cyan-500/20">
+                <div className="relative z-10 w-40 h-40 rounded-0 p-1 bg-white mb-8 shadow-lg shadow-cyan-500/20">
                   <div className="relative w-full h-full rounded-0 bg-neutral-900 flex items-center justify-center overflow-hidden">
                     <span className="text-5xl font-bold text-white">MM</span>
                     {/* <Image
@@ -311,7 +311,7 @@ const AboutMe = () => {
                     <div className="mb-3 transform group-hover:scale-110 transition-transform duration-300 drop-shadow-lg">
                       {skill.icon}
                     </div>
-                    <span className="text-xs font-medium text-gray-400 group-hover:text-cyan-400 transition-colors">
+                    <span className="text-xs font-medium text-white transition-colors">
                       {skill.name}
                     </span>
                   </div>
