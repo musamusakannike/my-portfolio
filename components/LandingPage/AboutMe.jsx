@@ -136,7 +136,7 @@ const AboutMe = () => {
         <div className="absolute left-0 bottom-1/4 w-[500px] h-[500px] bg-purple-900/10 rounded-full blur-[100px]" />
       </div>
 
-      <div className="relative z-10 container mx-auto px-6 sm:px-8 lg:px-16">
+      <div className="relative z-10 container mx-auto px-2 md:px-8 lg:px-16">
         {/* Section Header */}
         <div className="text-center mb-20">
           <p className="text-cyan-400 font-medium tracking-[0.2em] uppercase text-sm mb-4">
@@ -190,7 +190,7 @@ const AboutMe = () => {
               </div>
 
               {/* Right Panel - Bio */}
-              <div className="md:w-2/3 p-10 lg:p-12">
+              <div className="md:w-2/3 p-4 lg:p-10">
                 <div ref={contentRef}>
                   <h4 className="text-2xl font-bold text-white mb-6">
                     Passionate about building scalable solutions.
@@ -235,7 +235,7 @@ const AboutMe = () => {
             </div>
 
             {/* Tech Stack Section */}
-            <div className="bg-black/20 p-10 border-t border-white/5">
+            <div className="bg-black/20 p-2 border-t border-white/5">
               <h4 className="text-xl font-bold text-white mb-8 text-center">
                 Technical Arsenal
               </h4>
