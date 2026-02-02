@@ -167,7 +167,7 @@ const Hero = () => {
         >
           <Link
             href="#projects"
-            className="group relative px-8 py-4 bg-white text-black font-bold rounded-full overflow-hidden transition-transform hover:scale-105 active:scale-95"
+            className="group relative px-8 py-4 bg-white text-black font-bold rounded-0 overflow-hidden transition-transform hover:scale-105 active:scale-95"
           >
             <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-blue-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             <span className="relative z-10 flex items-center gap-2 group-hover:text-white transition-colors duration-300">
@@ -177,7 +177,7 @@ const Hero = () => {
           </Link>
           <Link
             href="#contact"
-            className="group px-8 py-4 border border-white/20 text-white font-medium rounded-full hover:bg-white/10 transition-all duration-300 hover:border-white/50"
+            className="group px-8 py-4 border border-white/20 text-white font-medium rounded-0 hover:bg-white/10 transition-all duration-300 hover:border-white/50"
           >
             Contact Me
           </Link>

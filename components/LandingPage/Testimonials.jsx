@@ -95,10 +95,10 @@ const Testimonials = () => {
             {testimonials.concat(testimonials).map((testimonial, index) => (
               <div
                 key={index}
-                className="flex-shrink-0 w-[400px] bg-neutral-900/50 backdrop-blur-md border border-white/5 rounded-3xl p-10 mx-4 transition-all duration-300 hover:border-cyan-500/30 hover:shadow-2xl hover:shadow-cyan-900/10 group"
+                className="flex-shrink-0 w-[400px] bg-neutral-900/50 backdrop-blur-md border border-white/5 rounded-0 p-10 mx-4 transition-all duration-300 hover:border-cyan-500/30 hover:shadow-2xl hover:shadow-cyan-900/10 group"
               >
                 {/* Quote Icon */}
-                <div className="w-14 h-14 rounded-full bg-cyan-500/10 flex items-center justify-center mb-8">
+                <div className="w-14 h-14 rounded-0 bg-cyan-500/10 flex items-center justify-center mb-8">
                   <FaQuoteLeft className="text-cyan-400 text-xl" />
                 </div>
 
@@ -116,7 +116,7 @@ const Testimonials = () => {
 
                 {/* Author */}
                 <div className="flex items-center pt-8 border-t border-white/5">
-                  <div className="w-12 h-12 bg-gradient-to-br from-cyan-400 to-blue-600 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg">
+                  <div className="w-12 h-12 bg-gradient-to-br from-cyan-400 to-blue-600 rounded-0 flex items-center justify-center text-white font-bold text-lg shadow-lg">
                     {testimonial.name.charAt(0)}
                   </div>
                   <div className="ml-4">

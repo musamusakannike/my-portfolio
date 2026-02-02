@@ -232,7 +232,7 @@ const Projects = () => {
           {projects.map((project, index) => (
             <div
               key={index}
-              className="project-card group relative bg-neutral-900/50 border border-white/5 rounded-2xl overflow-hidden hover:border-white/10 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-cyan-900/20 flex flex-col"
+              className="project-card group relative bg-neutral-900/50 border border-white/5 rounded-0 overflow-hidden hover:border-white/10 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-cyan-900/20 flex flex-col"
             >
               <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
@@ -240,16 +240,16 @@ const Projects = () => {
               <div className="p-8 pb-0 z-10">
                 <div className="flex flex-wrap gap-2 mb-4">
                   {project.isBeta && (
-                    <span className="text-[10px] font-bold px-2 py-1 rounded border border-yellow-500/30 text-yellow-500 uppercase tracking-wide">
+                    <span className="text-[10px] font-bold px-2 py-1 rounded-0 border border-yellow-500/30 text-yellow-500 uppercase tracking-wide">
                       Beta
                     </span>
                   )}
                   {project.isPrivate && (
-                    <span className="text-[10px] font-bold px-2 py-1 rounded border border-red-500/30 text-red-500 uppercase tracking-wide">
+                    <span className="text-[10px] font-bold px-2 py-1 rounded-0 border border-red-500/30 text-red-500 uppercase tracking-wide">
                       Private
                     </span>
                   )}
-                  <span className="text-[10px] font-bold px-2 py-1 rounded bg-white/5 text-gray-300 uppercase tracking-wide">
+                  <span className="text-[10px] font-bold px-2 py-1 rounded-0 bg-white/5 text-gray-300 uppercase tracking-wide">
                     {project.role}
                   </span>
                 </div>
@@ -266,7 +266,7 @@ const Projects = () => {
                   {project.tags?.map((tag, tagIndex) => (
                     <span
                       key={tagIndex}
-                      className="text-xs px-2.5 py-1 rounded-full bg-white/5 text-gray-400 border border-white/5"
+                      className="text-xs px-2.5 py-1 rounded-0 bg-white/5 text-gray-400 border border-white/5"
                     >
                       {tag}
                     </span>
@@ -289,7 +289,7 @@ const Projects = () => {
                       href={project.links.website}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-white text-black text-xs font-bold uppercase tracking-wide hover:bg-cyan-400 transition-colors"
+                      className="inline-flex items-center gap-2 px-4 py-2 rounded-0 bg-white text-black text-xs font-bold uppercase tracking-wide hover:bg-cyan-400 transition-colors"
                     >
                       <FaExternalLinkAlt />
                       Live Demo
@@ -303,7 +303,7 @@ const Projects = () => {
                       <Link
                         href={project.links.playStore}
                         target="_blank"
-                        className="p-2 bg-white/5 rounded-lg hover:bg-white/10 text-gray-400 hover:text-green-400 transition-colors"
+                        className="p-2 bg-white/5 rounded-0 hover:bg-white/10 text-gray-400 hover:text-green-400 transition-colors"
                       >
                         <FaGooglePlay className="text-lg" />
                       </Link>
@@ -313,7 +313,7 @@ const Projects = () => {
                       <Link
                         href={project.links.appStore}
                         target="_blank"
-                        className="p-2 bg-white/5 rounded-lg hover:bg-white/10 text-gray-400 hover:text-white transition-colors"
+                        className="p-2 bg-white/5 rounded-0 hover:bg-white/10 text-gray-400 hover:text-white transition-colors"
                       >
                         <FaApple className="text-lg" />
                       </Link>
@@ -323,7 +323,7 @@ const Projects = () => {
                       <Link
                         href={project.links.desktop}
                         target="_blank"
-                        className="p-2 bg-white/5 rounded-lg hover:bg-white/10 text-gray-400 hover:text-blue-400 transition-colors"
+                        className="p-2 bg-white/5 rounded-0 hover:bg-white/10 text-gray-400 hover:text-blue-400 transition-colors"
                       >
                         <FaDesktop className="text-lg" />
                       </Link>
@@ -335,7 +335,7 @@ const Projects = () => {
                         <Link
                           href={project.links.github}
                           target="_blank"
-                          className="p-2 bg-white/5 rounded-lg hover:bg-white/10 text-gray-400 hover:text-white transition-colors"
+                          className="p-2 bg-white/5 rounded-0 hover:bg-white/10 text-gray-400 hover:text-white transition-colors"
                         >
                           <FaGithub className="text-lg" />
                         </Link>
@@ -346,7 +346,7 @@ const Projects = () => {
                               href={project.links.github.frontend}
                               target="_blank"
                               title="Frontend Code"
-                              className="p-2 bg-white/5 rounded-lg hover:bg-white/10 text-gray-400 hover:text-cyan-400 transition-colors"
+                              className="p-2 bg-white/5 rounded-0 hover:bg-white/10 text-gray-400 hover:text-cyan-400 transition-colors"
                             >
                               <FaCode className="text-lg" />
                             </Link>
@@ -356,7 +356,7 @@ const Projects = () => {
                               href={project.links.github.server}
                               target="_blank"
                               title="Server Code"
-                              className="p-2 bg-white/5 rounded-lg hover:bg-white/10 text-gray-400 hover:text-green-400 transition-colors"
+                              className="p-2 bg-white/5 rounded-0 hover:bg-white/10 text-gray-400 hover:text-green-400 transition-colors"
                             >
                               <FaServer className="text-lg" />
                             </Link>
@@ -366,7 +366,7 @@ const Projects = () => {
                               href={project.links.github.mobile}
                               target="_blank"
                               title="Mobile Code"
-                              className="p-2 bg-white/5 rounded-lg hover:bg-white/10 text-gray-400 hover:text-purple-400 transition-colors"
+                              className="p-2 bg-white/5 rounded-0 hover:bg-white/10 text-gray-400 hover:text-purple-400 transition-colors"
                             >
                               <FaMobileAlt className="text-lg" />
                             </Link>

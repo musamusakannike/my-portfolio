@@ -144,17 +144,17 @@ const Experiences = () => {
 
               {/* Card */}
               <div
-                className={`group relative bg-neutral-900/50 backdrop-blur-md border border-white/5 rounded-2xl p-8 transition-all duration-300 hover:border-cyan-500/30 hover:-translate-y-1 hover:shadow-2xl hover:shadow-cyan-900/10 ${
+                className={`group relative bg-neutral-900/50 backdrop-blur-md border border-white/5 rounded-0 p-8 transition-all duration-300 hover:border-cyan-500/30 hover:-translate-y-1 hover:shadow-2xl hover:shadow-cyan-900/10 ${
                     activeExperience === index ? "border-cyan-500/50" : ""
                 }`}
                 onMouseEnter={() => setActiveExperience(index)}
                 onMouseLeave={() => setActiveExperience(null)}
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-0 pointer-events-none" />
 
                 <div className={`flex flex-col ${index % 2 === 0 ? "md:items-end" : "md:items-start"}`}>
                     {/* Period badge */}
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-400 text-xs font-bold uppercase tracking-wider mb-4 border border-cyan-500/20">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-0 bg-cyan-500/10 text-cyan-400 text-xs font-bold uppercase tracking-wider mb-4 border border-cyan-500/20">
                       <FaCalendar className="text-xs" />
                       <span>{exp.period}</span>
                     </div>
@@ -183,7 +183,7 @@ const Experiences = () => {
                       {exp.skills?.map((skill, skillIndex) => (
                         <span
                           key={skillIndex}
-                          className="text-[10px] font-bold px-2 py-1 rounded bg-white/5 text-gray-400 border border-white/5 hover:bg-white/10 hover:text-white transition-colors"
+                          className="text-[10px] font-bold px-2 py-1 rounded-0 bg-white/5 text-gray-400 border border-white/5 hover:bg-white/10 hover:text-white transition-colors"
                         >
                           {skill}
                         </span>

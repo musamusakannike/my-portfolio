@@ -160,15 +160,15 @@ const AboutMe = () => {
                 <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-purple-500/5" />
 
                 {/* Avatar */}
-                <div className="relative z-10 w-40 h-40 rounded-full p-1 bg-cyan-400 mb-8 shadow-lg shadow-cyan-500/20">
-                  <div className="relative w-full h-full rounded-full bg-neutral-900 flex items-center justify-center overflow-hidden">
-                    {/* <span className="text-5xl font-bold text-white">MM</span> */}
-                    <Image
+                <div className="relative z-10 w-40 h-40 rounded-0 p-1 bg-cyan-400 mb-8 shadow-lg shadow-cyan-500/20">
+                  <div className="relative w-full h-full rounded-0 bg-neutral-900 flex items-center justify-center overflow-hidden">
+                    <span className="text-5xl font-bold text-white">MM</span>
+                    {/* <Image
                       src="https://i.ibb.co/35KsGPxW/compressed.png"
                       alt="Profile"
                       fill
                       className="object-cover"
-                    />
+                    /> */}
                   </div>
                 </div>
 
@@ -182,7 +182,7 @@ const AboutMe = () => {
                 <a
                   href="/Musa Musa Kannike CV.pdf"
                   download
-                  className="relative z-10 group inline-flex items-center gap-2 bg-white text-black px-6 py-3 rounded-full text-sm font-bold hover:bg-cyan-50 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-cyan-500/20"
+                  className="relative z-10 group inline-flex items-center gap-2 bg-white text-black px-6 py-3 rounded-0 text-sm font-bold hover:bg-cyan-50 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-cyan-500/20"
                 >
                   <FaDownload className="text-sm group-hover:translate-y-0.5 transition-transform" />
                   Download Resume
@@ -246,7 +246,7 @@ const AboutMe = () => {
                 {skills.map((skill, index) => (
                   <div
                     key={skill.name}
-                    className="group flex flex-col items-center justify-center p-4 rounded-xl bg-white/5 border border-white/5 transition-all duration-300 hover:bg-white/10 hover:border-cyan-500/30 hover:-translate-y-1 relative"
+                    className="group flex flex-col items-center justify-center p-4 rounded-0 bg-white/5 border border-white/5 transition-all duration-300 hover:bg-white/10 hover:border-cyan-500/30 hover:-translate-y-1 relative"
                   >
                     <div className="mb-3 transform group-hover:scale-110 transition-transform duration-300 drop-shadow-lg">
                       {skill.icon}
