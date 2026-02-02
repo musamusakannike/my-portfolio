@@ -10,7 +10,7 @@ import {
   FaGitAlt,
   FaGithub,
   FaDownload,
-  FaPython
+  FaPython,
 } from "react-icons/fa";
 import {
   SiTailwindcss,
@@ -23,6 +23,7 @@ import {
 import { TbBrandReactNative } from "react-icons/tb";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Image from "next/image";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -68,36 +69,39 @@ const AboutMe = () => {
   useEffect(() => {
     let ctx = gsap.context(() => {
       // Profile Section Animation
-      gsap.fromTo(profileRef.current, 
+      gsap.fromTo(
+        profileRef.current,
         { x: -50, opacity: 0 },
-        { 
-          x: 0, 
-          opacity: 1, 
-          duration: 1, 
+        {
+          x: 0,
+          opacity: 1,
+          duration: 1,
           scrollTrigger: {
             trigger: containerRef.current,
             start: "top 70%",
-          }
-        }
+          },
+        },
       );
 
       // Content Section Animation relative to Profile
-      gsap.fromTo(contentRef.current.children,
+      gsap.fromTo(
+        contentRef.current.children,
         { y: 30, opacity: 0 },
-        { 
-          y: 0, 
-          opacity: 1, 
-          duration: 0.8, 
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
           stagger: 0.2,
           scrollTrigger: {
             trigger: containerRef.current,
             start: "top 70%",
-          }
-        }
+          },
+        },
       );
 
       // Skills Animation
-      gsap.fromTo(skillsRef.current.children,
+      gsap.fromTo(
+        skillsRef.current.children,
         { scale: 0.8, opacity: 0 },
         {
           scale: 1,
@@ -106,27 +110,30 @@ const AboutMe = () => {
           stagger: {
             amount: 1,
             grid: "auto",
-            from: "center"
+            from: "center",
           },
           ease: "back.out(1.7)",
           scrollTrigger: {
             trigger: skillsRef.current,
             start: "top 85%",
-          }
-        }
+          },
+        },
       );
-
     }, containerRef);
 
     return () => ctx.revert();
   }, []);
 
   return (
-    <section id="about" ref={containerRef} className="relative py-32 overflow-hidden bg-[#0a0a0a]">
+    <section
+      id="about"
+      ref={containerRef}
+      className="relative py-32 overflow-hidden bg-[#0a0a0a]"
+    >
       {/* Background Stylings */}
       <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute right-0 top-1/4 w-[500px] h-[500px] bg-cyan-900/10 rounded-full blur-[100px]" />
-          <div className="absolute left-0 bottom-1/4 w-[500px] h-[500px] bg-purple-900/10 rounded-full blur-[100px]" />
+        <div className="absolute right-0 top-1/4 w-[500px] h-[500px] bg-cyan-900/10 rounded-full blur-[100px]" />
+        <div className="absolute left-0 bottom-1/4 w-[500px] h-[500px] bg-purple-900/10 rounded-full blur-[100px]" />
       </div>
 
       <div className="relative z-10 container mx-auto px-6 sm:px-8 lg:px-16">
@@ -146,22 +153,32 @@ const AboutMe = () => {
           <div className="overflow-hidden">
             <div className="md:flex">
               {/* Left Panel - Profile */}
-              <div ref={profileRef} className="md:w-1/3 bg-black/40 p-10 flex flex-col items-center justify-center text-center border-r border-white/5 relative overflow-hidden">
+              <div
+                ref={profileRef}
+                className="md:w-1/3 bg-black/40 p-10 flex flex-col items-center justify-center text-center border-r border-white/5 relative overflow-hidden"
+              >
                 <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-purple-500/5" />
-                
+
                 {/* Avatar */}
-                <div className="relative z-10 w-40 h-40 rounded-full p-1 bg-gradient-to-br from-cyan-400 to-purple-500 mb-8 shadow-lg shadow-cyan-500/20">
-                    <div className="w-full h-full rounded-full bg-neutral-900 flex items-center justify-center overflow-hidden">
-                         <span className="text-5xl font-bold text-white">MM</span>
-                         {/* Replace with <Image /> if image is available */}
-                    </div>
+                <div className="relative z-10 w-40 h-40 rounded-full p-1 bg-cyan-400 mb-8 shadow-lg shadow-cyan-500/20">
+                  <div className="relative w-full h-full rounded-full bg-neutral-900 flex items-center justify-center overflow-hidden">
+                    {/* <span className="text-5xl font-bold text-white">MM</span> */}
+                    <Image
+                      src="https://i.ibb.co/35KsGPxW/compressed.png"
+                      alt="Profile"
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
                 </div>
 
                 <h3 className="relative z-10 text-2xl font-bold text-white mb-2">
                   Musa Musa Kannike
                 </h3>
-                <p className="relative z-10 text-cyan-400 font-medium mb-8">Fullstack Developer</p>
-                
+                <p className="relative z-10 text-cyan-400 font-medium mb-8">
+                  Fullstack Developer
+                </p>
+
                 <a
                   href="/Musa Musa Kannike CV.pdf"
                   download
@@ -175,35 +192,44 @@ const AboutMe = () => {
               {/* Right Panel - Bio */}
               <div className="md:w-2/3 p-10 lg:p-12">
                 <div ref={contentRef}>
-                    <h4 className="text-2xl font-bold text-white mb-6">
-                      Passionate about building scalable solutions.
-                    </h4>
-                    <p className="text-gray-400 leading-relaxed mb-6 text-lg">
-                      I am a highly skilled and results-oriented Software Engineer
-                      with a robust background in full-stack development,
-                      specializing in the MERN stack. I have a proven ability to design,
-                      develop, and deploy scalable applications for diverse sectors.
-                    </p>
-                    <p className="text-gray-400 leading-relaxed mb-8 text-lg">
-                      My expertise spans frontend, mobile and backend development. Currently,
-                      I&apos;m diving deeper into AI and Machine Learning technologies using Python to build the next generation of intelligent applications.
-                    </p>
+                  <h4 className="text-2xl font-bold text-white mb-6">
+                    Passionate about building scalable solutions.
+                  </h4>
+                  <p className="text-gray-400 leading-relaxed mb-6 text-lg">
+                    I am a highly skilled and results-oriented Software Engineer
+                    with a robust background in full-stack development,
+                    specializing in the MERN stack. I have a proven ability to
+                    design, develop, and deploy scalable applications for
+                    diverse sectors.
+                  </p>
+                  <p className="text-gray-400 leading-relaxed mb-8 text-lg">
+                    My expertise spans frontend, mobile and backend development.
+                    Currently, I&apos;m diving deeper into AI and Machine
+                    Learning technologies using Python to build the next
+                    generation of intelligent applications.
+                  </p>
 
-                    {/* Stats */}
-                    <div className="grid grid-cols-3 gap-8 pt-8 border-t border-white/5">
-                      <div>
-                        <p className="text-4xl font-bold text-white mb-1">3+</p>
-                        <p className="text-gray-500 text-sm font-medium uppercase tracking-wider">Years Exp.</p>
-                      </div>
-                      <div>
-                        <p className="text-4xl font-bold text-white mb-1">20+</p>
-                        <p className="text-gray-500 text-sm font-medium uppercase tracking-wider">Projects</p>
-                      </div>
-                      <div>
-                        <p className="text-4xl font-bold text-white mb-1">15+</p>
-                        <p className="text-gray-500 text-sm font-medium uppercase tracking-wider">Happy Clients</p>
-                      </div>
+                  {/* Stats */}
+                  <div className="grid grid-cols-3 gap-8 pt-8 border-t border-white/5">
+                    <div>
+                      <p className="text-4xl font-bold text-white mb-1">3+</p>
+                      <p className="text-gray-500 text-sm font-medium uppercase tracking-wider">
+                        Years Exp.
+                      </p>
                     </div>
+                    <div>
+                      <p className="text-4xl font-bold text-white mb-1">20+</p>
+                      <p className="text-gray-500 text-sm font-medium uppercase tracking-wider">
+                        Projects
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-4xl font-bold text-white mb-1">15+</p>
+                      <p className="text-gray-500 text-sm font-medium uppercase tracking-wider">
+                        Happy Clients
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -213,7 +239,10 @@ const AboutMe = () => {
               <h4 className="text-xl font-bold text-white mb-8 text-center">
                 Technical Arsenal
               </h4>
-              <div ref={skillsRef} className="grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-5 gap-6">
+              <div
+                ref={skillsRef}
+                className="grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-5 gap-6"
+              >
                 {skills.map((skill, index) => (
                   <div
                     key={skill.name}
