@@ -19,6 +19,7 @@ import swiftratesImg from "@/assets/images/swiftrates.png";
 import synapseImg from "@/assets/images/synapse.png";
 import taashamImg from "@/assets/images/taasham.png";
 import glamconnectImg from "@/assets/images/glamconnect.png";
+import gadgetsafricaImg from "@/assets/images/360gadgets.png";
 import aiWordProcessorImg from "@/assets/images/ai-word-processor.png";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -61,6 +62,7 @@ const Projects = () => {
       ],
       role: "Team Member",
       isPrivate: true,
+      image: gadgetsafricaImg,
       links: {
         website: "https://360gadgetsafrica.com/",
         playStore:
