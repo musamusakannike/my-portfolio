@@ -18,6 +18,7 @@ import proffyemphyImg from "@/assets/images/proffyemphy.png";
 import swiftratesImg from "@/assets/images/swiftrates.png";
 import synapseImg from "@/assets/images/synapse.png";
 import taashamImg from "@/assets/images/taasham.png";
+import glamconnectImg from "@/assets/images/glamconnect.png";
 import aiWordProcessorImg from "@/assets/images/ai-word-processor.png";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -85,6 +86,21 @@ const Projects = () => {
       isPrivate: true,
       links: {
         website: "https://lamatfikr.com",
+      },
+    },
+    {
+      title: "GlamConnect",
+      subtitle: "Where Beauty Meets Opportunity",
+      description:
+        "GlamConnect is the next-generation platform transforming how the beauty industry connects. Whether you’re a client booking a makeup artist, an artist showcasing your craft, or a model looking to get discovered, GlamConnect delivers a frictionless, end-to-end experience built for speed, creativity, and growth.",
+      tags: ["Next.js", "Node.js", "MongoDB", "Express", "REST API", "Flutter"],
+      role: "Team Member",
+      image: glamconnectImg,
+      isPrivate: true,
+      links: {
+        website: "https://glamconnect.sa",
+        playStore: "https://play.google.com/store/apps/details?id=sa.aba.glam_connect&pcampaignid=web_share",
+        appStore: "https://apps.apple.com/us/app/glamconnect/id6755059933",
       },
     },
     {
