@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { motion } from "framer-motion";
 import {
   FaHtml5,
   FaCss3Alt,
@@ -9,7 +9,6 @@ import {
   FaNodeJs,
   FaGitAlt,
   FaGithub,
-  FaDownload,
   FaPython,
 } from "react-icons/fa";
 import {
@@ -21,304 +20,124 @@ import {
   SiMongodb,
 } from "react-icons/si";
 import { TbBrandReactNative } from "react-icons/tb";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Image from "next/image";
-
-gsap.registerPlugin(ScrollTrigger);
+import Badge from "@/components/ui/Badge";
+import TerminalWindow from "@/components/ui/TerminalWindow";
 
 const AboutMe = () => {
-  const containerRef = useRef(null);
-  const profileRef = useRef(null);
-  const contentRef = useRef(null);
-  const skillsRef = useRef(null);
-
-const skills = [
-    {
-      name: "HTML",
-      icon: (
-        <FaHtml5 className="text-4xl text-[#E34F26] transition-colors" />
-      ),
-    },
-    {
-      name: "CSS",
-      icon: (
-        <FaCss3Alt className="text-4xl text-[#1572B6] transition-colors" />
-      ),
-    },
-    {
-      name: "JavaScript",
-      icon: (
-        <FaJs className="text-4xl text-[#F7DF1E] transition-colors" />
-      ),
-    },
-    {
-      name: "Python",
-      icon: (
-        <FaPython className="text-4xl text-[#3776AB] transition-colors" />
-      ),
-    },
-    {
-      name: "Tailwind",
-      icon: (
-        <SiTailwindcss className="text-4xl text-[#06B6D4] transition-colors" />
-      ),
-    },
-    {
-      name: "jQuery",
-      icon: (
-        <SiJquery className="text-4xl text-[#0769AD] transition-colors" />
-      ),
-    },
-    {
-      name: "React",
-      icon: (
-        <FaReact className="text-4xl text-[#61DAFB] transition-colors" />
-      ),
-    },
-    {
-      name: "Next.js",
-      icon: (
-        <SiNextdotjs className="text-4xl text-white transition-colors" />
-      ),
-    },
-    {
-      name: "TypeScript",
-      icon: (
-        <SiTypescript className="text-4xl text-[#3178C6] transition-colors" />
-      ),
-    },
-    {
-      name: "Node.js",
-      icon: (
-        <FaNodeJs className="text-4xl text-[#339933] transition-colors" />
-      ),
-    },
-    {
-      name: "Express",
-      icon: (
-        <SiExpress className="text-4xl text-white transition-colors" />
-      ),
-    },
-    {
-      name: "MongoDB",
-      icon: (
-        <SiMongodb className="text-4xl text-[#47A248] transition-colors" />
-      ),
-    },
-    {
-      name: "Git",
-      icon: (
-        <FaGitAlt className="text-4xl text-[#F05032] transition-colors" />
-      ),
-    },
-    {
-      name: "GitHub",
-      icon: (
-        <FaGithub className="text-4xl text-white transition-colors" />
-      ),
-    },
+  const skills = [
+    { name: "JavaScript", icon: <FaJs className="text-yellow-400" /> },
+    { name: "TypeScript", icon: <SiTypescript className="text-blue-500" /> },
+    { name: "Python", icon: <FaPython className="text-blue-300" /> },
+    { name: "React", icon: <FaReact className="text-cyan-400" /> },
+    { name: "Next.js", icon: <SiNextdotjs className="text-white" /> },
     {
       name: "React Native",
-      icon: (
-        <TbBrandReactNative className="text-4xl text-[#61DAFB] transition-colors" />
-      ),
+      icon: <TbBrandReactNative className="text-cyan-400" />,
     },
+    { name: "Node.js", icon: <FaNodeJs className="text-green-500" /> },
+    { name: "Express", icon: <SiExpress className="text-white" /> },
+    { name: "MongoDB", icon: <SiMongodb className="text-green-400" /> },
+    { name: "Tailwind", icon: <SiTailwindcss className="text-cyan-300" /> },
+    { name: "Git", icon: <FaGitAlt className="text-orange-500" /> },
+    { name: "HTML5", icon: <FaHtml5 className="text-orange-500" /> },
   ];
-
-  useEffect(() => {
-    let ctx = gsap.context(() => {
-      // Profile Section Animation
-      gsap.fromTo(
-        profileRef.current,
-        { x: -50, opacity: 0 },
-        {
-          x: 0,
-          opacity: 1,
-          duration: 1,
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: "top 70%",
-          },
-        },
-      );
-
-      // Content Section Animation relative to Profile
-      gsap.fromTo(
-        contentRef.current.children,
-        { y: 30, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.8,
-          stagger: 0.2,
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: "top 70%",
-          },
-        },
-      );
-
-      // Skills Animation
-      gsap.fromTo(
-        skillsRef.current.children,
-        { scale: 0.8, opacity: 0 },
-        {
-          scale: 1,
-          opacity: 1,
-          duration: 0.5,
-          stagger: {
-            amount: 1,
-            grid: "auto",
-            from: "center",
-          },
-          ease: "back.out(1.7)",
-          scrollTrigger: {
-            trigger: skillsRef.current,
-            start: "top 85%",
-          },
-        },
-      );
-    }, containerRef);
-
-    return () => ctx.revert();
-  }, []);
 
   return (
     <section
       id="about"
-      ref={containerRef}
-      className="relative py-32 overflow-hidden bg-[#0a0a0a]"
+      className="py-24 bg-[#0A0A0A] relative border-t border-white/5 font-mono"
     >
-      {/* Background Stylings */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute right-0 top-1/4 w-[500px] h-[500px] bg-cyan-900/10 rounded-full blur-[100px]" />
-        <div className="absolute left-0 bottom-1/4 w-[500px] h-[500px] bg-blue-900/10 rounded-full blur-[100px]" />
-      </div>
+      <div className="container mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16">
+        {/* Left Col: Identity */}
+        <div>
+          <div className="mb-12">
+            <span className="text-[var(--color-toxic-green)] text-sm mb-2 block">
+              01. IDENTITY
+            </span>
+            <h2 className="text-4xl font-black text-white">OPERATOR_PROFILE</h2>
+          </div>
 
-      <div className="relative z-10 container mx-auto px-2 md:px-8 lg:px-16">
-        {/* Section Header */}
-        <div className="text-center mb-20">
-          <p className="text-cyan-400 font-medium tracking-[0.2em] uppercase text-sm mb-4">
-            About Me
-          </p>
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6">
-            Who I Am
-          </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-cyan-500 to-blue-600 mx-auto rounded-full" />
-        </div>
-
-        {/* Main Content Card */}
-        <div className="max-w-6xl mx-auto">
-          <div className="overflow-hidden">
-            <div className="md:flex">
-              {/* Left Panel - Profile */}
-              <div
-                ref={profileRef}
-                className="md:w-1/3 bg-black/40 p-10 flex flex-col items-center justify-center text-center border-r border-white/5 relative overflow-hidden"
-              >
-                <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-blue-500/5" />
-
-                {/* Avatar */}
-                <div className="relative z-10 w-40 h-40 rounded-0 p-1 bg-white mb-8 shadow-lg shadow-cyan-500/20">
-                  <div className="relative w-full h-full rounded-0 bg-neutral-900 flex items-center justify-center overflow-hidden">
-                    <span className="text-5xl font-bold text-white">MM</span>
-                    {/* <Image
-                      src="https://i.ibb.co/35KsGPxW/compressed.png"
-                      alt="Profile"
-                      fill
-                      className="object-cover"
-                    /> */}
-                  </div>
-                </div>
-
-                <h3 className="relative z-10 text-2xl font-bold text-white mb-2">
-                  Musa Musa Kannike
-                </h3>
-                <p className="relative z-10 text-cyan-400 font-medium mb-8">
-                  Fullstack Developer
-                </p>
-
-                <a
-                  href="/Musa Musa Kannike CV.pdf"
-                  download
-                  className="relative z-10 group inline-flex items-center gap-2 bg-white text-black px-6 py-3 rounded-0 text-sm font-bold hover:bg-cyan-50 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-cyan-500/20"
-                >
-                  <FaDownload className="text-sm group-hover:translate-y-0.5 transition-transform" />
-                  Download Resume
-                </a>
-              </div>
-
-              {/* Right Panel - Bio */}
-              <div className="md:w-2/3 p-4 lg:p-10">
-                <div ref={contentRef}>
-                  <h4 className="text-2xl font-bold text-white mb-6">
-                    Passionate about building scalable solutions.
-                  </h4>
-                  <p className="text-gray-400 leading-relaxed mb-6 text-lg">
-                    I am a highly skilled and results-oriented Software Engineer
-                    with a robust background in full-stack development,
-                    specializing in the MERN stack. I have a proven ability to
-                    design, develop, and deploy scalable applications for
-                    diverse sectors.
-                  </p>
-                  <p className="text-gray-400 leading-relaxed mb-8 text-lg">
-                    My expertise spans frontend, mobile and backend development.
-                    Currently, I&apos;m diving deeper into AI and Machine
-                    Learning technologies using Python to build the next
-                    generation of intelligent applications.
-                  </p>
-
-                  {/* Stats */}
-                  <div className="grid grid-cols-3 gap-8 pt-8 border-t border-white/5">
-                    <div>
-                      <p className="text-4xl font-bold text-white mb-1">3+</p>
-                      <p className="text-gray-500 text-sm font-medium uppercase tracking-wider">
-                        Years Exp.
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-4xl font-bold text-white mb-1">20+</p>
-                      <p className="text-gray-500 text-sm font-medium uppercase tracking-wider">
-                        Projects
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-4xl font-bold text-white mb-1">15+</p>
-                      <p className="text-gray-500 text-sm font-medium uppercase tracking-wider">
-                        Happy Clients
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Tech Stack Section */}
-            <div className="bg-black/20 p-2 border-t border-white/5">
-              <h4 className="text-xl font-bold text-white mb-8 text-center">
-                Technical Arsenal
-              </h4>
-              <div
-                ref={skillsRef}
-                className="grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-5 gap-6"
-              >
-                {skills.map((skill, index) => (
-                  <div
-                    key={skill.name}
-                    className="group flex flex-col items-center justify-center p-4 rounded-0 bg-white/5 border border-white/5 transition-all duration-300 hover:bg-white/10 hover:border-cyan-500/30 hover:-translate-y-1 relative"
-                  >
-                    <div className="mb-3 transform group-hover:scale-110 transition-transform duration-300 drop-shadow-lg">
-                      {skill.icon}
-                    </div>
-                    <span className="text-xs font-medium text-white transition-colors">
-                      {skill.name}
-                    </span>
-                  </div>
-                ))}
-              </div>
+          <div className="p-1 border border-white/10 inline-block mb-8">
+            <div className="w-32 h-32 bg-[#111] flex items-center justify-center border border-white/5 relative overflow-hidden group">
+              {/* Scanline */}
+              <div className="absolute inset-0 bg-scanline opacity-20 pointer-events-none"></div>
+              <span className="text-4xl font-bold text-gray-700 group-hover:text-white transition-colors">
+                MM
+              </span>
+              <div className="absolute bottom-1 right-1 w-3 h-3 bg-green-500 rounded-full border border-black"></div>
             </div>
           </div>
+
+          <div className="space-y-6 text-gray-400 leading-relaxed font-sans text-lg">
+            <p>
+              <strong className="text-white">Musa Musa Kannike</strong> is a
+              high-bandwidth Fullstack Engineer capable of designing complex
+              architectures and deploying them to production.
+            </p>
+            <p>
+              With a focus on <span className="text-white">Scalability</span>{" "}
+              and <span className="text-white">Performance</span>, the objective
+              is always to build systems that not only function but excel under
+              load. Currently expanding into AI/ML integrations to build smarter
+              interfaces.
+            </p>
+          </div>
+
+          <div className="mt-8 flex gap-4">
+            <a
+              href="/Musa Musa Kannike CV.pdf"
+              download
+              className="flex items-center gap-2 px-6 py-3 bg-white text-black font-bold text-sm uppercase hover:bg-[var(--color-toxic-green)] transition-colors"
+            >
+              Download Resume
+            </a>
+          </div>
+        </div>
+
+        {/* Right Col: Tech Arsenal (Terminal Style) */}
+        <div className="lg:pt-20">
+          <TerminalWindow title="musa-kannike:~/arsenal">
+            <div className="mb-4 text-gray-500 text-xs">
+              Last login: {new Date().toDateString()} on ttys001
+            </div>
+            <div className="mb-4">
+              <span className="text-green-500">➜</span>{" "}
+              <span className="text-blue-400">~</span>{" "}
+              <span className="text-yellow-300">list-skills --all</span>
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+              {skills.map((skill) => (
+                <div
+                  key={skill.name}
+                  className="flex items-center gap-2 p-2 hover:bg-white/5 transition-colors cursor-default"
+                >
+                  <span className="text-lg">{skill.icon}</span>
+                  <span className="text-xs text-gray-300">{skill.name}</span>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-6 mb-2">
+              <span className="text-green-500">➜</span>{" "}
+              <span className="text-blue-400">~</span>{" "}
+              <span className="text-yellow-300">echo $CURRENT_FOCUS</span>
+            </div>
+            <div className="text-gray-300 text-xs">
+              "Artificial Intelligence", "Large Language Models", "System
+              Architecture"
+            </div>
+
+            <div className="mt-4">
+              <span className="text-green-500">➜</span>{" "}
+              <span className="text-blue-400">~</span>{" "}
+              <motion.span
+                animate={{ opacity: [0, 1, 0] }}
+                transition={{ repeat: Infinity, duration: 1 }}
+                className="ml-2 w-2 h-4 bg-gray-400 inline-block align-middle"
+              />
+            </div>
+          </TerminalWindow>
         </div>
       </div>
     </section>

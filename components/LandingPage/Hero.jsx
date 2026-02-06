@@ -1,221 +1,178 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import Link from "next/link";
-import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { HiArrowDown } from "react-icons/hi";
-import gsap from "gsap";
+import TerminalWindow from "@/components/ui/TerminalWindow";
+import Link from "next/link";
+import Badge from "@/components/ui/Badge";
 
 const Hero = () => {
-  const containerRef = useRef(null);
-  const nameRef = useRef(null);
-  const titleRef = useRef(null);
-  const descRef = useRef(null);
-  const buttonsRef = useRef(null);
-  const socialRef = useRef(null);
-  const decorativeRef = useRef(null);
+  const [roleIndex, setRoleIndex] = useState(0);
+  const roles = ["Fullstack Engineer", "AI Architect", "Technical Specialist"];
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Timeline for initial load
-      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+    const interval = setInterval(() => {
+      setRoleIndex((prev) => (prev + 1) % roles.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
 
-      // Initial state hide
-      gsap.set(
-        [
-          nameRef.current,
-          titleRef.current,
-          descRef.current,
-          buttonsRef.current,
-          socialRef.current,
-        ],
-        {
-          opacity: 0,
-          y: 50,
-        },
+  // Time Indicator
+  const [time, setTime] = useState("");
+  useEffect(() => {
+    const updateTime = () => {
+      const now = new Date();
+      setTime(
+        now.toLocaleTimeString("en-GB", {
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+          timeZone: "Africa/Lagos",
+        }),
       );
-
-      // Decorative background elements animation
-      gsap.to(".orb", {
-        y: "random(-50, 50)",
-        x: "random(-50, 50)",
-        scale: "random(0.8, 1.2)",
-        duration: "random(3, 5)",
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut",
-        stagger: 1,
-      });
-
-      // Main Content Animation
-      tl.to(nameRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 1.2,
-        delay: 0.2,
-      })
-        .to(
-          titleRef.current,
-          {
-            opacity: 1,
-            y: 0,
-            duration: 1,
-          },
-          "-=0.8",
-        )
-        .to(
-          descRef.current,
-          {
-            opacity: 1,
-            y: 0,
-            duration: 1,
-          },
-          "-=0.8",
-        )
-        .to(
-          buttonsRef.current,
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-          },
-          "-=0.6",
-        )
-        .to(
-          socialRef.current,
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-          },
-          "-=0.6",
-        );
-    }, containerRef);
-
-    return () => ctx.revert();
+    };
+    updateTime();
+    const interval = setInterval(updateTime, 1000);
+    return () => clearInterval(interval);
   }, []);
 
   return (
-    <div
-      ref={containerRef}
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#0a0a0a]"
-    >
-      {/* Dynamic Background */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Grid Pattern with fade mask */}
-        <div
-          className="absolute inset-0 opacity-[0.15]"
-          style={{
-            backgroundImage:
-              "linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)",
-            backgroundSize: "40px 40px",
-            maskImage:
-              "radial-gradient(circle at center, black 40%, transparent 100%)",
-          }}
-        ></div>
+    <section className="relative min-h-[95vh] flex flex-col justify-center overflow-hidden pt-20">
+      {/* Background Grid - CSS handled in globals or local */}
+      <div className="absolute inset-0 z-0 bg-grid-pattern opacity-20 pointer-events-none" />
+      <div className="absolute inset-0 z-0 bg-gradient-to-b from-transparent via-transparent to-[#0A0A0A] pointer-events-none" />
 
-        {/* Animated Orbs */}
-        <div ref={decorativeRef}>
-          <div className="orb absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[100px] mix-blend-screen" />
-          <div className="orb absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-blue-600/10 rounded-full blur-[100px] mix-blend-screen" />
-          {/* <div className="orb absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-500/10 rounded-full blur-[120px] mix-blend-screen" /> */}
-        </div>
-      </div>
-
-      {/* Main content */}
-      <div className="relative z-10 text-center px-6 max-w-6xl mx-auto">
-        {/* Greeting - Subtle */}
-        <p className="text-sm md:text-base font-medium tracking-[0.2em] text-gray-400 uppercase mb-6">
-          I AM
-        </p>
-
-        {/* Name - Massive & Bold */}
-        <div ref={nameRef} className="mb-6 mix-blend-lighten">
-          <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-gray-300 tracking-tighter leading-none">
-            MUSA MUSA
-          </h1>
-          <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black text-transparent bg-clip-text bg-gradient-to-b from-gray-300 via-gray-400 to-gray-500 tracking-tighter leading-none mt-[-0.2em]">
-            KANNIKE
-          </h1>
-        </div>
-
-        {/* Title - Clean & Sharp */}
-        <h2
-          ref={titleRef}
-          className="hidden md:block text-2xl md:text-3xl font-light text-gray-300 mb-8 max-w-3xl mx-auto"
-        >
-          <span className="font-semibold text-white">Fullstack Developer</span>{" "}
-          specialized in building exceptional digital experiences.
-        </h2>
-
-        {/* Description - Readable & Contrast */}
-        <p
-          ref={descRef}
-          className="text-lg text-gray-400 mb-12 max-w-2xl mx-auto leading-relaxed"
-        >
-          Transforming ideas into reality with{" "}
-          <span className="font-semibold text-white">React</span>,{" "}
-          <span className="font-semibold text-white">Next.js</span>, and{" "}
-          <span className="font-semibold text-white">Node.js</span>. I build
-          scalable, accessible, and performant web applications.
-        </p>
-
-        {/* CTA Buttons - Interactive */}
-        <div
-          ref={buttonsRef}
-          className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16"
-        >
-          <Link
-            href="#projects"
-            className="group relative px-8 py-4 bg-white text-black font-bold rounded-0 overflow-hidden transition-transform hover:scale-105 active:scale-95"
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-blue-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            <span className="relative z-10 flex items-center gap-2 group-hover:text-white transition-colors duration-300">
-              View My Work
-              <HiArrowDown className="group-hover:rotate-[-90deg] transition-transform duration-300" />
+      <div className="container mx-auto px-6 relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        {/* Left Column: Typography & Info */}
+        <div className="lg:col-span-7 flex flex-col justify-center">
+          <div className="mb-6 flex items-center gap-4">
+            <Badge variant="accent">AVAILABLE FOR HIRE</Badge>
+            <span className="font-mono text-xs text-gray-500">
+              LAGOS, NG [UTC+1] — {time}
             </span>
-          </Link>
-          <Link
-            href="#contact"
-            className="group px-8 py-4 border border-white/20 text-white font-medium rounded-0 hover:bg-white/10 transition-all duration-300 hover:border-white/50"
-          >
-            Contact Me
-          </Link>
+          </div>
+
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter mb-4 leading-none">
+            MUSA <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-500 to-white">
+              KANNIKE.
+            </span>
+          </h1>
+
+          <div className="h-8 mb-8 overflow-hidden">
+            <AnimatePresence mode="wait">
+              <motion.p
+                key={roleIndex}
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: -20, opacity: 0 }}
+                className="text-xl md:text-2xl font-mono text-[var(--color-toxic-green)]"
+              >
+                {">"} {roles[roleIndex]}_
+              </motion.p>
+            </AnimatePresence>
+          </div>
+
+          <p className="max-w-xl text-gray-400 leading-relaxed mb-10 border-l mb:border-l-2 border-white/10 pl-4 md:pl-6 text-sm md:text-base">
+            Building high-density engineering solutions. Specializing in
+            scalability, AI integrations, and industrial-grade web architecture.
+            Currently transforming ideas directly into deployed systems.
+          </p>
+
+          <div className="flex flex-wrap gap-6">
+            <Link
+              href="#projects"
+              className="group relative px-6 py-3 bg-white text-black font-mono font-bold text-sm uppercase tracking-wide hover:bg-[var(--color-toxic-green)] transition-colors duration-300"
+            >
+              Explore Modules
+            </Link>
+            <Link
+              href="#contact"
+              className="px-6 py-3 border border-white/20 text-white font-mono text-sm uppercase tracking-wide hover:bg-white/5 transition-colors duration-300"
+            >
+              Initiate Contact
+            </Link>
+          </div>
         </div>
 
-        {/* Social Links - Minimalist */}
-        <div ref={socialRef} className="flex justify-center gap-8">
-          {[
-            {
-              Icon: FaGithub,
-              href: "https://github.com/musamusakannike",
-              label: "GitHub",
-            },
-            {
-              Icon: FaTwitter,
-              href: "https://twitter.com/musa_codes",
-              label: "Twitter",
-            },
-            {
-              Icon: FaLinkedin,
-              href: "https://linkedin.com",
-              label: "LinkedIn",
-            }, // Add LinkedIn if available or remove
-          ].map(({ Icon, href, label }, i) => (
-            <a
-              key={i}
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={label}
-              className="text-gray-500 hover:text-white hover:scale-110 transition-all duration-300"
-            >
-              <Icon size={28} />
-            </a>
-          ))}
+        {/* Right Column: Terminal Visualization */}
+        <div className="lg:col-span-5 hidden lg:block">
+          <TerminalWindow title="musa-kannike:~/about">
+            <div className="space-y-4">
+              <div className="flex gap-2">
+                <span className="text-green-500">➜</span>
+                <span className="text-blue-400">~</span>
+                <span className="text-gray-300">neofetch</span>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4 text-xs font-mono">
+                <div className="text-[var(--color-toxic-green)] whitespace-pre leading-tight">
+                  {`
+      /\\
+     /  \\
+    /    \\
+   /      \\
+  /________\\
+  |        |
+  |   __   |
+  |  |  |  |
+  |__|__|__|
+`}
+                </div>
+                <div className="space-y-1">
+                  <p>
+                    <span className="text-blue-400">User:</span> Musa Kannike
+                  </p>
+                  <p>
+                    <span className="text-blue-400">Role:</span> Fullstack Dev
+                  </p>
+                  <p>
+                    <span className="text-blue-400">Stack:</span> MERN, Next.js
+                  </p>
+                  <p>
+                    <span className="text-blue-400">Focus:</span> AI & Perf.
+                  </p>
+                  <p>
+                    <span className="text-blue-400">Status:</span> Coding...
+                  </p>
+
+                  <div className="flex gap-2 mt-2">
+                    <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                    <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                    <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
+                    <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-2">
+                <span className="text-green-500">➜</span>
+                <span className="text-blue-400">~</span>
+                <motion.span
+                  animate={{ opacity: [0, 1, 0] }}
+                  transition={{ repeat: Infinity, duration: 1 }}
+                  className="ml-2 w-2 h-4 bg-gray-400 inline-block align-middle"
+                />
+              </div>
+            </div>
+          </TerminalWindow>
         </div>
       </div>
-    </div>
+
+      {/* Footer Scroll Indication */}
+      <motion.div
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50"
+        animate={{ y: [0, 10, 0] }}
+        transition={{ duration: 2, repeat: Infinity }}
+      >
+        <span className="text-[10px] uppercase tracking-[0.2em] font-mono">
+          Scroll for logs
+        </span>
+        <HiArrowDown />
+      </motion.div>
+    </section>
   );
 };
 

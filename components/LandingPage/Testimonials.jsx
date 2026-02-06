@@ -1,142 +1,94 @@
 "use client";
 
-import { useRef, useEffect } from "react";
-import { ScrollMenu } from "react-horizontal-scrolling-menu";
-import { FaQuoteLeft, FaStar } from "react-icons/fa";
-import "react-horizontal-scrolling-menu/dist/styles.css";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
+import { useRef } from "react";
+import { FaQuoteLeft, FaCheckCircle, FaStar } from "react-icons/fa";
+import { motion } from "framer-motion";
 
 const Testimonials = () => {
-  const containerRef = useRef(null);
-
   const testimonials = [
     {
       name: "Jimoh Abdullah",
-      role: "Co-founder",
-      company: "Synapse AI",
+      role: "Co-founder @ Synapse AI",
       feedback:
         "Musa is an exceptional developer with a keen eye for detail. His ability to translate complex requirements into elegant code is truly impressive.",
-      rating: 5,
+      verified: true,
     },
     {
       name: "Ibrahim Mubaraq",
-      role: "Co-founder",
-      company: "Synapse AI",
+      role: "Co-founder @ Synapse AI",
       feedback:
         "Working with Musa was a game-changer for our project. His technical skills and problem-solving abilities are top-notch.",
-      rating: 5,
+      verified: true,
     },
     {
       name: "Abdulrahman Habeeb",
-      role: "CEO",
-      company: "360gadgetsafrica",
+      role: "CEO @ 360gadgetsafrica",
       feedback:
         "I hired Musa for a complex web application, and he delivered beyond my expectations. His communication and project management skills are excellent.",
-      rating: 5,
+      verified: true,
     },
   ];
-
-  useEffect(() => {
-    let ctx = gsap.context(() => {
-      gsap.fromTo(
-        containerRef.current.children,
-        { y: 50, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1,
-          stagger: 0.2,
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: "top 70%",
-          },
-        },
-      );
-    }, containerRef);
-
-    return () => ctx.revert();
-  }, []);
 
   return (
     <section
       id="testimonials"
-      ref={containerRef}
-      className="relative py-32 overflow-hidden bg-[#0d0d0d]"
+      className="py-24 bg-[#0A0A0A] relative border-t border-white/5 font-mono"
     >
-      {/* Background pattern */}
-      <div className="absolute inset-0 pointer-events-none opacity-30">
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 1px 1px, rgba(255,255,255,0.03) 1px, transparent 0)",
-            backgroundSize: "40px 40px",
-          }}
-        ></div>
-      </div>
-
-      <div className="relative container mx-auto px-6 sm:px-8 lg:px-16 z-10">
-        {/* Section Header */}
-        <div className="text-center mb-20">
-          <p className="text-cyan-400 font-medium tracking-[0.2em] uppercase text-sm mb-4">
-            Testimonials
-          </p>
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6">
-            What People Say
+      <div className="container mx-auto px-6">
+        <div className="mb-12 text-center">
+          <span className="text-[var(--color-toxic-green)] text-sm mb-2 block">
+            04. AUDITS
+          </span>
+          <h2 className="text-3xl font-black text-white">
+            TESTIMONIALS
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-cyan-500 to-blue-600 mx-auto rounded-full" />
         </div>
 
-        {/* Testimonials Carousel */}
-        <div>
-          <ScrollMenu>
-            {testimonials.concat(testimonials).map((testimonial, index) => (
-              <div
-                key={index}
-                className="flex-shrink-0 w-[400px] bg-neutral-900/50 backdrop-blur-md border border-white/5 rounded-0 p-10 mx-4 transition-all duration-300 hover:border-cyan-500/30 hover:shadow-2xl hover:shadow-cyan-900/10 group"
-              >
-                {/* Quote Icon */}
-                <div className="w-14 h-14 rounded-0 bg-cyan-500/10 flex items-center justify-center mb-8">
-                  <FaQuoteLeft className="text-cyan-400 text-xl" />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {testimonials.map((t, i) => (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ delay: i * 0.1 }}
+              viewport={{ once: true }}
+              key={i}
+              className="bg-[#111] p-6 border border-white/10 relative group hover:border-[var(--color-toxic-green)]/30 transition-all"
+            >
+              <div className="flex justify-between items-start mb-4">
+                <div className="flex gap-1 text-[var(--color-toxic-green)] text-xs">
+                  <FaStar />
+                  <FaStar />
+                  <FaStar />
+                  <FaStar />
+                  <FaStar />
                 </div>
+                {t.verified && (
+                  <div className="flex items-center gap-1 text-xs text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded-full border border-blue-500/20">
+                    <FaCheckCircle size={10} />
+                    <span>VERIFIED_HASH</span>
+                  </div>
+                )}
+              </div>
 
-                {/* Rating */}
-                <div className="flex gap-1 mb-6">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <FaStar key={i} className="text-cyan-500 text-sm" />
-                  ))}
+              <p className="text-gray-400 text-sm mb-6 leading-relaxed italic relative z-10">
+                &quot;{t.feedback}&quot;
+              </p>
+
+              <div className="flex items-center gap-3 pt-4 border-t border-white/5">
+                <div className="w-8 h-8 bg-gradient-to-br from-gray-700 to-gray-800 rounded-sm flex items-center justify-center text-white font-bold text-xs ring-1 ring-white/10">
+                  {t.name.charAt(0)}
                 </div>
-
-                {/* Feedback */}
-                <p className="text-gray-300 leading-relaxed mb-8 text-base italic">
-                  &quot;{testimonial.feedback}&quot;
-                </p>
-
-                {/* Author */}
-                <div className="flex items-center pt-8 border-t border-white/5">
-                  <div className="w-12 h-12 bg-gradient-to-br from-cyan-400 to-blue-600 rounded-0 flex items-center justify-center text-white font-bold text-lg shadow-lg">
-                    {testimonial.name.charAt(0)}
-                  </div>
-                  <div className="ml-4">
-                    <h3 className="text-white font-bold text-lg group-hover:text-cyan-400 transition-colors">
-                      {testimonial.name}
-                    </h3>
-                    <p className="text-cyan-400 text-sm font-medium">
-                      {testimonial.role}
-                    </p>
-                    {testimonial.company && (
-                      <p className="text-gray-500 text-xs uppercase tracking-wider mt-1">
-                        {testimonial.company}
-                      </p>
-                    )}
-                  </div>
+                <div>
+                  <p className="text-white text-sm font-bold">{t.name}</p>
+                  <p className="text-gray-600 text-xs">{t.role}</p>
                 </div>
               </div>
-            ))}
-          </ScrollMenu>
+
+              {/* Decorative Corner */}
+              <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-white/20 group-hover:border-[var(--color-toxic-green)] transition-colors"></div>
+              <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-white/20 group-hover:border-[var(--color-toxic-green)] transition-colors"></div>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>

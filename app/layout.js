@@ -1,4 +1,4 @@
-import { Geist, Geist_Mono, Poppins } from "next/font/google";
+import { Geist, Geist_Mono, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -11,22 +11,21 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const poppins = Poppins({
-  variable: "--font-poppins",
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
   subsets: ["latin"],
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
 export const metadata = {
-  title: "Musa Musa K",
-  description: "Portfolio page of Musa Musa Kannike, MERN Stack web devloper.",
+  title: "Musa Musa Kannike | Fullstack Engineer",
+  description: "High-density engineering portfolio of Musa Musa Kannike. Specialized in Fullstack Development and AI Architectures.",
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${poppins.className} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${jetbrainsMono.variable} antialiased bg-[#0A0A0A] text-white selection:bg-[#ADFF2F] selection:text-[#0A0A0A]`}
       >
         {children}
       </body>
