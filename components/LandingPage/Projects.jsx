@@ -97,7 +97,7 @@ const Projects = () => {
       role: "Sole Developer",
       image: synapseImg,
       links: {
-        website: "https://synapsebot.vercel.app",
+        website: "https://synapse.codiac.online",
         github: {
           frontend:
             "https://github.com/musamusakannike/synapse/tree/main/frontend",
