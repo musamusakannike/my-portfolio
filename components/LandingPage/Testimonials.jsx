@@ -37,11 +37,9 @@ const Testimonials = () => {
       <div className="container mx-auto px-6">
         <div className="mb-12 text-center">
           <span className="text-[var(--color-toxic-green)] text-sm mb-2 block">
-            04. AUDITS
+            04. CLIENT FEEDBACK
           </span>
-          <h2 className="text-3xl font-black text-white">
-            TESTIMONIALS
-          </h2>
+          <h2 className="text-3xl font-black text-white">TESTIMONIALS</h2>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -65,7 +63,7 @@ const Testimonials = () => {
                 {t.verified && (
                   <div className="flex items-center gap-1 text-xs text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded-full border border-blue-500/20">
                     <FaCheckCircle size={10} />
-                    <span>VERIFIED_HASH</span>
+                    <span>Verified</span>
                   </div>
                 )}
               </div>

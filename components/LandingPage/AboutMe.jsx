@@ -52,9 +52,9 @@ const AboutMe = () => {
         <div>
           <div className="mb-12">
             <span className="text-[var(--color-toxic-green)] text-sm mb-2 block">
-              01. IDENTITY
+              01. ABOUT ME
             </span>
-            <h2 className="text-4xl font-black text-white">OPERATOR_PROFILE</h2>
+            <h2 className="text-4xl font-black text-white">WHO I AM</h2>
           </div>
 
           <div className="p-1 border border-white/10 inline-block mb-8">
@@ -71,15 +71,13 @@ const AboutMe = () => {
           <div className="space-y-6 text-gray-400 leading-relaxed font-sans text-lg">
             <p>
               <strong className="text-white">Musa Musa Kannike</strong> is a
-              high-bandwidth Fullstack Engineer capable of designing complex
-              architectures and deploying them to production.
+              passionate Fullstack Engineer focused on building robust and
+              user-friendly applications.
             </p>
             <p>
-              With a focus on <span className="text-white">Scalability</span>{" "}
-              and <span className="text-white">Performance</span>, the objective
-              is always to build systems that not only function but excel under
-              load. Currently expanding into AI/ML integrations to build smarter
-              interfaces.
+              I focus on creating seamless experiences. My goal is to build
+              software that is both powerful and easy to use. I am currently
+              exploring AI to make applications smarter.
             </p>
           </div>
 
@@ -96,14 +94,14 @@ const AboutMe = () => {
 
         {/* Right Col: Tech Arsenal (Terminal Style) */}
         <div className="lg:pt-20">
-          <TerminalWindow title="musa-kannike:~/arsenal">
+          <TerminalWindow title="musa-kannike:~/skills">
             <div className="mb-4 text-gray-500 text-xs">
               Last login: {new Date().toDateString()} on ttys001
             </div>
             <div className="mb-4">
               <span className="text-green-500">➜</span>{" "}
               <span className="text-blue-400">~</span>{" "}
-              <span className="text-yellow-300">list-skills --all</span>
+              <span className="text-yellow-300">list-skills</span>
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">

@@ -33,7 +33,7 @@ const Footer = () => {
             </Link>
             <p className="text-gray-500 text-sm max-w-sm mb-6">
               Deployed from Lagos, Nigeria. <br />
-              Executing high-level logic in web architecture and AI systems.
+              Building high-quality web applications and AI systems.
             </p>
             <div className="flex gap-4">
               <a
@@ -67,14 +67,14 @@ const Footer = () => {
           </div>
 
           <div className="col-span-1">
-            <h4 className="text-white font-bold mb-4 text-sm">/NAVIGATION</h4>
+            <h4 className="text-white font-bold mb-4 text-sm">NAVIGATION</h4>
             <ul className="space-y-2 text-xs text-gray-400">
               <li>
                 <Link
                   href="#about"
                   className="hover:text-[var(--color-toxic-green)]"
                 >
-                  [01] Identity
+                  About Me
                 </Link>
               </li>
               <li>
@@ -82,7 +82,7 @@ const Footer = () => {
                   href="#projects"
                   className="hover:text-[var(--color-toxic-green)]"
                 >
-                  [02] Modules
+                  Projects
                 </Link>
               </li>
               <li>
@@ -90,7 +90,7 @@ const Footer = () => {
                   href="#experience"
                   className="hover:text-[var(--color-toxic-green)]"
                 >
-                  [03] Logs
+                  Experience
                 </Link>
               </li>
               <li>
@@ -98,7 +98,7 @@ const Footer = () => {
                   href="#testimonials"
                   className="hover:text-[var(--color-toxic-green)]"
                 >
-                  [04] Audits
+                  Testimonials
                 </Link>
               </li>
             </ul>
@@ -110,7 +110,7 @@ const Footer = () => {
                 onClick={scrollToTop}
                 className="inline-flex items-center gap-2 text-xs text-[var(--color-toxic-green)] hover:underline"
               >
-                RETURN_TO_ROOT <FaArrowUp />
+                Back to Top <FaArrowUp />
               </button>
             </div>
           </div>

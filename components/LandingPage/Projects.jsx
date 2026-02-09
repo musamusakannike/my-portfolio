@@ -31,7 +31,7 @@ const Projects = () => {
       title: "Terrachow",
       category: "Mobile App",
       description:
-        "B2C food logistics platform connecting consumers with vendors. Features real-time tracking, secure payments, and delivery coordination.",
+        "A food delivery platform connecting users with local vendors. Features real-time tracking, secure payments, and easy delivery management.",
       tags: ["React Native", "Node.js", "MongoDB"],
       role: "Team Member",
       image: terrachowImg,
@@ -47,7 +47,7 @@ const Projects = () => {
       title: "360GadgetsAfrica",
       category: "E-Commerce",
       description:
-        "Comprehensive e-commerce & VTU platform. Finserv solution for airtime/data and gadget retail.",
+        "A complete e-commerce platform for gadgets and digital services. Buy airtime, data, and the latest tech with ease.",
       tags: ["React", "React Native", "Node.js"],
       role: "Team Member",
       isPrivate: true,
@@ -63,7 +63,7 @@ const Projects = () => {
       title: "LamatFikr",
       category: "Social Platform",
       description:
-        "International social site with built-in marketplace. Features real-time chat, feeds, and commerce.",
+        "A global social network with a built-in marketplace. Connects people through chats, feeds, and online shopping.",
       tags: ["Node.js", "MongoDB", "GetStream", "Next.js"],
       role: "Team Member",
       image: lamatfikrImg,
@@ -76,7 +76,7 @@ const Projects = () => {
       title: "GlamConnect",
       category: "Service Marketplace",
       description:
-        "Beauty industry connection platform for artists, models, and clients. End-to-end booking and showcase system.",
+        "A platform connecting beauty professionals with clients. Simplifies booking, portfolio showcasing, and payments.",
       tags: ["Next.js", "Flutter", "Node.js"],
       role: "Team Member",
       image: glamconnectImg,
@@ -92,7 +92,7 @@ const Projects = () => {
       title: "Synapse AI",
       category: "AI/ML",
       description:
-        "Intelligent learning assistant powered by Gemini API. Conversational AI for personalized study support.",
+        "A smart learning assistant powered by AI. Helps users study better through personalized conversations.",
       tags: ["React", "Gemini API", "React Native"],
       role: "Sole Developer",
       image: synapseImg,
@@ -110,7 +110,7 @@ const Projects = () => {
       title: "Swiftrates",
       category: "Fintech",
       description:
-        "Dynamic currency converter with live market data. Custom logic for precision conversion.",
+        "A fast currency converter with live market rates. Provides accurate and up-to-date exchange information.",
       tags: ["React Native", "NativeWind", "REST API"],
       role: "Developer",
       image: swiftratesImg,
@@ -126,7 +126,7 @@ const Projects = () => {
       title: "Proffyemphy",
       category: "E-Learning",
       description:
-        "Learning platform for Nigerian students. Video lessons, tests, and tracking. Cross-platform support.",
+        "An e-learning platform for students. Offers video lessons, practice tests, and progress tracking across devices.",
       tags: ["Next.js", "Electron", "React Native"],
       role: "Developer",
       image: proffyemphyImg,
@@ -143,7 +143,7 @@ const Projects = () => {
       title: "TaasHAM",
       category: "Freelance",
       description:
-        "Saudi-based freelance marketplace for event planners. Bidding, payments, and reviews.",
+        "A freelance marketplace for event planners. Features project bidding, secure payments, and user reviews.",
       tags: ["Next.js", "Payment Gateway", "Arabic RTL"],
       role: "Team Member",
       image: taashamImg,
@@ -157,7 +157,7 @@ const Projects = () => {
       title: "AI Word Processor",
       category: "AI Tool",
       description:
-        "Generates DOCX files from prompt using Gemini 1.5 Flash. Executes Python code to build documents.",
+        "Creates Word documents from text prompts using AI. Automates document creation and formatting.",
       tags: ["Next.js", "Python", "Fast API", "Gemini API"],
       role: "Sole Developer",
       image: aiWordProcessorImg,
@@ -183,19 +183,19 @@ const Projects = () => {
         <div className="flex flex-col md:flex-row justify-between items-end mb-16 border-b border-white/10 pb-8">
           <div>
             <span className="font-mono text-[var(--color-toxic-green)] text-sm mb-2 block">
-              02. SYSTEM MODULES
+              02. MY WORK
             </span>
             <h2 className="text-4xl md:text-5xl font-black text-white">
-              DEPLOYED
+              FEATURED
               <br />
               PROJECTS
             </h2>
           </div>
           <div className="mt-4 md:mt-0 max-w-sm text-right">
             <p className="text-gray-500 text-sm font-mono">
-              /index/projects/featured
+              Featured Projects
               <br />
-              Total Modules Loaded: {projects.length}
+              Total Projects: {projects.length}
             </p>
           </div>
         </div>

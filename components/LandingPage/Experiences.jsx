@@ -19,7 +19,7 @@ const Experiences = () => {
       location: "Remote",
       period: "Jan 2026 - Present",
       description:
-        "Engineering high-performance web and mobile applications for a global clientele. Architecting scalable full-stack solutions and converting complex requirements into deployed systems.",
+        "Building high-quality web and mobile apps for global clients. I create scalable solutions and turn requirements into working software.",
       skills: ["Next.js", "Express", "MongoDB", "React Native", "Redux"],
       type: "feat",
     },
@@ -31,7 +31,7 @@ const Experiences = () => {
       location: "Remote",
       period: "Oct 2024 - Present",
       description:
-        "backend architecture optimization. Designed RESTful APIs, optimized database queries, and implemented caching mechanisms for high-traffic commerce systems.",
+        "Improved backend systems. Designed APIs, optimized databases, and made high-traffic online stores faster and more reliable.",
       skills: ["Node.js", "Express", "MongoDB", "REST API"],
       type: "refactor",
     },
@@ -43,7 +43,7 @@ const Experiences = () => {
       location: "Remote",
       period: "Jan 2024 - Oct 2024",
       description:
-        "Mobile application development and maintenance. Implemented new feature sets for logistics tracking and user management systems.",
+        "Built and maintained mobile apps. added new features for tracking deliveries and managing users.",
       skills: ["React Native", "TypeScript", "Redux"],
       type: "fix",
     },
@@ -55,7 +55,7 @@ const Experiences = () => {
       location: "Remote",
       period: "Jan 2022 - Present",
       description:
-        "Full lifecycle development for SMB clients. Managed client requirements, design, development, and deployment of custom web solutions.",
+        "Complete development for small businesses. I handle everything from planning and design to building and launching custom websites.",
       skills: ["Next.js", "Tailwind CSS", "Node.js", "MongoDB"],
       type: "init",
     },
@@ -70,7 +70,7 @@ const Experiences = () => {
         {/* Header */}
         <div className="mb-16">
           <span className="text-[var(--color-toxic-green)] text-sm mb-2 block">
-            03. LOGS
+            03. CAREER
           </span>
           <h2 className="text-4xl font-black text-white">EXPERIENCE</h2>
         </div>

@@ -75,9 +75,9 @@ const Hero = () => {
           </div>
 
           <p className="max-w-xl text-gray-400 leading-relaxed mb-10 border-l mb:border-l-2 border-white/10 pl-4 md:pl-6 text-sm md:text-base">
-            Building high-density engineering solutions. Specializing in
-            scalability, AI integrations, and industrial-grade web architecture.
-            Currently transforming ideas directly into deployed systems.
+            I build high-quality web and mobile applications. Specializing in
+            scalable systems and AI solutions, I turn complex ideas into
+            reality.
           </p>
 
           <div className="flex flex-wrap gap-6">
@@ -85,13 +85,13 @@ const Hero = () => {
               href="#projects"
               className="group relative px-6 py-3 bg-white text-black font-mono font-bold text-sm uppercase tracking-wide hover:bg-[var(--color-toxic-green)] transition-colors duration-300"
             >
-              Explore Modules
+              View Projects
             </Link>
             <Link
               href="#contact"
               className="px-6 py-3 border border-white/20 text-white font-mono text-sm uppercase tracking-wide hover:bg-white/5 transition-colors duration-300"
             >
-              Initiate Contact
+              Contact Me
             </Link>
           </div>
         </div>
@@ -131,7 +131,7 @@ const Hero = () => {
                     <span className="text-blue-400">Stack:</span> MERN, Next.js
                   </p>
                   <p>
-                    <span className="text-blue-400">Focus:</span> AI & Perf.
+                    <span className="text-blue-400">Focus:</span> AI & Web
                   </p>
                   <p>
                     <span className="text-blue-400">Status:</span> Coding...
@@ -168,7 +168,7 @@ const Hero = () => {
         transition={{ duration: 2, repeat: Infinity }}
       >
         <span className="text-[10px] uppercase tracking-[0.2em] font-mono">
-          Scroll for logs
+          Scroll down
         </span>
         <HiArrowDown />
       </motion.div>
