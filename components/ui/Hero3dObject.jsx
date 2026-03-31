@@ -3,326 +3,286 @@
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 
-const Hero3DObject = ({ variant = "object", className = "", style }) => {
+// ─────────────────────────────────────────────────────────
+// VARIANT 1 — STACKED DISCS (Jeton-inspired)
+// ─────────────────────────────────────────────────────────
+function buildStackedDiscs(scene) {
+  const group = new THREE.Group();
+  scene.add(group);
+
+  const discCount = 9;
+  const discs = [];
+
+  const colors = [
+    0xe05c5c, 0xd96b68, 0xcf7a72, 0xca897a, 0xca9280,
+    0xd09c88, 0xd8a494, 0xe0afa2, 0xe8bdb0,
+  ];
+
+  for (let i = 0; i < discCount; i++) {
+    const radius = 1.15 - i * 0.022;
+    const geo = new THREE.CylinderGeometry(radius, radius, 0.14, 72);
+    const mat = new THREE.MeshStandardMaterial({
+      color: colors[i],
+      metalness: 0.3,
+      roughness: 0.3,
+    });
+    const disc = new THREE.Mesh(geo, mat);
+    disc.position.set(
+      Math.sin(i * 0.55) * 0.16,
+      -i * 0.38 + (discCount * 0.19),
+      Math.cos(i * 0.55) * 0.06,
+    );
+    disc.rotation.z = Math.sin(i * 0.38) * 0.07;
+    disc.castShadow = true;
+    disc.receiveShadow = true;
+    disc.userData = { baseY: disc.position.y, phase: i * 0.42 };
+    group.add(disc);
+    discs.push(disc);
+  }
+
+  const warm = new THREE.PointLight(0xff8055, 7, 18);
+  warm.position.set(3, 4, 3);
+  scene.add(warm);
+  scene.add(new THREE.PointLight(0xffd0a0, 4, 14, 0));
+  scene.add(new THREE.AmbientLight(0xffe8d8, 0.65));
+
+  let rafId;
+  const loop = (t) => {
+    rafId = requestAnimationFrame(loop);
+    const time = t * 0.001;
+    group.rotation.y = time * 0.28;
+    discs.forEach((d) => {
+      d.position.y =
+        d.userData.baseY + Math.sin(time * 1.1 + d.userData.phase) * 0.08;
+      d.rotation.z = Math.sin(time * 0.5 + d.userData.phase) * 0.055;
+    });
+    warm.position.x = Math.cos(time * 0.5) * 5;
+    warm.position.z = Math.sin(time * 0.5) * 5;
+  };
+  rafId = requestAnimationFrame(loop);
+  return () => cancelAnimationFrame(rafId);
+}
+
+// ─────────────────────────────────────────────────────────
+// VARIANT 2 — CHAIN LINKS (Sadewa-inspired)
+// ─────────────────────────────────────────────────────────
+function buildChainLinks(scene) {
+  scene.add(new THREE.AmbientLight(0xffffff, 0.45));
+
+  const key = new THREE.DirectionalLight(0xffffff, 3.5);
+  key.position.set(6, 8, 5);
+  key.castShadow = true;
+  scene.add(key);
+
+  const greenPt = new THREE.PointLight(0x88ff00, 6, 20);
+  greenPt.position.set(-3, 2, 4);
+  scene.add(greenPt);
+
+  const rim = new THREE.PointLight(0xccffaa, 2.5, 14);
+  rim.position.set(0, -4, -3);
+  scene.add(rim);
+
+  // Build a C-shaped bracket via tube along an arc
+  function makeBracket(
+    color,
+    emissive,
+    metalness,
+    roughness,
+    transmission,
+  ) {
+    const pts = [];
+    const segs = 48;
+    for (let i = 0; i <= segs; i++) {
+      const a = (i / segs) * Math.PI * 1.6 - Math.PI * 0.8;
+      pts.push(new THREE.Vector3(Math.cos(a) * 1.0, Math.sin(a) * 1.0, 0));
+    }
+    const curve = new THREE.CatmullRomCurve3(pts);
+    const geo = new THREE.TubeGeometry(curve, 64, 0.27, 20, false);
+    const mat = new THREE.MeshPhysicalMaterial({
+      color,
+      emissive,
+      emissiveIntensity: 0.1,
+      metalness,
+      roughness,
+      transparent: transmission > 0,
+      opacity: transmission > 0 ? 0.88 : 1.0,
+      transmission,
+      ior: 1.45,
+    });
+    return new THREE.Mesh(geo, mat);
+  }
+
+  const greenB = makeBracket(0x82e800, 0x3a8800, 0.25, 0.12, 0);
+  greenB.rotation.z = Math.PI / 2;
+  greenB.position.set(0, 0.2, 0);
+
+  const silverB = makeBracket(0x9eb3bf, 0x1a2a3a, 0.75, 0.08, 0.18);
+  silverB.rotation.x = Math.PI / 2;
+  silverB.position.set(0, -0.2, 0);
+
+  const group = new THREE.Group();
+  group.add(greenB, silverB);
+  scene.add(group);
+
+  let rafId;
+  const loop = (t) => {
+    rafId = requestAnimationFrame(loop);
+    const time = t * 0.001;
+    group.rotation.y = time * 0.32;
+    group.rotation.x = Math.sin(time * 0.38) * 0.2;
+    greenB.rotation.z = Math.PI / 2 + Math.sin(time * 0.55) * 0.14;
+    silverB.rotation.x = Math.PI / 2 + Math.sin(time * 0.45 + 1.2) * 0.12;
+    greenPt.position.x = Math.cos(time * 0.7) * 5;
+    greenPt.position.z = Math.sin(time * 0.7) * 5;
+  };
+  rafId = requestAnimationFrame(loop);
+  return () => cancelAnimationFrame(rafId);
+}
+
+// ─────────────────────────────────────────────────────────
+// VARIANT 3 — CUBE CLUSTER (Resend-inspired)
+// ─────────────────────────────────────────────────────────
+function buildCubeCluster(scene) {
+  scene.add(new THREE.AmbientLight(0xffffff, 0.07));
+
+  const key = new THREE.DirectionalLight(0xffffff, 2.8);
+  key.position.set(7, 9, 5);
+  key.castShadow = true;
+  scene.add(key);
+
+  const side = new THREE.PointLight(0x5577aa, 1.8, 22);
+  side.position.set(-6, 2, 2);
+  scene.add(side);
+
+  const under = new THREE.PointLight(0x223344, 1.2, 14);
+  under.position.set(0, -6, 0);
+  scene.add(under);
+
+  // Three material flavours — matte, semi-specular, almost-mirror
+  const mats = [
+    new THREE.MeshStandardMaterial({ color: 0x1c1c1c, metalness: 0.15, roughness: 0.92 }),
+    new THREE.MeshStandardMaterial({ color: 0x111111, metalness: 0.55, roughness: 0.35 }),
+    new THREE.MeshStandardMaterial({ color: 0x202020, metalness: 0.88, roughness: 0.12 }),
+  ];
+
+  const cubeSize = 0.68;
+  const gap = 0.065;
+  const step = cubeSize + gap;
+  const N = 3;
+
+  const entries = [];
+  const group = new THREE.Group();
+  scene.add(group);
+
+  let idx = 0;
+  for (let x = 0; x < N; x++) {
+    for (let y = 0; y < N; y++) {
+      for (let z = 0; z < N; z++) {
+        const geo = new THREE.BoxGeometry(cubeSize, cubeSize, cubeSize);
+        const mesh = new THREE.Mesh(geo, mats[idx % mats.length]);
+        mesh.castShadow = true;
+        mesh.receiveShadow = true;
+        const px = (x - 1) * step;
+        const py = (y - 1) * step;
+        const pz = (z - 1) * step;
+        mesh.position.set(px, py, pz);
+        entries.push({ mesh, base: new THREE.Vector3(px, py, pz), phase: idx * 0.44 });
+        group.add(mesh);
+        idx++;
+      }
+    }
+  }
+
+  let rafId;
+  const loop = (t) => {
+    rafId = requestAnimationFrame(loop);
+    const time = t * 0.001;
+    group.rotation.y = time * 0.2;
+    group.rotation.x = Math.sin(time * 0.17) * 0.16 + 0.28;
+    entries.forEach(({ mesh, base, phase }) => {
+      mesh.position.x = base.x + Math.sin(time * 0.75 + phase) * 0.016;
+      mesh.position.y = base.y + Math.sin(time * 0.6 + phase * 1.4) * 0.02;
+      mesh.position.z = base.z + Math.cos(time * 0.68 + phase) * 0.013;
+    });
+  };
+  rafId = requestAnimationFrame(loop);
+  return () => cancelAnimationFrame(rafId);
+}
+
+// ─────────────────────────────────────────────────────────
+// COMPONENT
+// ─────────────────────────────────────────────────────────
+const Hero3DObject = ({ variant = "stacked-discs" }) => {
   const mountRef = useRef(null);
 
   useEffect(() => {
-    if (!mountRef.current) return;
-
     const mount = mountRef.current;
-    const width = mount.clientWidth || 1;
-    const height = mount.clientHeight || 1;
+    if (!mount) return;
 
-    // ── Renderer ──────────────────────────────────────────────
+    const w = mount.clientWidth || 460;
+    const h = mount.clientHeight || 460;
+
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setSize(width, height);
+    renderer.setSize(w, h);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-    renderer.domElement.style.width = "100%";
-    renderer.domElement.style.height = "100%";
-    renderer.domElement.style.display = "block";
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
     mount.appendChild(renderer.domElement);
 
-    // ── Scene & Camera ────────────────────────────────────────
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
-    camera.position.set(0, 0, variant === "stars" ? 6 : 5);
 
-    const fitCameraToRings = (w, h) => {
-      if (variant === "stars") return;
-      const maxRadius = 2.65;
-      const aspect = (w || 1) / (h || 1);
-      const vFov = THREE.MathUtils.degToRad(camera.fov);
-      const hFov = 2 * Math.atan(Math.tan(vFov / 2) * aspect);
-      const minFov = Math.min(vFov, hFov);
-      const distance = maxRadius / Math.tan(minFov / 2);
-      camera.position.z = Math.max(distance + 0.6, 5);
-    };
+    const camZ =
+      variant === "cube-cluster" ? 6.8 : variant === "chain-links" ? 5.6 : 5.9;
+    const camera = new THREE.PerspectiveCamera(42, w / h, 0.1, 100);
+    camera.position.set(0, 0, camZ);
 
-    fitCameraToRings(width, height);
-
-    let ambientLight;
-    let keyLight;
-    let fillLight;
-    let rimLight;
-    let coreGeo;
-    let coreMat;
-    let core;
-    let wireGeo;
-    let wireMat;
-    let wire;
-    let shellGeo;
-    let shellMat;
-    let shell;
-    let shellWireGeo;
-    let shellWireMat;
-    let shellWire;
-    let satelliteGroup;
-    let cubeCount;
-    let cubes;
-    let ringGeo;
-    let ringMat;
-    let ring;
-    let ring2Geo;
-    let ring2Mat;
-    let ring2;
-
-    if (variant !== "stars") {
-      ambientLight = new THREE.AmbientLight(0xffffff, 0.15);
-      scene.add(ambientLight);
-
-      keyLight = new THREE.PointLight(0x39ff14, 8, 20);
-      keyLight.position.set(3, 3, 3);
-      scene.add(keyLight);
-
-      fillLight = new THREE.PointLight(0x4488ff, 4, 20);
-      fillLight.position.set(-3, -2, 2);
-      scene.add(fillLight);
-
-      rimLight = new THREE.PointLight(0xffffff, 3, 20);
-      rimLight.position.set(0, -3, -2);
-      scene.add(rimLight);
-
-      coreGeo = new THREE.IcosahedronGeometry(1, 1);
-      coreMat = new THREE.MeshStandardMaterial({
-        color: 0x0a0a0a,
-        metalness: 0.95,
-        roughness: 0.05,
-        envMapIntensity: 1,
-      });
-      core = new THREE.Mesh(coreGeo, coreMat);
-      core.castShadow = true;
-      scene.add(core);
-
-      wireGeo = new THREE.IcosahedronGeometry(1.01, 1);
-      wireMat = new THREE.MeshBasicMaterial({
-        color: 0x39ff14,
-        wireframe: true,
-        transparent: true,
-        opacity: 0.25,
-      });
-      wire = new THREE.Mesh(wireGeo, wireMat);
-      scene.add(wire);
-
-      shellGeo = new THREE.DodecahedronGeometry(1.6, 0);
-      shellMat = new THREE.MeshStandardMaterial({
-        color: 0x111111,
-        metalness: 0.9,
-        roughness: 0.1,
-        transparent: true,
-        opacity: 0.35,
-        side: THREE.BackSide,
-      });
-      shell = new THREE.Mesh(shellGeo, shellMat);
-      scene.add(shell);
-
-      shellWireGeo = new THREE.DodecahedronGeometry(1.62, 0);
-      shellWireMat = new THREE.MeshBasicMaterial({
-        color: 0x4488ff,
-        wireframe: true,
-        transparent: true,
-        opacity: 0.15,
-      });
-      shellWire = new THREE.Mesh(shellWireGeo, shellWireMat);
-      scene.add(shellWire);
-
-      satelliteGroup = new THREE.Group();
-      scene.add(satelliteGroup);
-
-      cubeCount = 8;
-      cubes = [];
-      for (let i = 0; i < cubeCount; i++) {
-        const size = 0.06 + Math.random() * 0.08;
-        const geo = new THREE.BoxGeometry(size, size, size);
-        const mat = new THREE.MeshStandardMaterial({
-          color: i % 2 === 0 ? 0x39ff14 : 0xffffff,
-          metalness: 0.8,
-          roughness: 0.2,
-          emissive: i % 2 === 0 ? 0x39ff14 : 0x224488,
-          emissiveIntensity: 0.6,
-        });
-        const cube = new THREE.Mesh(geo, mat);
-
-        const angle = (i / cubeCount) * Math.PI * 2;
-        const radius = 2.1 + Math.random() * 0.4;
-        const tilt = (Math.random() - 0.5) * 1.2;
-        cube.position.set(
-          Math.cos(angle) * radius,
-          tilt,
-          Math.sin(angle) * radius
-        );
-        cube.userData = {
-          angle,
-          radius,
-          tilt,
-          speed: 0.3 + Math.random() * 0.4,
-        };
-        satelliteGroup.add(cube);
-        cubes.push(cube);
-      }
-
-      ringGeo = new THREE.TorusGeometry(2.2, 0.008, 8, 120);
-      ringMat = new THREE.MeshBasicMaterial({
-        color: 0x39ff14,
-        transparent: true,
-        opacity: 0.3,
-      });
-      ring = new THREE.Mesh(ringGeo, ringMat);
-      ring.rotation.x = Math.PI / 2.5;
-      scene.add(ring);
-
-      ring2Geo = new THREE.TorusGeometry(2.5, 0.005, 8, 120);
-      ring2Mat = new THREE.MeshBasicMaterial({
-        color: 0x4488ff,
-        transparent: true,
-        opacity: 0.2,
-      });
-      ring2 = new THREE.Mesh(ring2Geo, ring2Mat);
-      ring2.rotation.x = Math.PI / 3;
-      ring2.rotation.z = Math.PI / 6;
-      scene.add(ring2);
-    }
-
-    // ── Particle field ────────────────────────────────────────
-    const particleCount = variant === "stars" ? 900 : 300;
-    const positions = new Float32Array(particleCount * 3);
-    for (let i = 0; i < particleCount; i++) {
-      const r = (variant === "stars" ? 4.2 : 2.8) + Math.random() * 1.8;
-      const theta = Math.random() * Math.PI * 2;
-      const phi = Math.acos(2 * Math.random() - 1);
-      positions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
-      positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
-      positions[i * 3 + 2] = r * Math.cos(phi);
-    }
-    const particleGeo = new THREE.BufferGeometry();
-    particleGeo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-    const particleMat = new THREE.PointsMaterial({
-      color: 0xffffff,
-      size: variant === "stars" ? 0.012 : 0.018,
-      transparent: true,
-      opacity: variant === "stars" ? 0.5 : 0.55,
-    });
-    const particles = new THREE.Points(particleGeo, particleMat);
-    scene.add(particles);
-
-    // ── Mouse tracking ────────────────────────────────────────
+    // Mouse parallax
     const mouse = { x: 0, y: 0 };
-    const handleMouseMove = (e) => {
-      if (variant === "stars") return;
-      const rect = mount.getBoundingClientRect();
-      mouse.x = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
-      mouse.y = -((e.clientY - rect.top) / rect.height - 0.5) * 2;
+    const onMove = (e) => {
+      const r = mount.getBoundingClientRect();
+      mouse.x = ((e.clientX - r.left) / r.width - 0.5) * 2;
+      mouse.y = -((e.clientY - r.top) / r.height - 0.5) * 2;
     };
-    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mousemove", onMove);
 
-    // ── Resize ────────────────────────────────────────────────
-    const handleResize = () => {
-      const w = mount.clientWidth;
-      const h = mount.clientHeight;
-      camera.aspect = w / h;
-      camera.updateProjectionMatrix();
-      fitCameraToRings(w, h);
-      renderer.setSize(w, h);
-    };
-    let resizeObserver;
-    if (typeof ResizeObserver !== "undefined") {
-      resizeObserver = new ResizeObserver(handleResize);
-      resizeObserver.observe(mount);
-    } else {
-      window.addEventListener("resize", handleResize);
-    }
+    // Build scene
+    let variantCleanup;
+    if (variant === "stacked-discs") variantCleanup = buildStackedDiscs(scene);
+    else if (variant === "chain-links") variantCleanup = buildChainLinks(scene);
+    else variantCleanup = buildCubeCluster(scene);
 
-    // ── Animation loop ────────────────────────────────────────
-    let animId;
-    const clock = new THREE.Clock();
-
-    const animate = () => {
-      animId = requestAnimationFrame(animate);
-      const t = clock.getElapsedTime();
-
-      if (variant !== "stars") {
-        core.rotation.x = t * 0.12 + mouse.y * 0.3;
-        core.rotation.y = t * 0.18 + mouse.x * 0.3;
-        wire.rotation.copy(core.rotation);
-
-        shell.rotation.x = -t * 0.07;
-        shell.rotation.y = t * 0.1;
-        shellWire.rotation.copy(shell.rotation);
-
-        ring.rotation.z = t * 0.08;
-        ring2.rotation.z = -t * 0.06;
-
-        cubes.forEach((cube, i) => {
-          const { radius, tilt, speed } = cube.userData;
-          const a = t * speed + (i / cubeCount) * Math.PI * 2;
-          cube.position.set(
-            Math.cos(a) * radius,
-            tilt + Math.sin(t * 0.5 + i) * 0.15,
-            Math.sin(a) * radius
-          );
-          cube.rotation.x = t * 0.8 + i;
-          cube.rotation.y = t * 0.6 + i;
-        });
-      }
-
-      // Particle slow spin
-      particles.rotation.y = t * 0.04;
-      particles.rotation.x = variant === "stars" ? t * 0.01 : t * 0.02;
-
-      // Light orbit
-      if (variant !== "stars") {
-        keyLight.position.x = Math.cos(t * 0.5) * 4;
-        keyLight.position.z = Math.sin(t * 0.5) * 4;
-        fillLight.position.x = Math.cos(t * 0.4 + Math.PI) * 3;
-        fillLight.position.z = Math.sin(t * 0.4 + Math.PI) * 3;
-
-        coreMat.emissive = new THREE.Color(0x39ff14);
-        coreMat.emissiveIntensity = 0.04 + Math.sin(t * 1.5) * 0.03;
-      }
-
+    // Render loop
+    let rafId;
+    const render = () => {
+      rafId = requestAnimationFrame(render);
+      camera.position.x += (mouse.x * 0.45 - camera.position.x) * 0.05;
+      camera.position.y += (mouse.y * 0.28 - camera.position.y) * 0.05;
+      camera.lookAt(scene.position);
       renderer.render(scene, camera);
     };
-    animate();
+    render();
+
+    const onResize = () => {
+      const nw = mount.clientWidth;
+      const nh = mount.clientHeight;
+      camera.aspect = nw / nh;
+      camera.updateProjectionMatrix();
+      renderer.setSize(nw, nh);
+    };
+    window.addEventListener("resize", onResize);
 
     return () => {
-      cancelAnimationFrame(animId);
-      window.removeEventListener("mousemove", handleMouseMove);
-      if (resizeObserver) {
-        resizeObserver.disconnect();
-      } else {
-        window.removeEventListener("resize", handleResize);
-      }
-      particleGeo.dispose();
-      particleMat.dispose();
-      if (variant !== "stars") {
-        coreGeo.dispose();
-        coreMat.dispose();
-        wireGeo.dispose();
-        wireMat.dispose();
-        shellGeo.dispose();
-        shellMat.dispose();
-        shellWireGeo.dispose();
-        shellWireMat.dispose();
-        ringGeo.dispose();
-        ringMat.dispose();
-        ring2Geo.dispose();
-        ring2Mat.dispose();
-      }
+      cancelAnimationFrame(rafId);
+      variantCleanup?.();
+      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("resize", onResize);
       renderer.dispose();
-      if (mount.contains(renderer.domElement)) {
-        mount.removeChild(renderer.domElement);
-      }
+      if (mount.contains(renderer.domElement)) mount.removeChild(renderer.domElement);
     };
-  }, []);
+  }, [variant]);
 
-  return (
-    <div
-      ref={mountRef}
-      className={className || "w-full h-full"}
-      style={{ cursor: variant === "stars" ? "default" : "none", ...style }}
-    />
-  );
+  return <div ref={mountRef} className="w-full h-full min-h-[420px]" />;
 };
 
 export default Hero3DObject;

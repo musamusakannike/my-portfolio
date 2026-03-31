@@ -12,10 +12,21 @@ const Hero3DObject = dynamic(() => import("@/components/ui/Hero3DObject"), {
   ssr: false,
   loading: () => (
     <div className="w-full h-full min-h-[420px] flex items-center justify-center">
-      <div className="w-2 h-8 bg-[var(--color-toxic-green)] animate-pulse" />
+      <motion.div
+        className="w-1.5 h-10 bg-[var(--color-toxic-green)]"
+        animate={{ scaleY: [1, 0.3, 1] }}
+        transition={{ repeat: Infinity, duration: 1 }}
+      />
     </div>
   ),
 });
+
+// ── Change this to switch variants ──────────────────────
+// "stacked-discs"  → warm floating coin stack  (Jeton-style)
+// "chain-links"    → interlocking C-brackets   (Sadewa-style)
+// "cube-cluster"   → dark Rubik-cube mass       (Resend-style)
+const HERO_3D_VARIANT = "stacked-discs";
+// ────────────────────────────────────────────────────────
 
 const Hero = () => {
   const [roleIndex, setRoleIndex] = useState(0);
@@ -28,13 +39,11 @@ const Hero = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // Time Indicator
   const [time, setTime] = useState("");
   useEffect(() => {
     const updateTime = () => {
-      const now = new Date();
       setTime(
-        now.toLocaleTimeString("en-GB", {
+        new Date().toLocaleTimeString("en-GB", {
           hour: "2-digit",
           minute: "2-digit",
           second: "2-digit",
@@ -49,22 +58,17 @@ const Hero = () => {
 
   return (
     <section className="relative min-h-[95vh] flex flex-col justify-center overflow-hidden pt-20">
-      {/* Background Grid */}
       <div className="absolute inset-0 z-0 bg-grid-pattern opacity-20 pointer-events-none" />
       <div className="absolute inset-0 z-0 bg-gradient-to-b from-transparent via-transparent to-[#0A0A0A] pointer-events-none" />
 
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        <Hero3DObject variant="stars" className="w-full h-full" />
-      </div>
-
       <div className="container mx-auto px-6 relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-        {/* Left Column: Typography & Info */}
+        {/* Left Column */}
         <div className="lg:col-span-7 flex flex-col justify-center">
           <div className="mb-6 flex items-center gap-4">
             <Badge variant="accent">AVAILABLE FOR HIRE</Badge>
-            {/* <span className="font-mono text-xs text-gray-500">
+            <span className="font-mono text-xs text-gray-500">
               LAGOS, NG [UTC+1] — {time}
-            </span> */}
+            </span>
           </div>
 
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter mb-4 leading-none">
@@ -88,16 +92,15 @@ const Hero = () => {
             </AnimatePresence>
           </div>
 
-          <p className="max-w-xl text-gray-400 leading-relaxed mb-10 border-l mb:border-l-2 border-white/10 pl-4 md:pl-6 text-sm md:text-base">
+          <p className="max-w-xl text-gray-400 leading-relaxed mb-10 border-l border-white/10 pl-4 md:pl-6 text-sm md:text-base">
             I build high-quality web and mobile applications. Specializing in
-            scalable systems and AI solutions, I turn complex ideas into
-            reality.
+            scalable systems and AI solutions, I turn complex ideas into reality.
           </p>
 
           <div className="flex flex-wrap gap-6">
             <Link
               href="#projects"
-              className="group relative px-6 py-3 bg-white text-black font-mono font-bold text-sm uppercase tracking-wide hover:bg-[var(--color-toxic-green)] transition-colors duration-300"
+              className="px-6 py-3 bg-white text-black font-mono font-bold text-sm uppercase tracking-wide hover:bg-[var(--color-toxic-green)] transition-colors duration-300"
             >
               View Projects
             </Link>
@@ -110,13 +113,15 @@ const Hero = () => {
           </div>
         </div>
 
-        {/* Right Column: 3D Object */}
-        <div className="lg:col-span-5 hidden lg:flex items-center justify-center" style={{ height: "480px" }}>
-          <Hero3DObject />
+        {/* Right Column — 3D Scene */}
+        <div
+          className="lg:col-span-5 hidden lg:flex items-center justify-center"
+          style={{ height: "480px" }}
+        >
+          <Hero3DObject variant={HERO_3D_VARIANT} />
         </div>
       </div>
 
-      {/* Footer Scroll Indication */}
       <motion.div
         className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50"
         animate={{ y: [0, 10, 0] }}
