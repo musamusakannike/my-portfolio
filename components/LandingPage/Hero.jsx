@@ -3,9 +3,19 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { HiArrowDown } from "react-icons/hi";
-import TerminalWindow from "@/components/ui/TerminalWindow";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import Badge from "@/components/ui/Badge";
+
+// Dynamically import to avoid SSR issues with Three.js
+const Hero3DObject = dynamic(() => import("@/components/ui/Hero3DObject"), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-full min-h-[420px] flex items-center justify-center">
+      <div className="w-2 h-8 bg-[var(--color-toxic-green)] animate-pulse" />
+    </div>
+  ),
+});
 
 const Hero = () => {
   const [roleIndex, setRoleIndex] = useState(0);
@@ -39,18 +49,22 @@ const Hero = () => {
 
   return (
     <section className="relative min-h-[95vh] flex flex-col justify-center overflow-hidden pt-20">
-      {/* Background Grid - CSS handled in globals or local */}
+      {/* Background Grid */}
       <div className="absolute inset-0 z-0 bg-grid-pattern opacity-20 pointer-events-none" />
       <div className="absolute inset-0 z-0 bg-gradient-to-b from-transparent via-transparent to-[#0A0A0A] pointer-events-none" />
+
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <Hero3DObject variant="stars" className="w-full h-full" />
+      </div>
 
       <div className="container mx-auto px-6 relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
         {/* Left Column: Typography & Info */}
         <div className="lg:col-span-7 flex flex-col justify-center">
           <div className="mb-6 flex items-center gap-4">
             <Badge variant="accent">AVAILABLE FOR HIRE</Badge>
-            <span className="font-mono text-xs text-gray-500">
+            {/* <span className="font-mono text-xs text-gray-500">
               LAGOS, NG [UTC+1] — {time}
-            </span>
+            </span> */}
           </div>
 
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter mb-4 leading-none">
@@ -96,68 +110,9 @@ const Hero = () => {
           </div>
         </div>
 
-        {/* Right Column: Terminal Visualization */}
-        <div className="lg:col-span-5 hidden lg:block">
-          <TerminalWindow title="musa-kannike:~/about">
-            <div className="space-y-4">
-              <div className="flex gap-2">
-                <span className="text-green-500">➜</span>
-                <span className="text-blue-400">~</span>
-                <span className="text-gray-300">neofetch</span>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4 text-xs font-mono">
-                <div className="text-[var(--color-toxic-green)] whitespace-pre leading-tight">
-                  {`
-      /\\
-     /  \\
-    /    \\
-   /      \\
-  /________\\
-  |        |
-  |   __   |
-  |  |  |  |
-  |__|__|__|
-`}
-                </div>
-                <div className="space-y-1">
-                  <p>
-                    <span className="text-blue-400">User:</span> Musa Kannike
-                  </p>
-                  <p>
-                    <span className="text-blue-400">Role:</span> Fullstack Dev
-                  </p>
-                  <p>
-                    <span className="text-blue-400">Stack:</span> MERN, Next.js
-                  </p>
-                  <p>
-                    <span className="text-blue-400">Focus:</span> AI & Web
-                  </p>
-                  <p>
-                    <span className="text-blue-400">Status:</span> Coding...
-                  </p>
-
-                  <div className="flex gap-2 mt-2">
-                    <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                    <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                    <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-                    <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="pt-2">
-                <span className="text-green-500">➜</span>
-                <span className="text-blue-400">~</span>
-                <motion.span
-                  animate={{ opacity: [0, 1, 0] }}
-                  transition={{ repeat: Infinity, duration: 1 }}
-                  className="ml-2 w-2 h-4 bg-gray-400 inline-block align-middle"
-                />
-              </div>
-            </div>
-          </TerminalWindow>
+        {/* Right Column: 3D Object */}
+        <div className="lg:col-span-5 hidden lg:flex items-center justify-center" style={{ height: "480px" }}>
+          <Hero3DObject />
         </div>
       </div>
 

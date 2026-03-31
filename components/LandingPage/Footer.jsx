@@ -32,7 +32,7 @@ const Footer = () => {
               KANNIKE
             </Link>
             <p className="text-gray-500 text-sm max-w-sm mb-6">
-              Deployed from Lagos, Nigeria. <br />
+              Deployed from Ilorin, Nigeria. <br />
               Building high-quality web applications and AI systems.
             </p>
             <div className="flex gap-4">
