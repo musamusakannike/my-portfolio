@@ -17,6 +17,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata = {
+  metadataBase: new URL("https://codiac.online"),
   title: "Musa Musa Kannike | Fullstack Engineer",
   description:
     "High-density engineering portfolio of Musa Musa Kannike. Specialized in Fullstack Development and AI Architectures.",
@@ -26,14 +27,6 @@ export const metadata = {
       "High-density engineering portfolio of Musa Musa Kannike. Specialized in Fullstack Development and AI Architectures.",
     url: "https://codiac.online",
     siteName: "Musa Musa Kannike",
-    images: [
-      {
-        url: "/meta-og.png",
-        width: 1200,
-        height: 630,
-        alt: "Musa Musa Kannike Portfolio",
-      },
-    ],
     locale: "en_US",
     type: "website",
   },
@@ -42,7 +35,6 @@ export const metadata = {
     title: "Musa Musa Kannike | Fullstack Engineer",
     description:
       "High-density engineering portfolio of Musa Musa Kannike. Specialized in Fullstack Development and AI Architectures.",
-    images: ["/twitter-og.png"],
   },
 };
 
