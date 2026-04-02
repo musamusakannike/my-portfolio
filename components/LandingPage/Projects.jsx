@@ -19,6 +19,9 @@ import taashamImg from "@/assets/images/taasham.png";
 import glamconnectImg from "@/assets/images/glamconnect.png";
 import gadgetsafricaImg from "@/assets/images/360gadgets.png";
 import aiWordProcessorImg from "@/assets/images/ai-word-processor.png";
+import cloudstechImg from "@/assets/images/cloudstech.png";
+import quranicImg from "@/assets/images/quranic.png";
+import bbosspayImg from "@/assets/images/bbosspay.png";
 
 const projects = [
   {
@@ -52,6 +55,44 @@ const projects = [
         "https://play.google.com/store/apps/details?id=com.gadgetsafrica.gadgetsafrica",
       appStore:
         "https://apps.apple.com/us/app/360gadgetsafrica/id6736353137",
+    },
+  },
+  {
+    title: "Cloudstech",
+    category: "Software & AI Agency",
+    description: "An international software and AI agency that builds innovative solutions for businesses.",
+    tags: ["Next.js", "Gemini API", "Supabase"],
+    role: "Team Member",
+    image: cloudstechImg,
+    isPrivate: true,
+    links: {
+      website: "https://www.cloudstech.org/",
+    },
+  },
+  {
+    title: "Quranic",
+    category: "Mobile App",
+    description: "An Islamic app that helps users explore the Quran with beautiful translations and recitations.",
+    tags: ["React Native", "Node.js", "MongoDB"],
+    role: "Sole Developer",
+    image: quranicImg,
+    isPrivate: true,
+    links: {
+      website: "https://quranic.expo.app/",
+      // playStore: "https://play.google.com/store/apps/details?id=com.quranicexplorer.quranicexplorer",
+      appStore: "https://apps.apple.com/ng/app/quranic-read-listen/id6760474571",
+    },
+  },
+  {
+    title: "BBossPay",
+    category: "Virtual Topup Platform",
+    description: "A Nigerian based virtual topup platform to purchase data, airtime, and bill at cheap rates",
+    tags: ["Next.js", "React Native", "Node.js"],
+    role: "Developer",
+    isPrivate: true,
+    image: bbosspayImg,
+    links: {
+      website: "https://www.bbosspay.com/",
     },
   },
   {
