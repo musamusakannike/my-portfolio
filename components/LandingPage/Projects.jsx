@@ -79,7 +79,7 @@ const projects = [
     isPrivate: true,
     links: {
       website: "https://quranic.expo.app/",
-      // playStore: "https://play.google.com/store/apps/details?id=com.quranicexplorer.quranicexplorer",
+      playStore: "https://play.google.com/store/apps/details?id=com.codiac.quranic",
       appStore: "https://apps.apple.com/ng/app/quranic-read-listen/id6760474571",
     },
   },
