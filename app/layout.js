@@ -1,20 +1,4 @@
-import { Geist, Geist_Mono, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-jetbrains-mono",
-  subsets: ["latin"],
-});
 
 export const metadata = {
   metadataBase: new URL("https://codiac.online"),
@@ -42,7 +26,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${jetbrainsMono.variable} antialiased bg-[#0A0A0A] text-white selection:bg-[#ADFF2F] selection:text-[#0A0A0A]`}
+        className="antialiased bg-[#0A0A0A] text-white selection:bg-[#ADFF2F] selection:text-[#0A0A0A]"
       >
         {children}
       </body>

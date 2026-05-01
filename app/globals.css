@@ -2,12 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&family=Geist:wght@100..900&family=JetBrains+Mono:wght@100..800&family=Cairo:wght@300;400;500;600;700;800&family=Amiri:wght@400;700&family=El+Messiri:wght@400;500;600;700&display=swap');
+
 :root {
   --color-obsidian: #0a0a0a;
   --color-toxic-green: #adff2f;
   --color-electric-cobalt: #2e5bff;
-  --font-mono: var(--font-jetbrains-mono);
-  --font-sans: var(--font-geist-sans);
+  --font-mono: 'Geist Mono', 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+  --font-sans: 'Geist', 'DM Sans', system-ui, -apple-system, sans-serif;
 }
 
 body {
@@ -99,23 +101,28 @@ h6 {
   0%,
   19.999%,
   22%,
-  62.999%,
-  64%,
-  64.999%,
-  70%,
+  32.999%,
+  34%,
+  54.999%,
+  56%,
   100% {
     opacity: 1;
   }
   20%,
   21.999%,
-  63%,
-  63.999%,
-  65%,
-  69.999% {
+  33%,
+  33.999%,
+  55%,
+  55.999% {
     opacity: 0.4;
   }
 }
 
 .animate-flicker {
-  animation: flicker 2s infinite;
+  animation: flicker 4s linear infinite;
+}
+
+/* Glow Effect */
+.terminal-glow {
+  box-shadow: 0 0 40px rgba(173, 255, 47, 0.08);
 }
