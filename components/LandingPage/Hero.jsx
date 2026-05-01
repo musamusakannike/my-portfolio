@@ -252,6 +252,9 @@ export default function Hero() {
           <a href="#contact">
             <button className="btnPrimary" type="button">Hire me</button>
           </a>
+          <a href="/?locale=ar">
+            <button className="btnGhost" type="button" style={{ border: "1px solid rgba(255,255,255,0.2)", borderRadius: "100px", padding: "10px 14px" }}>عربي</button>
+          </a>
         </div>
       </nav>
 
