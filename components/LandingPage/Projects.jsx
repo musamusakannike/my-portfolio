@@ -8,7 +8,6 @@ import Image from "next/image";
 
 gsap.registerPlugin(ScrollTrigger);
 
-
 // ─── Import images – replace with your actual paths ───────────────────────────
 import terrachowImg from "@/assets/images/terrachow.png";
 import lamatfikrImg from "@/assets/images/lamatfikr.png";
@@ -89,8 +88,8 @@ const projects = [
     description: "A Nigerian based virtual topup platform to purchase data, airtime, and bill at cheap rates",
     tags: ["Next.js", "React Native", "Node.js"],
     role: "Developer",
-    isPrivate: true,
     image: bbosspayImg,
+    isPrivate: true,
     links: {
       website: "https://www.bbosspay.com/",
     },
@@ -868,7 +867,7 @@ export default function Projects() {
         if (i < projects.length - 1) {
           gsap.to(card, {
             scale: 0.97,
-            filter: "brightness(0.7)",
+            opacity: 0.82,
             ease: "none",
             scrollTrigger: {
               trigger: card,

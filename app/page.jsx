@@ -5,19 +5,22 @@ import Hero from "@/components/LandingPage/Hero";
 import Projects from "@/components/LandingPage/Projects";
 import Testimonials from "@/components/LandingPage/Testimonials";
 import Contact from "@/components/LandingPage/Contact";
+import LoadingWrapper from "@/components/ui/LoadingWrapper";
 
 const LandingPage = () => {
   return (
-    <div>
-      <Hero />
-      <AboutMe />
-      <Projects />
-      <Experiences />
-      <Testimonials />
-      <Contact />
-      <Footer />
-    </div>
-  )
-}
+    <LoadingWrapper text="CODIAC">
+      <div>
+        <Hero />
+        <AboutMe />
+        <Projects />
+        <Experiences />
+        <Testimonials />
+        <Contact />
+        <Footer />
+      </div>
+    </LoadingWrapper>
+  );
+};
 
 export default LandingPage;
