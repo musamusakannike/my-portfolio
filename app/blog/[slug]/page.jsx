@@ -14,7 +14,7 @@ const SafeHtmlRenderer = ({ html }) => {
     const iframe = iframeRef.current;
     if (iframe && iframe.contentWindow) {
       iframe.style.height = iframe.contentWindow.document.documentElement.scrollHeight + 'px';
-      
+
       const doc = iframe.contentWindow.document;
       const observer = new MutationObserver(() => {
         iframe.style.height = doc.documentElement.scrollHeight + 'px';
@@ -55,12 +55,12 @@ const isHtml = (content) => {
 const ArticleReader = () => {
   const { slug } = useParams();
   const router = useRouter();
-  
+
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
   const theme = "light";
   const [fontSize, setFontSize] = useState("md"); // "sm", "md", "lg" for accessibility
-  
+
   // Highlight to Share state
   const [shareCoords, setShareCoords] = useState(null);
   const [selectedText, setSelectedText] = useState("");
@@ -97,7 +97,7 @@ const ArticleReader = () => {
     if (isDark) {
       root.classList.remove("dark");
     }
-    
+
     return () => {
       // Re-enable dark mode on exit if user's saved preference was dark
       const savedTheme = localStorage.getItem("theme");
@@ -183,11 +183,11 @@ const ArticleReader = () => {
     if (!markdown) return;
     const lines = markdown.split("\n");
     const foundHeadings = [];
-    
+
     lines.forEach((line) => {
       const h2Match = line.match(/^##\s+(.+)$/);
       const h3Match = line.match(/^###\s+(.+)$/);
-      
+
       if (h2Match) {
         const title = h2Match[1].replace(/[\*\_]/g, "");
         const id = title.toLowerCase().replace(/[^a-z0-9-]/g, "-").replace(/-+/g, "-");
@@ -261,7 +261,7 @@ const ArticleReader = () => {
     const handleSelectionChange = () => {
       const selection = window.getSelection();
       const text = selection.toString().trim();
-      
+
       if (!text || !articleContentRef.current || !articleContentRef.current.contains(selection.anchorNode)) {
         setShareCoords(null);
         setSelectedText("");
@@ -270,7 +270,7 @@ const ArticleReader = () => {
 
       const range = selection.getRangeAt(0);
       const rects = range.getBoundingClientRect();
-      
+
       if (rects.width > 0) {
         setShareCoords({
           top: rects.top + window.scrollY - 44, // 44px above selection
@@ -288,7 +288,7 @@ const ArticleReader = () => {
     if (!selectedText) return;
     const url = window.location.href;
     const shareText = `"${selectedText}" — Read more on Musa's Tech Journal:`;
-    
+
     let shareUrl = "";
     if (platform === "twitter") {
       shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(url)}`;
@@ -336,7 +336,7 @@ const ArticleReader = () => {
       setCommentContent("");
       setReplyToId(null);
       setReplyToName("");
-      
+
       // Re-fetch comments to display if auto-approved
       fetchComments(post._id);
     } catch (err) {
@@ -389,10 +389,9 @@ const ArticleReader = () => {
           <h2
             key={index}
             id={id}
-            className={`font-black uppercase tracking-tight mt-10 mb-4 transition-colors ${
-              theme === "light" ? "text-black font-serif" : "text-[#ADFF2F] font-mono text-xl"
-            }`}
-            style={{ 
+            className={`font-black uppercase tracking-tight mt-10 mb-4 transition-colors ${theme === "light" ? "text-black font-serif" : "text-[#ADFF2F] font-mono text-xl"
+              }`}
+            style={{
               fontFamily: theme === "light" ? "'Playfair Display', Georgia, serif" : "var(--font-mono)",
               fontSize: theme === "light" ? "26px" : "18px"
             }}
@@ -410,10 +409,9 @@ const ArticleReader = () => {
           <h3
             key={index}
             id={id}
-            className={`font-bold mt-8 mb-3 transition-colors ${
-              theme === "light" ? "text-black font-serif" : "text-white font-mono text-base"
-            }`}
-            style={{ 
+            className={`font-bold mt-8 mb-3 transition-colors ${theme === "light" ? "text-black font-serif" : "text-white font-mono text-base"
+              }`}
+            style={{
               fontFamily: theme === "light" ? "'Playfair Display', Georgia, serif" : "var(--font-mono)",
               fontSize: theme === "light" ? "20px" : "15px"
             }}
@@ -473,9 +471,8 @@ const ArticleReader = () => {
       renderedBlocks.push(
         <p
           key={index}
-          className={`text-xs tracking-wider leading-relaxed mb-6 transition-colors ${
-            theme === "light" ? "text-neutral-700 font-serif leading-8" : "text-neutral-300 font-mono"
-          }`}
+          className={`text-xs tracking-wider leading-relaxed mb-6 transition-colors ${theme === "light" ? "text-neutral-700 font-serif leading-8" : "text-neutral-300 font-mono"
+            }`}
           style={{
             fontFamily: theme === "light" ? "'Lora', serif" : "var(--font-sans)",
             fontSize: fontSize === "sm" ? "11px" : fontSize === "lg" ? "14px" : "12px",
@@ -525,15 +522,15 @@ const ArticleReader = () => {
   const renderCommentTree = (commentsList, depth = 0) => {
     return commentsList.map((c) => (
       <div key={c._id} className="border-l border-[var(--border-primary)] pl-4 mt-6 relative transition-colors" style={{ marginLeft: depth > 0 ? "16px" : "0" }}>
-        
+
         <div className="absolute left-0 top-3 w-3 h-px bg-[var(--border-primary)] transition-colors" />
-        
+
         <div className="flex gap-3 items-center text-[10px] text-[var(--text-tertiary)] mb-2 uppercase transition-colors">
           <span className="text-[var(--text-primary)] font-bold transition-colors">{c.userName}</span>
           <span>&bull;</span>
           <span>{new Date(c.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</span>
         </div>
-        
+
         <p className="text-[var(--text-secondary)] text-xs tracking-wide leading-relaxed font-mono pl-1 border-l border-[var(--color-toxic-green)]/20 mb-3 transition-colors">
           {c.content}
         </p>
@@ -577,10 +574,9 @@ const ArticleReader = () => {
   if (!post) return null;
 
   return (
-    <div className={`min-h-screen font-mono transition-colors duration-300 relative ${
-      theme === "light" ? "bg-[var(--bg-primary)] text-[var(--text-primary)]" : "bg-[var(--bg-primary)] text-[var(--text-secondary)]"
-    }`}>
-      
+    <div className={`min-h-screen font-mono transition-colors duration-300 relative ${theme === "light" ? "bg-[var(--bg-primary)] text-[var(--text-primary)]" : "bg-[var(--bg-primary)] text-[var(--text-secondary)]"
+      }`}>
+
       {/* Cyberpunk Scanlines (only in dark mode) */}
       {theme === "dark" && <div className="absolute inset-0 bg-scanline opacity-[0.01] dark:opacity-[0.03] pointer-events-none z-40" />}
 
@@ -637,7 +633,7 @@ const ArticleReader = () => {
           </div>
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
-        
+
         {/* Cover metadata */}
         <div className="absolute bottom-6 left-6 right-6 max-w-4xl mx-auto px-6">
           <span className="bg-[var(--color-toxic-green)] text-[var(--color-obsidian)] font-extrabold px-3 py-1 text-[9px] tracking-widest uppercase transition-colors">
@@ -652,11 +648,11 @@ const ArticleReader = () => {
       {/* Main Grid Content */}
       <div className="max-w-6xl mx-auto px-6 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-          
+
           {/* Sticky Left Sidebar (Table of Contents + Controls) */}
           <aside className="lg:col-span-3 hidden lg:block select-none">
             <div className="sticky top-28 space-y-8 max-h-[80vh] overflow-y-auto pr-4">
-              
+
               {/* Reading time details */}
               <div className="border border-[var(--border-primary)] p-4 bg-[var(--bg-tertiary)] rounded-none font-mono transition-colors">
                 <div className="flex gap-2 items-center text-[10px] text-[var(--text-tertiary)] uppercase mb-2 transition-colors">
@@ -682,9 +678,8 @@ const ArticleReader = () => {
                             e.preventDefault();
                             document.getElementById(h.id)?.scrollIntoView({ behavior: "smooth" });
                           }}
-                          className={`hover:text-[var(--color-toxic-green)] transition-colors block uppercase ${
-                            activeId === h.id ? "text-[var(--color-toxic-green)] border-l-2 border-[var(--color-toxic-green)] pl-2" : "text-[var(--text-tertiary)]"
-                          }`}
+                          className={`hover:text-[var(--color-toxic-green)] transition-colors block uppercase ${activeId === h.id ? "text-[var(--color-toxic-green)] border-l-2 border-[var(--color-toxic-green)] pl-2" : "text-[var(--text-tertiary)]"
+                            }`}
                         >
                           {h.title}
                         </a>
@@ -697,7 +692,7 @@ const ArticleReader = () => {
               {/* Share actions */}
               <div>
                 <h4 className="text-[10px] font-bold text-[var(--text-tertiary)] uppercase tracking-widest border-b border-[var(--border-primary)] pb-2 mb-4 transition-colors">
-                  // SHARE JOURNAL
+                  SHARE JOURNAL
                 </h4>
                 <div className="flex gap-3">
                   <button onClick={() => handleShareClick("twitter")} className="border border-[var(--border-primary)] hover:border-[var(--text-primary)] p-2 text-xs transition-colors text-[var(--text-secondary)] hover:text-[var(--text-primary)] rounded-none">
@@ -716,7 +711,7 @@ const ArticleReader = () => {
 
           {/* Core Article text reader */}
           <main className="lg:col-span-6">
-            
+
             {/* Author Byline line */}
             <div className="flex items-center justify-between border-b border-[var(--border-primary)] pb-4 mb-8 text-[10px] text-[var(--text-tertiary)] uppercase select-none transition-colors duration-300">
               <div className="flex items-center gap-3">
@@ -779,7 +774,7 @@ const ArticleReader = () => {
 
               {/* Comment submission form */}
               <form id="comment-form" onSubmit={handleCommentSubmit} className="space-y-4">
-                
+
                 {replyToId && (
                   <div className="flex justify-between items-center bg-[var(--bg-tertiary)] border-l-2 border-[var(--color-toxic-green)] px-3 py-2 text-[10px] text-[var(--text-secondary)] uppercase select-none transition-colors duration-300">
                     <span>REPLYING TO: {replyToName}</span>
@@ -863,7 +858,7 @@ const ArticleReader = () => {
                   href={`/blog/${nextPost.slug}`}
                   className="inline-block text-[9px] text-[var(--color-toxic-green)] font-bold hover:underline tracking-widest uppercase"
                 >
-                  [ LOAD POST NOW ]
+                  LOAD POST NOW
                 </Link>
               </div>
             )}
