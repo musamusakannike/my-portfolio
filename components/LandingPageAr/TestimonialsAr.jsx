@@ -167,10 +167,11 @@ export default function TestimonialsAr() {
           width: 100%;
           min-height: 80vh;
           padding: 130px 0 160px;
-          background: #080808;
+          background: transparent;
           overflow: hidden;
           font-family: var(--font-cairo), system-ui, -apple-system, sans-serif;
-          color: #fff;
+          color: var(--text-primary);
+          transition: color 0.3s;
         }
 
         .test-noise {
@@ -199,8 +200,8 @@ export default function TestimonialsAr() {
           display: inline-flex;
           align-items: center;
           gap: 8px;
-          background: rgba(255, 255, 255, 0.08);
-          border: 1px solid rgba(255, 255, 255, 0.22);
+          background: var(--glass-bg);
+          border: 1px solid var(--border-primary);
           backdrop-filter: blur(8px);
           border-radius: 100px;
           padding: 6px 14px 6px 10px;
@@ -208,15 +209,16 @@ export default function TestimonialsAr() {
           font-weight: 500;
           letter-spacing: 0.08em;
           text-transform: uppercase;
-          color: rgba(255, 255, 255, 0.9);
+          color: var(--text-primary);
           margin-bottom: 28px;
+          transition: background 0.3s, border-color 0.3s, color 0.3s;
         }
 
         .eyebrowDot {
           width: 6px;
           height: 6px;
           border-radius: 50%;
-          background: #fff;
+          background: var(--text-primary);
           animation: pulse 2s ease-in-out infinite;
         }
 
@@ -231,13 +233,13 @@ export default function TestimonialsAr() {
           font-weight: 800;
           line-height: 0.95;
           letter-spacing: -2px;
-          color: #fff;
+          color: var(--text-primary);
           margin-bottom: 22px;
         }
 
         .test-heading em {
           font-style: normal;
-          background: linear-gradient(135deg, #fff 30%, rgba(255,255,255,0.4));
+          background: linear-gradient(135deg, var(--text-primary) 30%, var(--text-secondary));
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
@@ -246,10 +248,11 @@ export default function TestimonialsAr() {
         .test-sub {
           font-size: 16px;
           font-weight: 300;
-          color: rgba(255, 255, 255, 0.5);
+          color: var(--text-secondary);
           line-height: 1.7;
           max-width: 440px;
           margin: 0 auto;
+          transition: color 0.3s;
         }
 
         .test-marquee-wrapper {
@@ -283,21 +286,21 @@ export default function TestimonialsAr() {
         .test-card {
           flex-shrink: 0;
           width: 380px;
-          background: rgba(255, 255, 255, 0.03);
-          border: 1px solid rgba(255, 255, 255, 0.07);
+          background: var(--glass-bg);
+          border: 1px solid var(--border-primary);
           backdrop-filter: blur(12px);
           border-radius: 20px;
           padding: 36px 36px 28px;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
-          transition: background 0.3s, border-color 0.3s, transform 0.3s;
+          transition: background 0.3s, border-color 0.3s, transform 0.3s, color 0.3s;
           cursor: default;
         }
 
         .test-card:hover {
-          background: rgba(255, 255, 255, 0.06);
-          border-color: rgba(255, 255, 255, 0.16);
+          background: var(--border-primary);
+          border-color: var(--border-secondary);
           transform: translateY(-2px);
         }
 
@@ -305,7 +308,7 @@ export default function TestimonialsAr() {
           font-size: 15px;
           font-weight: 300;
           line-height: 1.8;
-          color: rgba(255, 255, 255, 0.7);
+          color: var(--text-secondary);
           white-space: normal;
           margin-bottom: 24px;
         }
@@ -313,7 +316,7 @@ export default function TestimonialsAr() {
         .test-rule {
           border: none;
           height: 1px;
-          background: rgba(255, 255, 255, 0.06);
+          background: var(--border-primary);
           margin-bottom: 16px;
         }
 
@@ -327,7 +330,7 @@ export default function TestimonialsAr() {
           font-family: var(--font-el-messiri), system-ui, sans-serif;
           font-size: 15px;
           font-weight: 700;
-          color: #fff;
+          color: var(--text-primary);
         }
 
         .test-role {
@@ -335,7 +338,7 @@ export default function TestimonialsAr() {
           font-weight: 500;
           letter-spacing: 0.04em;
           text-transform: uppercase;
-          color: rgba(255, 255, 255, 0.4);
+          color: var(--text-tertiary);
         }
 
         @media (max-width: 768px) {

@@ -159,13 +159,14 @@ export default function Contact() {
           width: 100%;
           min-height: 80vh;
           padding: 130px 0 160px;
-          background: #000;
+          background: var(--bg-primary);
           overflow: hidden;
           font-family: "DM Sans", system-ui, -apple-system, sans-serif;
-          color: #fff;
+          color: var(--text-primary);
           display: flex;
           flex-direction: column;
           justify-content: center;
+          transition: background 0.3s ease;
         }
 
         .contact-noise {
@@ -196,8 +197,8 @@ export default function Contact() {
           display: inline-flex;
           align-items: center;
           gap: 8px;
-          background: rgba(255, 255, 255, 0.08);
-          border: 1px solid rgba(255, 255, 255, 0.22);
+          background: var(--border-primary);
+          border: 1px solid var(--border-secondary);
           backdrop-filter: blur(8px);
           border-radius: 100px;
           padding: 6px 14px 6px 10px;
@@ -205,7 +206,7 @@ export default function Contact() {
           font-weight: 500;
           letter-spacing: 0.08em;
           text-transform: uppercase;
-          color: rgba(255, 255, 255, 0.9);
+          color: var(--text-primary);
           margin-bottom: 28px;
         }
 
@@ -213,7 +214,7 @@ export default function Contact() {
           width: 6px;
           height: 6px;
           border-radius: 50%;
-          background: #fff;
+          background: var(--text-primary);
           animation: pulse 2s ease-in-out infinite;
         }
 
@@ -228,13 +229,13 @@ export default function Contact() {
           font-weight: 800;
           line-height: 0.95;
           letter-spacing: -2px;
-          color: #fff;
+          color: var(--text-primary);
           margin-bottom: 20px;
         }
 
         .contact-heading em {
           font-style: normal;
-          background: linear-gradient(135deg, #fff 30%, rgba(255,255,255,0.38));
+          background: linear-gradient(135deg, var(--text-primary) 30%, var(--text-secondary));
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
@@ -242,19 +243,20 @@ export default function Contact() {
 
         .contact-subtitle {
           font-size: 16px;
-          color: rgba(255, 255, 255, 0.7);
+          color: var(--text-secondary);
           line-height: 1.6;
           max-width: 440px;
           margin: 0 auto;
         }
 
         .contact-form-wrapper {
-          background: rgba(255, 255, 255, 0.03);
-          border: 1px solid rgba(255, 255, 255, 0.07);
+          background: var(--glass-bg);
+          border: 1px solid var(--glass-border);
           border-radius: 24px;
           padding: 48px;
           backdrop-filter: blur(10px);
-          box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 16px 40px var(--border-secondary);
+          transition: background 0.3s, border-color 0.3s;
         }
 
         .contact-form {
@@ -272,18 +274,18 @@ export default function Contact() {
         .input-group label {
           font-size: 14px;
           font-weight: 500;
-          color: rgba(255, 255, 255, 0.9);
+          color: var(--text-secondary);
           margin-left: 4px;
         }
 
         .contact-form input,
         .contact-form textarea {
           width: 100%;
-          background: rgba(255, 255, 255, 0.05);
-          border: 1px solid rgba(255, 255, 255, 0.1);
+          background: var(--bg-tertiary);
+          border: 1px solid var(--border-primary);
           border-radius: 12px;
           padding: 16px 20px;
-          color: #fff;
+          color: var(--text-primary);
           font-family: inherit;
           font-size: 15px;
           transition: all 0.3s ease;
@@ -292,14 +294,14 @@ export default function Contact() {
 
         .contact-form input::placeholder,
         .contact-form textarea::placeholder {
-          color: rgba(255, 255, 255, 0.3);
+          color: var(--text-tertiary);
         }
 
         .contact-form input:focus,
         .contact-form textarea:focus {
-          background: rgba(255, 255, 255, 0.08);
-          border-color: rgba(255, 255, 255, 0.3);
-          box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.05);
+          background: var(--bg-secondary);
+          border-color: var(--color-toxic-green);
+          box-shadow: 0 0 0 2px var(--border-secondary);
         }
 
         .contact-form textarea {
@@ -312,8 +314,8 @@ export default function Contact() {
           align-items: center;
           justify-content: center;
           gap: 12px;
-          background: #fff;
-          color: #000;
+          background: var(--text-primary);
+          color: var(--bg-primary);
           border: none;
           border-radius: 12px;
           padding: 18px 32px;
@@ -327,7 +329,7 @@ export default function Contact() {
 
         .submit-btn:hover:not(:disabled) {
           transform: translateY(-2px);
-          box-shadow: 0 8px 24px rgba(255, 255, 255, 0.15);
+          box-shadow: 0 8px 24px var(--border-secondary);
         }
 
         .submit-btn:disabled {
@@ -349,15 +351,15 @@ export default function Contact() {
         }
 
         .status-message.success {
-          background: rgba(16, 185, 129, 0.1);
-          color: #34d399;
-          border: 1px solid rgba(16, 185, 129, 0.2);
+          background: rgba(22, 163, 74, 0.1);
+          color: #16a34a;
+          border: 1px solid rgba(22, 163, 74, 0.2);
         }
 
         .status-message.error {
-          background: rgba(239, 68, 68, 0.1);
-          color: #f87171;
-          border: 1px solid rgba(239, 68, 68, 0.2);
+          background: rgba(220, 38, 38, 0.1);
+          color: #dc2626;
+          border: 1px solid rgba(220, 38, 38, 0.2);
         }
 
         @media (max-width: 768px) {

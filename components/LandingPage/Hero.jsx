@@ -3,6 +3,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import gsap from "gsap";
 import * as THREE from "three";
+import ThemeSwitcher from "@/components/ui/ThemeSwitcher";
 
 export default function Hero() {
   const canvasRef = useRef(null);
@@ -253,8 +254,9 @@ export default function Hero() {
             <button className="btnPrimary" type="button">Hire me</button>
           </a>
           <a href="/?locale=ar">
-            <button className="btnGhost" type="button" style={{ border: "1px solid rgba(255,255,255,0.2)", borderRadius: "100px", padding: "10px 14px" }}>عربي</button>
+            <button className="btnGhost" type="button" style={{ border: "1px solid var(--border-primary)", borderRadius: "100px", padding: "10px 14px" }}>عربي</button>
           </a>
+          <ThemeSwitcher />
         </div>
       </nav>
 
@@ -367,23 +369,22 @@ export default function Hero() {
           display: flex;
           align-items: center;
           font-family: "DM Sans", system-ui, -apple-system, sans-serif;
-          color: #fff;
+          color: var(--text-primary);
         }
 
         /* ─────────────────────────────────
-           BACKGROUND — deep black with subtle grain
+           BACKGROUND — radial gradient utilizing CSS variables
         ───────────────────────────────── */
         .heroBg {
           position: absolute;
           inset: 0;
           background: radial-gradient(
             ellipse 80% 90% at 30% 50%,
-            #2a2a2a 0%,
-            #161616 35%,
-            #0d0d0d 65%,
-            #000000 100%
+            var(--bg-tertiary) 0%,
+            var(--bg-primary) 100%
           );
           z-index: 0;
+          transition: background 0.3s ease;
         }
 
         .heroBg::after {
@@ -408,25 +409,26 @@ export default function Hero() {
           justify-content: space-between;
           padding: 0 48px;
           background: transparent;
-          transition: background 0.4s;
+          transition: background 0.4s, border-color 0.4s;
         }
 
         .nav.scrolled {
-          background: rgba(255, 255, 255, 0.92);
+          background: var(--glass-bg);
           backdrop-filter: blur(18px);
+          border-bottom: 1px solid var(--border-primary);
         }
 
         .logo {
           font-family: "Syne", system-ui, sans-serif;
           font-size: 22px;
           font-weight: 800;
-          color: #fff;
+          color: var(--text-primary);
           letter-spacing: 2px;
           text-transform: uppercase;
         }
 
         .nav.scrolled .logo {
-          color: #000;
+          color: var(--text-primary);
         }
 
         .navRight {
@@ -442,40 +444,40 @@ export default function Hero() {
           font-family: inherit;
           font-size: 15px;
           font-weight: 500;
-          color: rgba(255, 255, 255, 0.85);
+          color: var(--text-secondary);
           padding: 10px 18px;
           border-radius: 100px;
           transition: color 0.25s, background 0.25s;
         }
 
         .btnGhost:hover {
-          background: rgba(255, 255, 255, 0.1);
-          color: #fff;
+          background: var(--border-primary);
+          color: var(--text-primary);
         }
 
-        .nav.scrolled .btnGhost { color: #111; }
-        .nav.scrolled .btnGhost:hover { background: rgba(0,0,0,0.07); color: #000; }
+        .nav.scrolled .btnGhost { color: var(--text-secondary); }
+        .nav.scrolled .btnGhost:hover { background: var(--border-primary); color: var(--text-primary); }
 
         .btnPrimary {
-          background: #fff;
+          background: var(--text-primary);
           border: none;
           cursor: pointer;
           font-family: inherit;
           font-size: 15px;
           font-weight: 600;
-          color: #000;
+          color: var(--bg-primary);
           padding: 11px 24px;
           border-radius: 100px;
-          transition: transform 0.2s, box-shadow 0.2s;
-          box-shadow: 0 2px 18px rgba(255,255,255,0.15);
+          transition: transform 0.2s, box-shadow 0.2s, background 0.3s, color 0.3s;
+          box-shadow: 0 2px 18px var(--border-secondary);
         }
 
         .btnPrimary:hover {
           transform: translateY(-1px);
-          box-shadow: 0 6px 28px rgba(255,255,255,0.25);
+          box-shadow: 0 6px 28px var(--border-secondary);
         }
 
-        .nav.scrolled .btnPrimary { background: #000; color: #fff; }
+        .nav.scrolled .btnPrimary { background: var(--text-primary); color: var(--bg-primary); }
 
         /* ─────────────────────────────────
            CANVAS / LOADER
@@ -501,8 +503,8 @@ export default function Hero() {
 
         .loaderRing {
           width: 48px; height: 48px;
-          border: 2px solid rgba(255,255,255,0.15);
-          border-top-color: rgba(255,255,255,0.8);
+          border: 2px solid var(--border-primary);
+          border-top-color: var(--text-primary);
           border-radius: 50%;
           animation: spin 0.9s linear infinite;
         }
@@ -534,8 +536,8 @@ export default function Hero() {
           display: inline-flex;
           align-items: center;
           gap: 8px;
-          background: rgba(255,255,255,0.08);
-          border: 1px solid rgba(255,255,255,0.22);
+          background: var(--border-primary);
+          border: 1px solid var(--border-secondary);
           backdrop-filter: blur(8px);
           border-radius: 100px;
           padding: 6px 14px 6px 10px;
@@ -543,7 +545,7 @@ export default function Hero() {
           font-weight: 500;
           letter-spacing: 0.08em;
           text-transform: uppercase;
-          color: rgba(255,255,255,0.9);
+          color: var(--text-primary);
           margin-bottom: 28px;
           opacity: 0;
           transform: translateY(14px);
@@ -552,7 +554,7 @@ export default function Hero() {
         .eyebrowDot {
           width: 6px; height: 6px;
           border-radius: 50%;
-          background: #fff;
+          background: var(--text-primary);
           animation: pulse 2s ease-in-out infinite;
         }
 
@@ -567,7 +569,7 @@ export default function Hero() {
           font-size: clamp(52px, 7vw, 92px);
           font-weight: 800;
           line-height: 0.95;
-          color: #fff;
+          color: var(--text-primary);
           letter-spacing: -2px;
           opacity: 0;
           transform: translateY(24px);
@@ -575,7 +577,7 @@ export default function Hero() {
 
         .headline em {
           font-style: normal;
-          background: linear-gradient(135deg, #fff 30%, rgba(255,255,255,0.45));
+          background: linear-gradient(135deg, var(--text-primary) 30%, var(--text-secondary));
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
@@ -587,7 +589,7 @@ export default function Hero() {
           font-size: 18px;
           font-weight: 300;
           line-height: 1.6;
-          color: rgba(255,255,255,0.85);
+          color: var(--text-secondary);
           max-width: 380px;
           opacity: 0;
           transform: translateY(18px);
@@ -615,7 +617,7 @@ export default function Hero() {
           font-size: 15px;
           font-weight: 600;
           font-family: inherit;
-          transition: background 0.25s, transform 0.2s, box-shadow 0.25s;
+          transition: background 0.25s, transform 0.2s, box-shadow 0.25s, color 0.25s;
         }
 
         .ctaBtn svg {
@@ -624,26 +626,26 @@ export default function Hero() {
         }
 
         .ctaBtnPrimary {
-          background: #fff;
-          color: #000;
-          box-shadow: 0 4px 24px rgba(255,255,255,0.18);
+          background: var(--text-primary);
+          color: var(--bg-primary);
+          box-shadow: 0 4px 24px var(--border-secondary);
         }
 
         .ctaBtnPrimary:hover {
           transform: translateY(-2px);
-          box-shadow: 0 8px 32px rgba(255,255,255,0.28);
+          box-shadow: 0 8px 32px var(--border-secondary);
         }
 
         .ctaBtnGhost {
-          background: rgba(255,255,255,0.08);
-          border: 1px solid rgba(255,255,255,0.22);
-          color: #fff;
+          background: var(--glass-bg);
+          border: 1px solid var(--border-primary);
+          color: var(--text-primary);
           backdrop-filter: blur(12px);
         }
 
         .ctaBtnGhost:hover {
-          background: rgba(255,255,255,0.16);
-          border-color: rgba(255,255,255,0.4);
+          background: var(--border-primary);
+          border-color: var(--border-secondary);
           transform: translateY(-2px);
         }
 
@@ -663,20 +665,20 @@ export default function Hero() {
           font-family: "Syne", system-ui, sans-serif;
           font-size: 28px;
           font-weight: 700;
-          color: #fff;
+          color: var(--text-primary);
           line-height: 1;
         }
 
         .statLbl {
           font-size: 12px;
-          color: rgba(255,255,255,0.5);
+          color: var(--text-tertiary);
           font-weight: 400;
           letter-spacing: 0.04em;
         }
 
         .statSep {
           width: 1px; height: 40px;
-          background: rgba(255,255,255,0.15);
+          background: var(--border-primary);
         }
 
         /* ─────────────────────────────────
@@ -691,12 +693,13 @@ export default function Hero() {
           display: flex;
           align-items: center;
           gap: 4px;
-          background: rgba(0, 0, 0, 0.6);
+          background: var(--glass-bg);
           backdrop-filter: blur(18px);
-          border: 1px solid rgba(255,255,255,0.1);
+          border: 1px solid var(--glass-border);
           border-radius: 100px;
           padding: 6px 8px;
           opacity: 0;
+          transition: background 0.3s, border-color 0.3s;
         }
 
         .barItem {
@@ -707,7 +710,7 @@ export default function Hero() {
           border-radius: 100px;
           font-size: 14px;
           font-weight: 500;
-          color: rgba(255,255,255,0.55);
+          color: var(--text-secondary);
           cursor: pointer;
           text-decoration: none;
           transition: background 0.25s, color 0.25s;
@@ -717,15 +720,16 @@ export default function Hero() {
 
         .barItem svg { width: 16px; height: 16px; }
 
-        .barItem:hover { background: rgba(255,255,255,0.1); color: #fff; }
+        .barItem:hover { background: var(--border-primary); color: var(--text-primary); }
 
         .barHome {
-          background: #fff;
-          color: #000;
+          background: var(--text-primary);
+          color: var(--bg-primary);
           padding: 10px 14px;
+          transition: background 0.3s, color 0.3s;
         }
 
-        .barHome:hover { background: #e0e0e0; color: #000; }
+        .barHome:hover { background: var(--border-secondary); color: var(--bg-primary); }
 
         /* ─────────────────────────────────
            SCROLL HINT
@@ -740,14 +744,14 @@ export default function Hero() {
           font-size: 12px;
           letter-spacing: 0.08em;
           text-transform: uppercase;
-          color: rgba(255,255,255,0.4);
+          color: var(--text-tertiary);
           font-weight: 500;
           opacity: 0;
         }
 
         .scrollHintLine {
           width: 32px; height: 1px;
-          background: rgba(255,255,255,0.2);
+          background: var(--border-primary);
           position: relative;
           overflow: hidden;
         }
@@ -756,7 +760,7 @@ export default function Hero() {
           content: "";
           position: absolute;
           inset: 0;
-          background: #fff;
+          background: var(--text-primary);
           transform: translateX(-100%);
           animation: slideLine 2s ease-in-out infinite 1.2s;
         }
@@ -777,12 +781,12 @@ export default function Hero() {
           display: flex;
           align-items: center;
           gap: 8px;
-          background: rgba(0,0,0,0.6);
+          background: var(--glass-bg);
           backdrop-filter: blur(18px);
-          border: 1px solid rgba(255,255,255,0.1);
+          border: 1px solid var(--glass-border);
           border-radius: 100px;
           padding: 12px 20px;
-          color: rgba(255,255,255,0.75);
+          color: var(--text-secondary);
           font-size: 14px;
           font-weight: 500;
           cursor: pointer;
@@ -799,9 +803,9 @@ export default function Hero() {
         }
 
         .githubBtn:hover {
-          background: #fff;
-          color: #000;
-          border-color: #fff;
+          background: var(--text-primary);
+          color: var(--bg-primary);
+          border-color: var(--text-primary);
         }
 
         /* ─────────────────────────────────

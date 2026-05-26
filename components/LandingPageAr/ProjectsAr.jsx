@@ -423,20 +423,20 @@ function ProjectCard({ project, index, total }) {
           min-height: 520px;
           border-radius: 24px;
           overflow: hidden;
-          background: #0d0d0d;
-          border: 1px solid rgba(255, 255, 255, 0.08);
+          background: var(--bg-secondary);
+          border: 1px solid var(--border-primary);
           box-shadow:
-            0 8px 40px rgba(0, 0, 0, 0.6),
-            0 1px 0 rgba(255, 255, 255, 0.06) inset;
+            0 8px 40px var(--border-primary),
+            0 1px 0 var(--border-primary) inset;
           will-change: transform;
-          transition: box-shadow 0.3s;
+          transition: box-shadow 0.3s, background 0.3s, border-color 0.3s;
           margin-bottom: 0;
         }
 
         .proj-card:hover {
           box-shadow:
-            0 16px 60px rgba(0, 0, 0, 0.8),
-            0 1px 0 rgba(255, 255, 255, 0.1) inset;
+            0 16px 60px var(--border-secondary),
+            0 1px 0 var(--border-secondary) inset;
         }
 
         .card-media {
@@ -485,16 +485,17 @@ function ProjectCard({ project, index, total }) {
           position: absolute;
           top: 20px;
           left: 22px;
-          background: rgba(255, 255, 255, 0.1);
+          background: var(--glass-bg);
           backdrop-filter: blur(10px);
-          border: 1px solid rgba(255, 255, 255, 0.16);
+          border: 1px solid var(--border-secondary);
           border-radius: 100px;
           padding: 5px 12px;
           font-size: 11px;
           font-weight: 600;
           letter-spacing: 0.06em;
           text-transform: uppercase;
-          color: rgba(255, 255, 255, 0.85);
+          color: var(--text-primary);
+          transition: background 0.3s, border-color 0.3s, color 0.3s;
         }
 
         .card-flags {
@@ -522,15 +523,16 @@ function ProjectCard({ project, index, total }) {
         }
 
         .flag-private {
-          background: rgba(0, 0, 0, 0.6);
-          border: 1px solid rgba(255, 255, 255, 0.15);
-          color: rgba(255, 255, 255, 0.65);
+          background: var(--glass-bg);
+          border: 1px solid var(--border-secondary);
+          color: var(--text-secondary);
           backdrop-filter: blur(8px);
+          transition: background 0.3s, border-color 0.3s, color 0.3s;
         }
 
         .flag-beta {
-          background: rgba(255, 255, 255, 0.9);
-          color: #000;
+          background: var(--color-toxic-green);
+          color: var(--bg-primary);
         }
 
         .card-info {
@@ -538,8 +540,9 @@ function ProjectCard({ project, index, total }) {
           flex-direction: column;
           justify-content: space-between;
           padding: 36px 36px 32px;
-          background: #0d0d0d;
+          background: var(--bg-secondary);
           font-family: var(--font-cairo), system-ui, -apple-system, sans-serif;
+          transition: background 0.3s, color 0.3s;
         }
 
         .card-info-top {
@@ -556,9 +559,10 @@ function ProjectCard({ project, index, total }) {
           font-weight: 600;
           letter-spacing: 0.1em;
           text-transform: uppercase;
-          color: rgba(255, 255, 255, 0.4);
-          border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+          color: var(--text-tertiary);
+          border-bottom: 1px solid var(--border-secondary);
           padding-bottom: 2px;
+          transition: color 0.3s, border-color 0.3s;
         }
 
         .card-title {
@@ -567,17 +571,19 @@ function ProjectCard({ project, index, total }) {
           font-weight: 800;
           line-height: 1.0;
           letter-spacing: -1px;
-          color: #fff;
+          color: var(--text-primary);
           margin-bottom: 16px;
+          transition: color 0.3s;
         }
 
         .card-desc {
           font-size: 14px;
           font-weight: 300;
           line-height: 1.75;
-          color: rgba(255, 255, 255, 0.55);
+          color: var(--text-secondary);
           margin-bottom: 22px;
           max-width: 400px;
+          transition: color 0.3s;
         }
 
         .card-tags {
@@ -590,18 +596,18 @@ function ProjectCard({ project, index, total }) {
         .tag {
           padding: 5px 12px;
           border-radius: 100px;
-          border: 1px solid rgba(255, 255, 255, 0.12);
+          border: 1px solid var(--border-primary);
           font-size: 11px;
           font-weight: 500;
-          color: rgba(255, 255, 255, 0.6);
+          color: var(--text-secondary);
           letter-spacing: 0.04em;
-          transition: background 0.2s, color 0.2s, border-color 0.2s;
+          transition: background 0.3s, color 0.3s, border-color 0.3s;
         }
 
         .tag:hover {
-          background: rgba(255, 255, 255, 0.08);
-          color: #fff;
-          border-color: rgba(255, 255, 255, 0.3);
+          background: var(--border-primary);
+          color: var(--text-primary);
+          border-color: var(--border-secondary);
         }
 
         .card-links {
@@ -626,7 +632,7 @@ function ProjectCard({ project, index, total }) {
           font-weight: 600;
           font-family: var(--font-cairo), system-ui, sans-serif;
           cursor: pointer;
-          transition: transform 0.2s, background 0.2s, box-shadow 0.2s, color 0.2s;
+          transition: transform 0.2s, background 0.3s, box-shadow 0.3s, color 0.3s, border-color 0.3s;
           white-space: nowrap;
         }
 
@@ -637,18 +643,19 @@ function ProjectCard({ project, index, total }) {
         }
 
         .link-primary {
-          background: #fff;
-          color: #000;
+          background: var(--text-primary);
+          color: var(--bg-primary);
           padding: 11px 20px;
-          box-shadow: 0 4px 16px rgba(255, 255, 255, 0.1);
+          box-shadow: 0 4px 16px var(--border-secondary);
           width: 100%;
           justify-content: space-between;
         }
 
         .link-primary:hover {
-          background: #e8e8e8;
+          background: var(--text-secondary);
+          color: var(--bg-primary);
           transform: translateY(-1px);
-          box-shadow: 0 6px 24px rgba(255, 255, 255, 0.18);
+          box-shadow: 0 6px 24px var(--border-secondary);
         }
 
         .link-arrow {
@@ -663,16 +670,16 @@ function ProjectCard({ project, index, total }) {
         }
 
         .link-ghost {
-          background: rgba(255, 255, 255, 0.06);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          color: rgba(255, 255, 255, 0.75);
+          background: var(--glass-bg);
+          border: 1px solid var(--border-primary);
+          color: var(--text-secondary);
           padding: 9px 16px;
         }
 
         .link-ghost:hover {
-          background: rgba(255, 255, 255, 0.12);
-          border-color: rgba(255, 255, 255, 0.25);
-          color: #fff;
+          background: var(--border-primary);
+          border-color: var(--border-secondary);
+          color: var(--text-primary);
           transform: translateY(-1px);
         }
 
@@ -686,16 +693,16 @@ function ProjectCard({ project, index, total }) {
           display: flex;
           align-items: center;
           gap: 8px;
-          background: rgba(255, 255, 255, 0.06);
-          border: 1px solid rgba(255, 255, 255, 0.1);
+          background: var(--glass-bg);
+          border: 1px solid var(--border-primary);
           border-radius: 12px;
           padding: 9px 16px;
-          color: rgba(255, 255, 255, 0.75);
+          color: var(--text-secondary);
           font-size: 13px;
           font-weight: 600;
           font-family: var(--font-cairo), system-ui, sans-serif;
           cursor: pointer;
-          transition: background 0.2s, border-color 0.2s;
+          transition: background 0.3s, border-color 0.3s, color 0.3s;
           text-align: right;
         }
 
@@ -706,9 +713,9 @@ function ProjectCard({ project, index, total }) {
         }
 
         .github-toggle:hover {
-          background: rgba(255, 255, 255, 0.1);
-          border-color: rgba(255, 255, 255, 0.2);
-          color: #fff;
+          background: var(--border-primary);
+          border-color: var(--border-secondary);
+          color: var(--text-primary);
         }
 
         .github-chevron {
@@ -728,7 +735,7 @@ function ProjectCard({ project, index, total }) {
           flex-direction: column;
           gap: 4px;
           padding: 4px 16px 4px 0;
-          border-right: 1px solid rgba(255, 255, 255, 0.1);
+          border-right: 1px solid var(--border-primary);
           margin-right: 16px;
         }
 
@@ -738,21 +745,21 @@ function ProjectCard({ project, index, total }) {
           gap: 8px;
           font-size: 12px;
           font-weight: 500;
-          color: rgba(255, 255, 255, 0.55);
+          color: var(--text-tertiary);
           text-decoration: none;
           padding: 4px 0;
           transition: color 0.2s;
         }
 
         .github-sub-link:hover {
-          color: #fff;
+          color: var(--text-primary);
         }
 
         .github-sub-dot {
           width: 5px;
           height: 5px;
           border-radius: 50%;
-          background: rgba(255, 255, 255, 0.3);
+          background: var(--text-tertiary);
           flex-shrink: 0;
         }
 
@@ -914,19 +921,16 @@ export default function ProjectsAr() {
           width: 100%;
           min-height: 100vh;
           font-family: var(--font-cairo), system-ui, -apple-system, sans-serif;
-          color: #fff;
+          color: var(--text-primary);
           padding: 130px 0 160px;
-          background: #050505;
+          background: transparent;
+          transition: color 0.3s;
         }
 
         .proj-bg-decor {
           position: absolute;
           inset: 0;
-          background: radial-gradient(
-            circle 60vw at 70% 30%,
-            rgba(255, 255, 255, 0.012) 0%,
-            transparent 100%
-          );
+          background: transparent;
           pointer-events: none;
           z-index: 0;
         }
@@ -947,8 +951,8 @@ export default function ProjectsAr() {
           display: inline-flex;
           align-items: center;
           gap: 8px;
-          background: rgba(255, 255, 255, 0.08);
-          border: 1px solid rgba(255, 255, 255, 0.22);
+          background: var(--glass-bg);
+          border: 1px solid var(--border-primary);
           backdrop-filter: blur(8px);
           border-radius: 100px;
           padding: 6px 14px 6px 10px;
@@ -956,15 +960,16 @@ export default function ProjectsAr() {
           font-weight: 500;
           letter-spacing: 0.08em;
           text-transform: uppercase;
-          color: rgba(255, 255, 255, 0.9);
+          color: var(--text-primary);
           margin-bottom: 28px;
+          transition: background 0.3s, border-color 0.3s, color 0.3s;
         }
 
         .eyebrowDot {
           width: 6px;
           height: 6px;
           border-radius: 50%;
-          background: #fff;
+          background: var(--text-primary);
           animation: pulse 2s ease-in-out infinite;
         }
 
@@ -979,13 +984,13 @@ export default function ProjectsAr() {
           font-weight: 800;
           line-height: 0.95;
           letter-spacing: -2.5px;
-          color: #fff;
+          color: var(--text-primary);
           margin-bottom: 24px;
         }
 
         .proj-heading em {
           font-style: normal;
-          background: linear-gradient(135deg, #fff 30%, rgba(255, 255, 255, 0.35));
+          background: linear-gradient(135deg, var(--text-primary) 30%, var(--text-secondary));
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
@@ -995,8 +1000,9 @@ export default function ProjectsAr() {
           font-size: 17px;
           font-weight: 300;
           line-height: 1.75;
-          color: rgba(255, 255, 255, 0.45);
+          color: var(--text-secondary);
           max-width: 440px;
+          transition: color 0.3s;
         }
 
         .proj-stack {

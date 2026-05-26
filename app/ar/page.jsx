@@ -16,7 +16,7 @@ const ArabicLandingPage = () => {
   return (
     <LoadingWrapper text="CODIAC">
       <div
-        className="font-arabic bg-black text-white min-h-screen antialiased"
+        className="font-arabic bg-[#FAF9F6] dark:bg-black text-[#0A0A0A] dark:text-white min-h-screen antialiased transition-colors duration-300"
         dir="rtl"
       >
         <style dangerouslySetInnerHTML={{

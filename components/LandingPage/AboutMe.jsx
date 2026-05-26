@@ -29,10 +29,10 @@ const skills = [
   { name: "TypeScript", icon: <SiTypescript className="text-blue-500" /> },
   { name: "Python", icon: <FaPython className="text-blue-300" /> },
   { name: "React", icon: <FaReact className="text-cyan-400" /> },
-  { name: "Next.js", icon: <SiNextdotjs className="text-white" /> },
+  { name: "Next.js", icon: <SiNextdotjs className="text-[#0A0A0A] dark:text-white" /> },
   { name: "React Native", icon: <TbBrandReactNative className="text-cyan-400" /> },
   { name: "Node.js", icon: <FaNodeJs className="text-green-500" /> },
-  { name: "Express", icon: <SiExpress className="text-white" /> },
+  { name: "Express", icon: <SiExpress className="text-[#0A0A0A] dark:text-white" /> },
   { name: "MongoDB", icon: <SiMongodb className="text-green-400" /> },
   { name: "Tailwind", icon: <SiTailwindcss className="text-cyan-300" /> },
   { name: "Git", icon: <FaGitAlt className="text-orange-500" /> },
@@ -352,12 +352,6 @@ export default function About() {
         </div>
       </div>
 
-      {/* Scroll hint */}
-      <div className="about-scroll-hint">
-        <span className="scrollHintLine" />
-        Scroll
-      </div>
-
       <style jsx>{`
         /* ── Section shell ── */
         .about-section {
@@ -368,7 +362,7 @@ export default function About() {
           display: flex;
           align-items: center;
           font-family: "DM Sans", system-ui, -apple-system, sans-serif;
-          color: #fff;
+          color: var(--text-primary);
           padding: 120px 0 100px;
         }
 
@@ -378,12 +372,11 @@ export default function About() {
           inset: 0;
           background: radial-gradient(
             ellipse 80% 90% at 70% 50%,
-            #1e1e1e 0%,
-            #111111 35%,
-            #080808 65%,
-            #000000 100%
+            var(--bg-tertiary) 0%,
+            var(--bg-primary) 100%
           );
           z-index: 0;
+          transition: background 0.3s ease;
         }
 
         .about-bg::after {
@@ -434,8 +427,8 @@ export default function About() {
           display: inline-flex;
           align-items: center;
           gap: 8px;
-          background: rgba(255, 255, 255, 0.08);
-          border: 1px solid rgba(255, 255, 255, 0.22);
+          background: var(--border-primary);
+          border: 1px solid var(--border-secondary);
           backdrop-filter: blur(8px);
           border-radius: 100px;
           padding: 6px 14px 6px 10px;
@@ -443,7 +436,7 @@ export default function About() {
           font-weight: 500;
           letter-spacing: 0.08em;
           text-transform: uppercase;
-          color: rgba(255, 255, 255, 0.9);
+          color: var(--text-primary);
           margin-bottom: 28px;
         }
 
@@ -451,7 +444,7 @@ export default function About() {
           width: 6px;
           height: 6px;
           border-radius: 50%;
-          background: #fff;
+          background: var(--text-primary);
           animation: pulse 2s ease-in-out infinite;
         }
 
@@ -466,14 +459,14 @@ export default function About() {
           font-size: clamp(38px, 5vw, 68px);
           font-weight: 800;
           line-height: 0.97;
-          color: #fff;
+          color: var(--text-primary);
           letter-spacing: -1.5px;
           margin-bottom: 32px;
         }
 
         .about-heading em {
           font-style: normal;
-          background: linear-gradient(135deg, #fff 30%, rgba(255, 255, 255, 0.45));
+          background: linear-gradient(135deg, var(--text-primary) 30%, var(--text-secondary));
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
@@ -483,7 +476,7 @@ export default function About() {
         .about-divider {
           border: none;
           height: 1px;
-          background: rgba(255, 255, 255, 0.12);
+          background: var(--border-primary);
           margin: 0 0 32px;
         }
 
@@ -499,12 +492,12 @@ export default function About() {
           font-size: 16px;
           font-weight: 300;
           line-height: 1.75;
-          color: rgba(255, 255, 255, 0.65);
+          color: var(--text-secondary);
           max-width: 480px;
         }
 
         .about-bio strong {
-          color: #fff;
+          color: var(--text-primary);
           font-weight: 600;
         }
 
@@ -513,8 +506,8 @@ export default function About() {
           display: inline-flex;
           align-items: center;
           gap: 10px;
-          background: #fff;
-          color: #000;
+          background: var(--text-primary);
+          color: var(--bg-primary);
           font-family: inherit;
           font-size: 15px;
           font-weight: 600;
@@ -523,14 +516,14 @@ export default function About() {
           text-decoration: none;
           cursor: pointer;
           margin-bottom: 52px;
-          transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
-          box-shadow: 0 4px 24px rgba(255, 255, 255, 0.15);
+          transition: transform 0.2s, box-shadow 0.2s, background 0.3s, color 0.3s;
+          box-shadow: 0 4px 24px var(--border-secondary);
         }
 
         .about-download:hover {
           transform: translateY(-2px);
-          box-shadow: 0 8px 32px rgba(255, 255, 255, 0.25);
-          background: #e8e8e8;
+          box-shadow: 0 8px 32px var(--border-secondary);
+          background: var(--border-secondary);
         }
 
         .about-download :global(svg) {
@@ -550,8 +543,8 @@ export default function About() {
           display: flex;
           align-items: flex-start;
           gap: 14px;
-          background: rgba(255, 255, 255, 0.05);
-          border: 1px solid rgba(255, 255, 255, 0.1);
+          background: var(--glass-bg);
+          border: 1px solid var(--glass-border);
           backdrop-filter: blur(12px);
           border-radius: 16px;
           padding: 18px 16px;
@@ -559,8 +552,8 @@ export default function About() {
         }
 
         .trait-card:hover {
-          background: rgba(255, 255, 255, 0.1);
-          border-color: rgba(255, 255, 255, 0.22);
+          background: var(--bg-tertiary);
+          border-color: var(--color-toxic-green);
           transform: translateY(-2px);
         }
 
@@ -568,12 +561,12 @@ export default function About() {
           flex-shrink: 0;
           width: 36px;
           height: 36px;
-          background: rgba(255, 255, 255, 0.08);
+          background: var(--border-primary);
           border-radius: 10px;
           display: flex;
           align-items: center;
           justify-content: center;
-          color: #fff;
+          color: var(--text-primary);
         }
 
         .trait-icon :global(svg) {
@@ -585,14 +578,14 @@ export default function About() {
           font-family: "Syne", system-ui, sans-serif;
           font-size: 14px;
           font-weight: 700;
-          color: #fff;
+          color: var(--text-primary);
           margin-bottom: 4px;
         }
 
         .trait-desc {
           font-size: 12px;
           font-weight: 300;
-          color: rgba(255, 255, 255, 0.5);
+          color: var(--text-secondary);
           line-height: 1.6;
         }
 
@@ -601,11 +594,12 @@ export default function About() {
           position: relative;
           z-index: 2;
           width: 100%;
-          background: rgba(0, 0, 0, 0.55);
+          background: var(--glass-bg);
           backdrop-filter: blur(20px);
-          border: 1px solid rgba(255, 255, 255, 0.1);
+          border: 1px solid var(--glass-border);
           border-radius: 24px;
           padding: 32px;
+          transition: background 0.3s, border-color 0.3s;
         }
 
         .skills-label {
@@ -622,20 +616,21 @@ export default function About() {
           display: flex;
           align-items: center;
           gap: 8px;
-          background: rgba(255, 255, 255, 0.07);
-          border: 1px solid rgba(255, 255, 255, 0.12);
+          background: var(--bg-tertiary);
+          border: 1px solid var(--border-primary);
           border-radius: 100px;
           padding: 8px 16px;
           font-size: 13px;
           font-weight: 500;
-          color: rgba(255, 255, 255, 0.85);
+          color: var(--text-secondary);
           cursor: default;
           transition: background 0.2s, border-color 0.2s, transform 0.2s;
         }
 
         .skill-pill:hover {
-          background: rgba(255, 255, 255, 0.14);
-          border-color: rgba(255, 255, 255, 0.28);
+          background: var(--border-primary);
+          border-color: var(--border-secondary);
+          color: var(--text-primary);
           transform: translateY(-2px);
         }
 

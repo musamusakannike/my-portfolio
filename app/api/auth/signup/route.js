@@ -59,8 +59,7 @@ export async function POST(req) {
             <a href="${verifyUrl}" style="background-color: #adff2f; color: #0a0a0a; text-decoration: none; padding: 12px 24px; font-weight: bold; font-size: 14px; border-radius: 0; display: inline-block; border: 1px solid #adff2f;">VERIFY_ACCOUNT_NOW</a>
           </div>
           <p style="color: #555; font-size: 12px; margin-top: 40px; border-top: 1px solid #222; padding-top: 20px;">
-            If you did not request this email, please ignore it.<br/>
-            SYS_STATUS: VERIFICATION_DISPATCHED
+            If you did not request this email, please ignore it.
           </p>
         </div>
       `,

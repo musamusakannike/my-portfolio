@@ -159,13 +159,14 @@ export default function ContactAr() {
           width: 100%;
           min-height: 80vh;
           padding: 130px 0 160px;
-          background: #000;
+          background: transparent;
           overflow: hidden;
           font-family: var(--font-cairo), system-ui, -apple-system, sans-serif;
-          color: #fff;
+          color: var(--text-primary);
           display: flex;
           flex-direction: column;
           justify-content: center;
+          transition: color 0.3s ease;
         }
 
         .contact-noise {
@@ -196,8 +197,8 @@ export default function ContactAr() {
           display: inline-flex;
           align-items: center;
           gap: 8px;
-          background: rgba(255, 255, 255, 0.08);
-          border: 1px solid rgba(255, 255, 255, 0.22);
+          background: var(--glass-bg);
+          border: 1px solid var(--border-primary);
           backdrop-filter: blur(8px);
           border-radius: 100px;
           padding: 6px 14px 6px 10px;
@@ -205,15 +206,16 @@ export default function ContactAr() {
           font-weight: 500;
           letter-spacing: 0.08em;
           text-transform: uppercase;
-          color: rgba(255, 255, 255, 0.9);
+          color: var(--text-primary);
           margin-bottom: 28px;
+          transition: background 0.3s, border-color 0.3s, color 0.3s;
         }
 
         .eyebrowDot {
           width: 6px;
           height: 6px;
           border-radius: 50%;
-          background: #fff;
+          background: var(--text-primary);
           animation: pulse 2s ease-in-out infinite;
         }
 
@@ -228,13 +230,13 @@ export default function ContactAr() {
           font-weight: 800;
           line-height: 0.95;
           letter-spacing: -2px;
-          color: #fff;
+          color: var(--text-primary);
           margin-bottom: 20px;
         }
 
         .contact-heading em {
           font-style: normal;
-          background: linear-gradient(135deg, #fff 30%, rgba(255,255,255,0.38));
+          background: linear-gradient(135deg, var(--text-primary) 30%, var(--text-secondary));
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
@@ -242,19 +244,21 @@ export default function ContactAr() {
 
         .contact-subtitle {
           font-size: 16px;
-          color: rgba(255, 255, 255, 0.7);
+          color: var(--text-secondary);
           line-height: 1.6;
           max-width: 440px;
           margin: 0 auto;
+          transition: color 0.3s ease;
         }
 
         .contact-form-wrapper {
-          background: rgba(255, 255, 255, 0.03);
-          border: 1px solid rgba(255, 255, 255, 0.07);
+          background: var(--glass-bg);
+          border: 1px solid var(--border-primary);
           border-radius: 24px;
           padding: 48px;
           backdrop-filter: blur(10px);
-          box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 16px 40px var(--border-primary);
+          transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
         }
 
         .contact-form {
@@ -272,7 +276,7 @@ export default function ContactAr() {
         .input-group label {
           font-size: 14px;
           font-weight: 500;
-          color: rgba(255, 255, 255, 0.9);
+          color: var(--text-primary);
           margin-right: 4px;
           text-align: right;
         }
@@ -280,28 +284,28 @@ export default function ContactAr() {
         .contact-form input,
         .contact-form textarea {
           width: 100%;
-          background: rgba(255, 255, 255, 0.05);
-          border: 1px solid rgba(255, 255, 255, 0.1);
+          background: var(--bg-primary);
+          border: 1px solid var(--border-secondary);
           border-radius: 12px;
           padding: 16px 20px;
-          color: #fff;
+          color: var(--text-primary);
           font-family: inherit;
           font-size: 15px;
-          transition: all 0.3s ease;
+          transition: background 0.3s, border-color 0.3s, color 0.3s, box-shadow 0.3s;
           outline: none;
           text-align: right;
         }
 
         .contact-form input::placeholder,
         .contact-form textarea::placeholder {
-          color: rgba(255, 255, 255, 0.3);
+          color: var(--text-tertiary);
         }
 
         .contact-form input:focus,
         .contact-form textarea:focus {
-          background: rgba(255, 255, 255, 0.08);
-          border-color: rgba(255, 255, 255, 0.3);
-          box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.05);
+          background: var(--bg-secondary);
+          border-color: var(--color-toxic-green);
+          box-shadow: 0 0 0 2px var(--border-primary);
         }
 
         .contact-form textarea {
@@ -314,22 +318,22 @@ export default function ContactAr() {
           align-items: center;
           justify-content: center;
           gap: 12px;
-          background: #fff;
-          color: #000;
+          background: var(--text-primary);
+          color: var(--bg-primary);
           border: none;
           border-radius: 12px;
           padding: 18px 32px;
           font-size: 16px;
           font-weight: 600;
           cursor: pointer;
-          transition: all 0.3s ease;
+          transition: background 0.3s, color 0.3s, transform 0.3s, box-shadow 0.3s;
           margin-top: 8px;
           font-family: inherit;
         }
 
         .submit-btn:hover:not(:disabled) {
           transform: translateY(-2px);
-          box-shadow: 0 8px 24px rgba(255, 255, 255, 0.15);
+          box-shadow: 0 8px 24px var(--border-secondary);
         }
 
         .submit-btn:disabled {
@@ -353,13 +357,13 @@ export default function ContactAr() {
 
         .status-message.success {
           background: rgba(16, 185, 129, 0.1);
-          color: #34d399;
-          border: 1px solid rgba(16, 185, 129, 0.2);
+          color: var(--color-toxic-green);
+          border: 1px solid var(--border-secondary);
         }
 
         .status-message.error {
           background: rgba(239, 68, 68, 0.1);
-          color: #f87171;
+          color: #ef4444;
           border: 1px solid rgba(239, 68, 68, 0.2);
         }
 

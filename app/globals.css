@@ -5,18 +5,56 @@
 @import url('https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&family=Geist:wght@100..900&family=JetBrains+Mono:wght@100..800&family=Cairo:wght@300;400;500;600;700;800&family=Amiri:wght@400;700&family=El+Messiri:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Lora:ital,wght@0,400..700;1,400..700&display=swap');
 
 :root {
-  --color-obsidian: #0a0a0a;
-  --color-toxic-green: #adff2f;
-  --color-electric-cobalt: #2e5bff;
+  /* Light mode defaults */
+  --bg-primary: #FAF9F6;
+  --bg-secondary: #FFFFFF;
+  --bg-tertiary: #F3F2EE;
+  --text-primary: #0A0A0A;
+  --text-secondary: #404040;
+  --text-tertiary: #737373;
+  --border-primary: rgba(10, 10, 10, 0.08);
+  --border-secondary: rgba(10, 10, 10, 0.15);
+  
+  --color-obsidian: #FAF9F6;
+  --color-toxic-green: #15803d; /* Rich green for high contrast readability in light mode */
+  --color-electric-cobalt: #0052CC;
+  
+  --bg-grid-color: rgba(0, 0, 0, 0.03);
+  --scanline-opacity: 0.01;
+  --glass-bg: rgba(250, 249, 246, 0.8);
+  --glass-border: rgba(10, 10, 10, 0.06);
+  
   --font-mono: 'Geist Mono', 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
   --font-sans: 'Geist', 'DM Sans', system-ui, -apple-system, sans-serif;
 }
 
+.dark {
+  /* Dark mode overrides */
+  --bg-primary: #0A0A0A;
+  --bg-secondary: #050505;
+  --bg-tertiary: #0E0E0E;
+  --text-primary: #f5f5f5;
+  --text-secondary: #a3a3a3;
+  --text-tertiary: #525252;
+  --border-primary: rgba(255, 255, 255, 0.08);
+  --border-secondary: rgba(255, 255, 255, 0.15);
+  
+  --color-obsidian: #0A0A0A;
+  --color-toxic-green: #ADFF2F;
+  --color-electric-cobalt: #2E5BFF;
+  
+  --bg-grid-color: rgba(255, 255, 255, 0.05);
+  --scanline-opacity: 0.15;
+  --glass-bg: rgba(10, 10, 10, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.08);
+}
+
 body {
-  background-color: var(--color-obsidian);
-  color: #f5f5f5;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
   font-family: var(--font-sans);
   overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 h1,
@@ -33,10 +71,10 @@ h6 {
   width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--color-obsidian);
+  background: var(--bg-primary);
 }
 ::-webkit-scrollbar-thumb {
-  background: #333;
+  background: var(--border-secondary);
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
@@ -64,8 +102,8 @@ h6 {
 .bg-grid-pattern {
   background-size: 50px 50px;
   background-image:
-    linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    linear-gradient(to right, var(--bg-grid-color) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--bg-grid-color) 1px, transparent 1px);
 }
 
 /* Scanline Effect */
@@ -85,15 +123,17 @@ h6 {
   background-size: 100% 4px;
   pointer-events: none;
   z-index: 50;
-  opacity: 0.15;
+  opacity: var(--scanline-opacity);
+  transition: opacity 0.3s ease;
 }
 
 /* Glassmorphism for "Terminal" */
 .glass-terminal {
-  background: rgba(10, 10, 10, 0.7);
+  background: var(--glass-bg);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--glass-border);
+  transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 /* Animations */

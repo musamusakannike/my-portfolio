@@ -1,4 +1,5 @@
 import "./globals.css";
+import { ThemeProvider } from "@/components/ThemeProvider";
 
 export const metadata = {
   metadataBase: new URL("https://codiac.online"),
@@ -25,10 +26,31 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  const savedTheme = localStorage.getItem('theme');
+                  const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                  if (savedTheme === 'dark' || (!savedTheme && systemDark)) {
+                    document.documentElement.classList.add('dark');
+                  } else {
+                    document.documentElement.classList.remove('dark');
+                  }
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
+      </head>
       <body
-        className="antialiased bg-[#0A0A0A] text-white selection:bg-[#ADFF2F] selection:text-[#0A0A0A]"
+        className="antialiased bg-[#FAF9F6] dark:bg-[#0A0A0A] text-[#0A0A0A] dark:text-white transition-colors duration-300 selection:bg-[#ADFF2F] selection:text-[#0A0A0A]"
       >
-        {children}
+        <ThemeProvider>
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

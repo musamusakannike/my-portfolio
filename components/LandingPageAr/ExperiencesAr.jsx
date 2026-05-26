@@ -296,10 +296,11 @@ export default function ExperiencesAr() {
           width: 100%;
           min-height: 100vh;
           font-family: var(--font-cairo), system-ui, -apple-system, sans-serif;
-          color: #fff;
+          color: var(--text-primary);
           padding: 130px 0 200px;
           overflow: hidden;
-          background: #000;
+          background: transparent;
+          transition: color 0.3s;
         }
 
         .exp-blob {
@@ -309,11 +310,7 @@ export default function ExperiencesAr() {
           width: 750px;
           height: 750px;
           border-radius: 50%;
-          background: radial-gradient(
-            circle,
-            rgba(255, 255, 255, 0.045) 0%,
-            transparent 68%
-          );
+          background: transparent;
           will-change: transform;
           pointer-events: none;
           z-index: 0;
@@ -345,8 +342,8 @@ export default function ExperiencesAr() {
           display: inline-flex;
           align-items: center;
           gap: 8px;
-          background: rgba(255, 255, 255, 0.08);
-          border: 1px solid rgba(255, 255, 255, 0.22);
+          background: var(--glass-bg);
+          border: 1px solid var(--border-primary);
           backdrop-filter: blur(8px);
           border-radius: 100px;
           padding: 6px 14px 6px 10px;
@@ -354,15 +351,16 @@ export default function ExperiencesAr() {
           font-weight: 500;
           letter-spacing: 0.08em;
           text-transform: uppercase;
-          color: rgba(255, 255, 255, 0.9);
+          color: var(--text-primary);
           margin-bottom: 28px;
+          transition: background 0.3s, border-color 0.3s, color 0.3s;
         }
 
         .eyebrowDot {
           width: 6px;
           height: 6px;
           border-radius: 50%;
-          background: #fff;
+          background: var(--text-primary);
           animation: pulse 2s ease-in-out infinite;
         }
 
@@ -377,7 +375,7 @@ export default function ExperiencesAr() {
           font-weight: 800;
           line-height: 0.95;
           letter-spacing: -2.5px;
-          color: #fff;
+          color: var(--text-primary);
           margin-bottom: 22px;
           will-change: transform;
         }
@@ -388,7 +386,7 @@ export default function ExperiencesAr() {
 
         .exp-heading em {
           font-style: normal;
-          background: linear-gradient(135deg, #fff 30%, rgba(255, 255, 255, 0.38));
+          background: linear-gradient(135deg, var(--text-primary) 30%, var(--text-secondary));
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
@@ -398,8 +396,9 @@ export default function ExperiencesAr() {
           font-size: 16px;
           font-weight: 300;
           line-height: 1.75;
-          color: rgba(255, 255, 255, 0.42);
+          color: var(--text-secondary);
           max-width: 440px;
+          transition: color 0.3s;
         }
 
         .exp-cards {
@@ -416,7 +415,7 @@ export default function ExperiencesAr() {
           top: 14px;
           bottom: 14px;
           width: 1px;
-          background: rgba(255, 255, 255, 0.07);
+          background: var(--border-primary);
           overflow: hidden;
         }
 
@@ -440,7 +439,7 @@ export default function ExperiencesAr() {
           position: absolute;
           inset: 0;
           border-radius: 50%;
-          border: 1px solid rgba(255, 255, 255, 0.22);
+          border: 1px solid var(--border-secondary);
           transition: border-color 0.35s, transform 0.35s;
         }
 
@@ -448,7 +447,7 @@ export default function ExperiencesAr() {
           width: 9px;
           height: 9px;
           border-radius: 50%;
-          background: #fff;
+          background: var(--text-primary);
           position: relative;
           z-index: 1;
           transition: transform 0.3s;
@@ -458,7 +457,7 @@ export default function ExperiencesAr() {
           position: absolute;
           inset: -5px;
           border-radius: 50%;
-          border: 1px solid rgba(255, 255, 255, 0.15);
+          border: 1px solid var(--border-secondary);
           animation: ripple 2.4s ease-out infinite;
         }
 
@@ -468,7 +467,7 @@ export default function ExperiencesAr() {
         }
 
         .exp-card:hover .node-ring {
-          border-color: rgba(255, 255, 255, 0.65);
+          border-color: var(--text-secondary);
           transform: scale(1.1);
         }
 
@@ -485,24 +484,24 @@ export default function ExperiencesAr() {
           font-weight: 700;
           letter-spacing: 0.12em;
           text-transform: uppercase;
-          color: rgba(255, 255, 255, 0.18);
+          color: var(--border-secondary);
           white-space: nowrap;
           will-change: transform;
         }
 
         .card-body {
-          background: rgba(255, 255, 255, 0.03);
-          border: 1px solid rgba(255, 255, 255, 0.07);
+          background: var(--glass-bg);
+          border: 1px solid var(--border-primary);
           border-radius: 22px;
           padding: 30px 32px 26px;
           transition: background 0.35s, border-color 0.35s, box-shadow 0.35s,
-            transform 0.35s;
+            transform 0.35s, color 0.35s;
         }
 
         .exp-card:hover .card-body {
-          background: rgba(255, 255, 255, 0.055);
-          border-color: rgba(255, 255, 255, 0.13);
-          box-shadow: 0 16px 56px rgba(0, 0, 0, 0.45);
+          background: var(--border-primary);
+          border-color: var(--border-secondary);
+          box-shadow: 0 16px 56px var(--border-primary);
           transform: translateY(-3px);
         }
 
@@ -532,30 +531,32 @@ export default function ExperiencesAr() {
           font-family: var(--font-el-messiri), system-ui, sans-serif;
           font-size: clamp(20px, 2.6vw, 28px);
           font-weight: 800;
-          color: #fff;
+          color: var(--text-primary);
           letter-spacing: -0.5px;
           line-height: 1.1;
+          transition: color 0.3s;
         }
 
         .now-badge {
           display: inline-flex;
           align-items: center;
           gap: 5px;
-          background: rgba(255, 255, 255, 0.07);
-          border: 1px solid rgba(255, 255, 255, 0.15);
+          background: var(--border-primary);
+          border: 1px solid var(--border-secondary);
           border-radius: 100px;
           padding: 3px 10px;
           font-size: 11px;
           font-weight: 600;
           letter-spacing: 0.06em;
-          color: rgba(255, 255, 255, 0.65);
+          color: var(--text-secondary);
+          transition: background 0.3s, border-color 0.3s, color 0.3s;
         }
 
         .now-dot {
           width: 5px;
           height: 5px;
           border-radius: 50%;
-          background: #86efac;
+          background: var(--color-toxic-green);
           flex-shrink: 0;
           animation: pulse 2s ease-in-out infinite;
         }
@@ -569,14 +570,14 @@ export default function ExperiencesAr() {
 
         .meta-company {
           font-weight: 500;
-          color: rgba(255, 255, 255, 0.58);
+          color: var(--text-secondary);
         }
 
         .meta-sep {
           width: 3px;
           height: 3px;
           border-radius: 50%;
-          background: rgba(255, 255, 255, 0.2);
+          background: var(--border-secondary);
           flex-shrink: 0;
         }
 
@@ -584,7 +585,7 @@ export default function ExperiencesAr() {
           display: flex;
           align-items: center;
           gap: 4px;
-          color: rgba(255, 255, 255, 0.3);
+          color: var(--text-tertiary);
           font-weight: 300;
         }
 
@@ -596,7 +597,7 @@ export default function ExperiencesAr() {
 
         .card-period {
           font-size: 12px;
-          color: rgba(255, 255, 255, 0.25);
+          color: var(--text-tertiary);
           white-space: nowrap;
           font-weight: 400;
           letter-spacing: 0.02em;
@@ -607,7 +608,7 @@ export default function ExperiencesAr() {
         .card-rule {
           border: none;
           height: 1px;
-          background: rgba(255, 255, 255, 0.06);
+          background: var(--border-primary);
           margin-bottom: 18px;
         }
 
@@ -615,7 +616,7 @@ export default function ExperiencesAr() {
           font-size: 15px;
           font-weight: 300;
           line-height: 1.82;
-          color: rgba(255, 255, 255, 0.55);
+          color: var(--text-secondary);
           margin-bottom: 22px;
         }
 
@@ -628,10 +629,10 @@ export default function ExperiencesAr() {
         .skill-tag {
           padding: 5px 13px;
           border-radius: 100px;
-          border: 1px solid rgba(255, 255, 255, 0.1);
+          border: 1px solid var(--border-primary);
           font-size: 12px;
           font-weight: 500;
-          color: rgba(255, 255, 255, 0.5);
+          color: var(--text-secondary);
           letter-spacing: 0.03em;
           transition: background 0.2s, color 0.2s, border-color 0.2s,
             transform 0.2s;
@@ -639,9 +640,9 @@ export default function ExperiencesAr() {
         }
 
         .skill-tag:hover {
-          background: rgba(255, 255, 255, 0.07);
-          color: #fff;
-          border-color: rgba(255, 255, 255, 0.24);
+          background: var(--border-primary);
+          color: var(--text-primary);
+          border-color: var(--border-secondary);
           transform: translateY(-2px);
         }
 
@@ -656,7 +657,7 @@ export default function ExperiencesAr() {
           font-size: 12px;
           letter-spacing: 0.08em;
           text-transform: uppercase;
-          color: rgba(255, 255, 255, 0.28);
+          color: var(--text-tertiary);
           font-weight: 500;
           font-family: var(--font-cairo), system-ui, sans-serif;
         }
@@ -664,7 +665,7 @@ export default function ExperiencesAr() {
         .hint-line {
           width: 32px;
           height: 1px;
-          background: rgba(255, 255, 255, 0.12);
+          background: var(--border-primary);
           position: relative;
           overflow: hidden;
         }
@@ -673,7 +674,7 @@ export default function ExperiencesAr() {
           content: "";
           position: absolute;
           inset: 0;
-          background: #fff;
+          background: var(--text-primary);
           transform: translateX(-100%);
           animation: slideLine 2s ease-in-out infinite 1.2s;
         }

@@ -434,17 +434,29 @@ function ProjectCard({
           min-height: 520px;
           border-radius: 24px;
           overflow: hidden;
-          background: #0d0d0d;
-          border: 1px solid rgba(255, 255, 255, 0.08);
+          background: var(--bg-secondary);
+          border: 1px solid var(--border-primary);
           box-shadow:
-            0 8px 40px rgba(0, 0, 0, 0.6),
-            0 1px 0 rgba(255, 255, 255, 0.06) inset;
+            0 8px 40px rgba(0, 0, 0, 0.1),
+            0 1px 0 var(--border-primary) inset;
           will-change: transform;
-          transition: box-shadow 0.3s;
+          transition: box-shadow 0.3s, background 0.3s, border-color 0.3s;
           margin-bottom: 0;
         }
 
+        :global(.dark) .proj-card {
+          box-shadow:
+            0 8px 40px rgba(0, 0, 0, 0.6),
+            0 1px 0 rgba(255, 255, 255, 0.06) inset;
+        }
+
         .proj-card:hover {
+          box-shadow:
+            0 16px 60px rgba(0, 0, 0, 0.15),
+            0 1px 0 var(--border-secondary) inset;
+        }
+
+        :global(.dark) .proj-card:hover {
           box-shadow:
             0 16px 60px rgba(0, 0, 0, 0.8),
             0 1px 0 rgba(255, 255, 255, 0.1) inset;
@@ -475,9 +487,9 @@ function ProjectCard({
           inset: 0;
           background: linear-gradient(
             135deg,
-            rgba(0, 0, 0, 0.55) 0%,
-            rgba(0, 0, 0, 0.15) 60%,
-            rgba(0, 0, 0, 0.45) 100%
+            rgba(0, 0, 0, 0.45) 0%,
+            rgba(0, 0, 0, 0.1) 60%,
+            rgba(0, 0, 0, 0.35) 100%
           );
         }
 
@@ -489,7 +501,8 @@ function ProjectCard({
           font-size: 11px;
           font-weight: 700;
           letter-spacing: 0.12em;
-          color: rgba(255, 255, 255, 0.55);
+          color: rgba(255, 255, 255, 0.75);
+          text-shadow: 0 2px 4px rgba(0,0,0,0.5);
           text-transform: uppercase;
         }
 
@@ -497,16 +510,16 @@ function ProjectCard({
           position: absolute;
           top: 20px;
           right: 22px;
-          background: rgba(255, 255, 255, 0.1);
+          background: rgba(0, 0, 0, 0.4);
           backdrop-filter: blur(10px);
-          border: 1px solid rgba(255, 255, 255, 0.16);
+          border: 1px solid rgba(255, 255, 255, 0.25);
           border-radius: 100px;
           padding: 5px 12px;
           font-size: 11px;
           font-weight: 600;
           letter-spacing: 0.06em;
           text-transform: uppercase;
-          color: rgba(255, 255, 255, 0.85);
+          color: #fff;
         }
 
         .card-flags {
@@ -535,14 +548,14 @@ function ProjectCard({
 
         .flag-private {
           background: rgba(0, 0, 0, 0.6);
-          border: 1px solid rgba(255, 255, 255, 0.15);
-          color: rgba(255, 255, 255, 0.65);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          color: rgba(255, 255, 255, 0.85);
           backdrop-filter: blur(8px);
         }
 
         .flag-beta {
-          background: rgba(255, 255, 255, 0.9);
-          color: #000;
+          background: var(--text-primary);
+          color: var(--bg-primary);
         }
 
         /* ── Info side ── */
@@ -551,7 +564,8 @@ function ProjectCard({
           flex-direction: column;
           justify-content: space-between;
           padding: 36px 36px 32px;
-          background: #0d0d0d;
+          background: var(--bg-secondary);
+          transition: background 0.3s;
         }
 
         .card-info-top {
@@ -568,8 +582,8 @@ function ProjectCard({
           font-weight: 600;
           letter-spacing: 0.1em;
           text-transform: uppercase;
-          color: rgba(255, 255, 255, 0.4);
-          border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+          color: var(--text-tertiary);
+          border-bottom: 1px solid var(--border-primary);
           padding-bottom: 2px;
         }
 
@@ -579,7 +593,7 @@ function ProjectCard({
           font-weight: 800;
           line-height: 1.0;
           letter-spacing: -1px;
-          color: #fff;
+          color: var(--text-primary);
           margin-bottom: 16px;
         }
 
@@ -587,7 +601,7 @@ function ProjectCard({
           font-size: 14px;
           font-weight: 300;
           line-height: 1.75;
-          color: rgba(255, 255, 255, 0.55);
+          color: var(--text-secondary);
           margin-bottom: 22px;
           max-width: 400px;
         }
@@ -602,18 +616,18 @@ function ProjectCard({
         .tag {
           padding: 5px 12px;
           border-radius: 100px;
-          border: 1px solid rgba(255, 255, 255, 0.12);
+          border: 1px solid var(--border-primary);
           font-size: 11px;
           font-weight: 500;
-          color: rgba(255, 255, 255, 0.6);
+          color: var(--text-secondary);
           letter-spacing: 0.04em;
           transition: background 0.2s, color 0.2s, border-color 0.2s;
         }
 
         .tag:hover {
-          background: rgba(255, 255, 255, 0.08);
-          color: #fff;
-          border-color: rgba(255, 255, 255, 0.3);
+          background: var(--border-primary);
+          color: var(--text-primary);
+          border-color: var(--border-secondary);
         }
 
         /* ── Links ── */
@@ -650,18 +664,19 @@ function ProjectCard({
         }
 
         .link-primary {
-          background: #fff;
-          color: #000;
+          background: var(--text-primary);
+          color: var(--bg-primary);
           padding: 11px 20px;
-          box-shadow: 0 4px 16px rgba(255, 255, 255, 0.1);
+          box-shadow: 0 4px 16px var(--border-secondary);
           width: 100%;
           justify-content: space-between;
+          transition: background 0.3s, color 0.3s, transform 0.2s, box-shadow 0.2s;
         }
 
         .link-primary:hover {
-          background: #e8e8e8;
+          background: var(--border-secondary);
           transform: translateY(-1px);
-          box-shadow: 0 6px 24px rgba(255, 255, 255, 0.18);
+          box-shadow: 0 6px 24px var(--border-secondary);
         }
 
         .link-arrow {
@@ -675,16 +690,16 @@ function ProjectCard({
         }
 
         .link-ghost {
-          background: rgba(255, 255, 255, 0.06);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          color: rgba(255, 255, 255, 0.75);
+          background: var(--bg-tertiary);
+          border: 1px solid var(--border-primary);
+          color: var(--text-secondary);
           padding: 9px 16px;
         }
 
         .link-ghost:hover {
-          background: rgba(255, 255, 255, 0.12);
-          border-color: rgba(255, 255, 255, 0.25);
-          color: #fff;
+          background: var(--border-primary);
+          border-color: var(--border-secondary);
+          color: var(--text-primary);
           transform: translateY(-1px);
         }
 
@@ -699,16 +714,16 @@ function ProjectCard({
           display: flex;
           align-items: center;
           gap: 8px;
-          background: rgba(255, 255, 255, 0.06);
-          border: 1px solid rgba(255, 255, 255, 0.1);
+          background: var(--bg-tertiary);
+          border: 1px solid var(--border-primary);
           border-radius: 12px;
           padding: 9px 16px;
-          color: rgba(255, 255, 255, 0.75);
+          color: var(--text-secondary);
           font-size: 13px;
           font-weight: 600;
           font-family: "DM Sans", system-ui, sans-serif;
           cursor: pointer;
-          transition: background 0.2s, border-color 0.2s;
+          transition: background 0.2s, border-color 0.2s, color 0.2s;
           text-align: left;
         }
 
@@ -719,9 +734,9 @@ function ProjectCard({
         }
 
         .github-toggle:hover {
-          background: rgba(255, 255, 255, 0.1);
-          border-color: rgba(255, 255, 255, 0.2);
-          color: #fff;
+          background: var(--border-primary);
+          border-color: var(--border-secondary);
+          color: var(--text-primary);
         }
 
         .github-chevron {
@@ -741,7 +756,7 @@ function ProjectCard({
           flex-direction: column;
           gap: 4px;
           padding: 4px 0 4px 16px;
-          border-left: 1px solid rgba(255, 255, 255, 0.1);
+          border-left: 1px solid var(--border-primary);
           margin-left: 16px;
         }
 
@@ -751,21 +766,21 @@ function ProjectCard({
           gap: 8px;
           font-size: 12px;
           font-weight: 500;
-          color: rgba(255, 255, 255, 0.55);
+          color: var(--text-secondary);
           text-decoration: none;
           padding: 4px 0;
           transition: color 0.2s;
         }
 
         .github-sub-link:hover {
-          color: #fff;
+          color: var(--text-primary);
         }
 
         .github-sub-dot {
           width: 5px;
           height: 5px;
           border-radius: 50%;
-          background: rgba(255, 255, 255, 0.3);
+          background: var(--border-secondary);
           flex-shrink: 0;
         }
 
@@ -956,7 +971,7 @@ export default function Projects() {
           width: 100%;
           min-height: 100vh;
           font-family: "DM Sans", system-ui, -apple-system, sans-serif;
-          color: #fff;
+          color: var(--text-primary);
           padding: 120px 0 240px;
           overflow: visible;
         }
@@ -967,11 +982,12 @@ export default function Projects() {
           inset: 0;
           background: radial-gradient(
             ellipse 100% 60% at 20% 10%,
-            #141414 0%,
-            #0a0a0a 40%,
-            #000 100%
+            var(--bg-tertiary) 0%,
+            var(--bg-primary) 40%,
+            var(--bg-primary) 100%
           );
           z-index: 0;
+          transition: background 0.3s ease;
         }
 
         .projects-bg::before {
@@ -981,7 +997,7 @@ export default function Projects() {
           left: 0;
           right: 0;
           height: 1px;
-          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+          background: linear-gradient(90deg, transparent, var(--border-primary), transparent);
         }
 
         .projects-bg::after {
@@ -1008,8 +1024,8 @@ export default function Projects() {
           display: inline-flex;
           align-items: center;
           gap: 8px;
-          background: rgba(255, 255, 255, 0.08);
-          border: 1px solid rgba(255, 255, 255, 0.22);
+          background: var(--border-primary);
+          border: 1px solid var(--border-secondary);
           backdrop-filter: blur(8px);
           border-radius: 100px;
           padding: 6px 14px 6px 10px;
@@ -1017,7 +1033,7 @@ export default function Projects() {
           font-weight: 500;
           letter-spacing: 0.08em;
           text-transform: uppercase;
-          color: rgba(255, 255, 255, 0.9);
+          color: var(--text-primary);
           margin-bottom: 28px;
         }
 
@@ -1025,7 +1041,7 @@ export default function Projects() {
           width: 6px;
           height: 6px;
           border-radius: 50%;
-          background: #fff;
+          background: var(--text-primary);
           animation: pulse 2s ease-in-out infinite;
         }
 
@@ -1040,13 +1056,13 @@ export default function Projects() {
           font-weight: 800;
           line-height: 0.96;
           letter-spacing: -2px;
-          color: #fff;
+          color: var(--text-primary);
           margin-bottom: 20px;
         }
 
         .proj-heading em {
           font-style: normal;
-          background: linear-gradient(135deg, #fff 30%, rgba(255,255,255,0.4));
+          background: linear-gradient(135deg, var(--text-primary) 30%, var(--text-secondary));
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
@@ -1056,7 +1072,7 @@ export default function Projects() {
           font-size: 16px;
           font-weight: 300;
           line-height: 1.7;
-          color: rgba(255, 255, 255, 0.5);
+          color: var(--text-secondary);
         }
 
         /* ── Layout ── */
@@ -1084,7 +1100,7 @@ export default function Projects() {
         .rail-track {
           width: 2px;
           height: 200px;
-          background: rgba(255, 255, 255, 0.1);
+          background: var(--border-primary);
           border-radius: 2px;
           overflow: hidden;
           position: relative;
@@ -1096,7 +1112,7 @@ export default function Projects() {
           left: 0;
           width: 100%;
           height: 100%;
-          background: #fff;
+          background: var(--text-primary);
           border-radius: 2px;
           transform: scaleY(0);
           transform-origin: top;
@@ -1113,7 +1129,7 @@ export default function Projects() {
           width: 6px;
           height: 6px;
           border-radius: 50%;
-          background: rgba(255, 255, 255, 0.2);
+          background: var(--border-secondary);
           border: none;
           cursor: pointer;
           padding: 0;
@@ -1121,7 +1137,7 @@ export default function Projects() {
         }
 
         .rail-dot.active {
-          background: #fff;
+          background: var(--text-primary);
           transform: scale(1.4);
         }
 
@@ -1139,7 +1155,7 @@ export default function Projects() {
           font-size: 10px;
           font-weight: 700;
           letter-spacing: 0.1em;
-          color: rgba(255, 255, 255, 0.35);
+          color: var(--text-tertiary);
         }
 
         .rail-title {
@@ -1149,7 +1165,7 @@ export default function Projects() {
           font-size: 11px;
           font-weight: 600;
           letter-spacing: 0.06em;
-          color: rgba(255, 255, 255, 0.5);
+          color: var(--text-secondary);
           max-height: 120px;
           overflow: hidden;
           text-overflow: ellipsis;
@@ -1176,14 +1192,14 @@ export default function Projects() {
           font-size: 12px;
           letter-spacing: 0.08em;
           text-transform: uppercase;
-          color: rgba(255, 255, 255, 0.35);
+          color: var(--text-tertiary);
           font-weight: 500;
         }
 
         .scrollHintLine {
           width: 32px;
           height: 1px;
-          background: rgba(255, 255, 255, 0.15);
+          background: var(--border-primary);
           position: relative;
           overflow: hidden;
         }
@@ -1192,7 +1208,7 @@ export default function Projects() {
           content: "";
           position: absolute;
           inset: 0;
-          background: #fff;
+          background: var(--text-primary);
           transform: translateX(-100%);
           animation: slideLine 2s ease-in-out infinite 1.2s;
         }

@@ -6,6 +6,7 @@ import { useParams, useRouter } from "next/navigation";
 import { FaClock, FaEye, FaArrowLeft, FaSun, FaMoon, FaShareAlt, FaTwitter, FaLinkedin, FaEnvelope, FaFileDownload, FaCommentDots, FaPaperPlane, FaUser } from "react-icons/fa";
 import AuthModal from "@/components/ui/AuthModal";
 import LoadingWrapper from "@/components/ui/LoadingWrapper";
+import { useTheme } from "@/components/ThemeProvider";
 
 const ArticleReader = () => {
   const { slug } = useParams();
@@ -13,7 +14,7 @@ const ArticleReader = () => {
   
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [theme, setTheme] = useState("dark"); // "dark" or "light" (hybrid stark journal mode)
+  const { theme, toggleTheme } = useTheme();
   const [fontSize, setFontSize] = useState("md"); // "sm", "md", "lg" for accessibility
   
   // Highlight to Share state
@@ -430,10 +431,10 @@ const ArticleReader = () => {
       renderedBlocks.splice(
         middleIndex,
         0,
-        <div key="inline-newsletter" className="my-10 border border-white/10 bg-neutral-900/60 p-6 rounded-none text-center relative overflow-hidden">
-          <div className="absolute inset-0 bg-scanline opacity-[0.02] pointer-events-none" />
-          <h4 className="text-xs font-bold text-white uppercase tracking-widest mb-2">// INLINE NEWSLETTER ALERT</h4>
-          <p className="text-[10px] text-neutral-400 uppercase max-w-sm mx-auto mb-4">Enjoying Musa's logs? Submit your email to receive deep technical checklists directly in your inbox.</p>
+        <div key="inline-newsletter" className="my-10 border border-[var(--border-primary)] bg-[var(--bg-secondary)] p-6 rounded-none text-center relative overflow-hidden transition-colors duration-300">
+          <div className="absolute inset-0 bg-scanline opacity-[0.01] dark:opacity-[0.02] pointer-events-none" />
+          <h4 className="text-xs font-bold text-[var(--text-primary)] uppercase tracking-widest mb-2 transition-colors">// INLINE NEWSLETTER ALERT</h4>
+          <p className="text-[10px] text-[var(--text-secondary)] uppercase max-w-sm mx-auto mb-4 transition-colors">Enjoying Musa's logs? Submit your email to receive deep technical checklists directly in your inbox.</p>
           <form onSubmit={handleInlineNewsletterSubmit} className="max-w-xs mx-auto flex gap-2">
             <input
               type="email"
@@ -441,17 +442,17 @@ const ArticleReader = () => {
               value={subEmail}
               onChange={(e) => setSubEmail(e.target.value)}
               required
-              className="flex-1 bg-black border border-white/10 px-3 py-2 text-[10px] text-white focus:border-[#ADFF2F] focus:outline-none rounded-none font-mono"
+              className="flex-1 bg-[var(--bg-primary)] border border-[var(--border-secondary)] px-3 py-2 text-[10px] text-[var(--text-primary)] focus:border-[var(--color-toxic-green)] focus:outline-none rounded-none font-mono transition-colors duration-300"
             />
             <button
               type="submit"
               disabled={subLoading}
-              className="bg-white hover:bg-[#ADFF2F] text-black font-extrabold px-4 py-2 text-[10px] tracking-wider uppercase transition-all rounded-none"
+              className="bg-[var(--text-primary)] hover:bg-[var(--color-toxic-green)] text-[var(--bg-primary)] hover:text-[var(--color-obsidian)] font-extrabold px-4 py-2 text-[10px] tracking-wider uppercase transition-all rounded-none"
             >
               {subLoading ? "..." : "SUBSCRIBE"}
             </button>
           </form>
-          {subMsg && <div className="text-[9px] text-neutral-500 mt-2 font-mono uppercase">{subMsg}</div>}
+          {subMsg && <div className="text-[9px] text-[var(--text-tertiary)] mt-2 font-mono uppercase transition-colors">{subMsg}</div>}
         </div>
       );
     }
@@ -462,17 +463,17 @@ const ArticleReader = () => {
   // Render recursive comments tree
   const renderCommentTree = (commentsList, depth = 0) => {
     return commentsList.map((c) => (
-      <div key={c._id} className="border-l border-white/10 pl-4 mt-6 relative" style={{ marginLeft: depth > 0 ? "16px" : "0" }}>
+      <div key={c._id} className="border-l border-[var(--border-primary)] pl-4 mt-6 relative transition-colors" style={{ marginLeft: depth > 0 ? "16px" : "0" }}>
         
-        <div className="absolute left-0 top-3 w-3 h-px bg-white/10" />
+        <div className="absolute left-0 top-3 w-3 h-px bg-[var(--border-primary)] transition-colors" />
         
-        <div className="flex gap-3 items-center text-[10px] text-neutral-500 mb-2 uppercase">
-          <span className="text-white font-bold">{c.userName}</span>
+        <div className="flex gap-3 items-center text-[10px] text-[var(--text-tertiary)] mb-2 uppercase transition-colors">
+          <span className="text-[var(--text-primary)] font-bold transition-colors">{c.userName}</span>
           <span>&bull;</span>
           <span>{new Date(c.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</span>
         </div>
         
-        <p className="text-neutral-300 text-xs uppercase tracking-wide leading-relaxed font-mono pl-1 border-l border-[var(--color-toxic-green)]/20 mb-3">
+        <p className="text-[var(--text-secondary)] text-xs uppercase tracking-wide leading-relaxed font-mono pl-1 border-l border-[var(--color-toxic-green)]/20 mb-3 transition-colors">
           {c.content}
         </p>
 
@@ -484,7 +485,7 @@ const ArticleReader = () => {
             // Scroll to comment form
             document.getElementById("comment-form")?.scrollIntoView({ behavior: "smooth" });
           }}
-          className="text-[9px] text-[#ADFF2F] hover:underline uppercase font-bold"
+          className="text-[9px] text-[var(--color-toxic-green)] hover:underline uppercase font-bold"
         >
           [ REPLY TO ]
         </button>
@@ -502,10 +503,10 @@ const ArticleReader = () => {
   if (loading) {
     return (
       <LoadingWrapper text="JOURNAL_READER">
-        <div className="min-h-screen bg-[#0A0A0A] flex items-center justify-center font-mono">
+        <div className="min-h-screen bg-[var(--bg-primary)] flex items-center justify-center font-mono transition-colors">
           <div className="text-center">
-            <div className="inline-block w-8 h-8 border-2 border-neutral-800 border-t-[var(--color-toxic-green)] rounded-full animate-spin mb-4" />
-            <p className="text-xs text-neutral-500 uppercase tracking-widest">Parsing Article...</p>
+            <div className="inline-block w-8 h-8 border-2 border-[var(--border-secondary)] border-t-[var(--color-toxic-green)] rounded-full animate-spin mb-4" />
+            <p className="text-xs text-[var(--text-tertiary)] uppercase tracking-widest transition-colors">Parsing Article...</p>
           </div>
         </div>
       </LoadingWrapper>
@@ -516,11 +517,11 @@ const ArticleReader = () => {
 
   return (
     <div className={`min-h-screen font-mono transition-colors duration-300 relative ${
-      theme === "light" ? "bg-[#FFFFFF] text-black" : "bg-[#0A0A0A] text-neutral-200"
+      theme === "light" ? "bg-[var(--bg-primary)] text-[var(--text-primary)]" : "bg-[var(--bg-primary)] text-[var(--text-secondary)]"
     }`}>
       
       {/* Cyberpunk Scanlines (only in dark mode) */}
-      {theme === "dark" && <div className="absolute inset-0 bg-scanline opacity-[0.02] pointer-events-none z-40" />}
+      {theme === "dark" && <div className="absolute inset-0 bg-scanline opacity-[0.01] dark:opacity-[0.03] pointer-events-none z-40" />}
 
       {/* Floating Highlight to Share tooltip */}
       {shareCoords && (
@@ -531,30 +532,28 @@ const ArticleReader = () => {
             left: `${shareCoords.left}px`,
             transform: "translateX(-50%)",
           }}
-          className="z-50 flex items-center gap-2 border border-white/20 bg-black p-2 shadow-2xl rounded-none animate-flicker"
+          className="z-50 flex items-center gap-2 border border-[var(--border-primary)] bg-[var(--bg-secondary)] p-2 shadow-2xl rounded-none animate-flicker"
         >
-          <span className="text-[9px] font-bold text-neutral-400 px-1 border-r border-white/10 uppercase">SHARE:</span>
-          <button onClick={() => handleShareClick("twitter")} className="text-neutral-400 hover:text-[#ADFF2F] transition-colors p-1" title="X (Twitter)">
+          <span className="text-[9px] font-bold text-[var(--text-secondary)] px-1 border-r border-[var(--border-primary)] uppercase">SHARE:</span>
+          <button onClick={() => handleShareClick("twitter")} className="text-[var(--text-secondary)] hover:text-[var(--color-toxic-green)] transition-colors p-1" title="X (Twitter)">
             <FaTwitter size={11} />
           </button>
-          <button onClick={() => handleShareClick("linkedin")} className="text-neutral-400 hover:text-[#ADFF2F] transition-colors p-1" title="LinkedIn">
+          <button onClick={() => handleShareClick("linkedin")} className="text-[var(--text-secondary)] hover:text-[var(--color-toxic-green)] transition-colors p-1" title="LinkedIn">
             <FaLinkedin size={11} />
           </button>
-          <button onClick={() => handleShareClick("email")} className="text-neutral-400 hover:text-[#ADFF2F] transition-colors p-1" title="Email">
+          <button onClick={() => handleShareClick("email")} className="text-[var(--text-secondary)] hover:text-[var(--color-toxic-green)] transition-colors p-1" title="Email">
             <FaEnvelope size={11} />
           </button>
         </div>
       )}
 
       {/* Dynamic Header */}
-      <header className={`border-b sticky top-0 z-40 backdrop-blur-md px-6 py-4 flex items-center justify-between transition-colors ${
-        theme === "light" ? "bg-white/90 border-neutral-200 text-black" : "bg-[#050505]/90 border-white/10 text-white"
-      }`}>
-        <Link href="/blog" className="text-xs font-bold tracking-widest flex items-center gap-2 hover:opacity-80 transition-opacity uppercase">
+      <header className="border-b border-[var(--border-primary)] bg-[var(--glass-bg)] sticky top-0 z-40 backdrop-blur-md px-6 py-4 flex items-center justify-between transition-colors duration-300">
+        <Link href="/blog" className="text-xs font-bold tracking-widest flex items-center gap-2 hover:opacity-85 transition-opacity text-[var(--text-primary)] uppercase">
           <FaArrowLeft /> Back to Journal
         </Link>
         
-        <span className="text-[10px] text-neutral-500 hidden md:inline uppercase tracking-widest">
+        <span className="text-[10px] text-[var(--text-tertiary)] hidden md:inline uppercase tracking-widest transition-colors">
           CODIAC // TECH JOURNAL // VOL.{new Date(post.createdAt).getFullYear()}
         </span>
 
@@ -569,17 +568,15 @@ const ArticleReader = () => {
           
           {/* Theme toggler */}
           <button
-            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className="border border-neutral-700/30 hover:border-neutral-400 p-2 transition-colors rounded-none"
+            onClick={toggleTheme}
+            className="border border-neutral-700/30 hover:border-neutral-400 p-2 transition-colors rounded-none text-[var(--text-primary)]"
             title="Toggle Legibility Theme"
           >
             {theme === "dark" ? <FaSun size={12} className="text-yellow-500" /> : <FaMoon size={12} />}
           </button>
         </div>
-      </header>
-
-      {/* Cover Image Header */}
-      <div className="w-full h-64 md:h-96 relative bg-neutral-950 border-b border-white/10 overflow-hidden select-none">
+      </header>      {/* Cover Image Header */}
+      <div className="w-full h-64 md:h-96 relative bg-[var(--bg-tertiary)] border-b border-[var(--border-primary)] overflow-hidden select-none transition-colors duration-300">
         {post.coverImage ? (
           <img
             src={post.coverImage}
@@ -587,7 +584,7 @@ const ArticleReader = () => {
             className="w-full h-full object-cover grayscale opacity-60"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-xs text-neutral-600 uppercase">
+          <div className="w-full h-full flex items-center justify-center text-xs text-[var(--text-tertiary)] uppercase transition-colors">
             No Cover Image Included
           </div>
         )}
@@ -595,7 +592,7 @@ const ArticleReader = () => {
         
         {/* Cover metadata */}
         <div className="absolute bottom-6 left-6 right-6 max-w-4xl mx-auto px-6">
-          <span className="bg-[#ADFF2F] text-black font-extrabold px-3 py-1 text-[9px] tracking-widest uppercase">
+          <span className="bg-[var(--color-toxic-green)] text-[var(--color-obsidian)] font-extrabold px-3 py-1 text-[9px] tracking-widest uppercase transition-colors">
             {post.category}
           </span>
           <h1 className="text-xl md:text-3xl font-extrabold text-white uppercase tracking-tight mt-4 leading-tight" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
@@ -613,11 +610,11 @@ const ArticleReader = () => {
             <div className="sticky top-28 space-y-8 max-h-[80vh] overflow-y-auto pr-4">
               
               {/* Reading time details */}
-              <div className="border border-neutral-700/20 p-4 bg-neutral-900/10 rounded-none font-mono">
-                <div className="flex gap-2 items-center text-[10px] text-neutral-500 uppercase mb-2">
+              <div className="border border-[var(--border-primary)] p-4 bg-[var(--bg-tertiary)] rounded-none font-mono transition-colors">
+                <div className="flex gap-2 items-center text-[10px] text-[var(--text-tertiary)] uppercase mb-2 transition-colors">
                   <FaClock /> ESTIMATED READ
                 </div>
-                <div className="text-xl font-bold tracking-tight text-white uppercase">
+                <div className="text-xl font-bold tracking-tight text-[var(--text-primary)] uppercase transition-colors">
                   {post.readTime} MIN READ
                 </div>
               </div>
@@ -625,7 +622,7 @@ const ArticleReader = () => {
               {/* Table of contents */}
               {headings.length > 0 && (
                 <div>
-                  <h4 className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest border-b border-neutral-700/20 pb-2 mb-4">
+                  <h4 className="text-[10px] font-bold text-[var(--text-tertiary)] uppercase tracking-widest border-b border-[var(--border-primary)] pb-2 mb-4 transition-colors">
                     // TABLE OF CONTENTS
                   </h4>
                   <ul className="space-y-3 text-[10px] font-bold tracking-widest">
@@ -637,8 +634,8 @@ const ArticleReader = () => {
                             e.preventDefault();
                             document.getElementById(h.id)?.scrollIntoView({ behavior: "smooth" });
                           }}
-                          className={`hover:text-[#ADFF2F] transition-colors block uppercase ${
-                            activeId === h.id ? "text-[#ADFF2F] border-l-2 border-[#ADFF2F] pl-2" : "text-neutral-500"
+                          className={`hover:text-[var(--color-toxic-green)] transition-colors block uppercase ${
+                            activeId === h.id ? "text-[var(--color-toxic-green)] border-l-2 border-[var(--color-toxic-green)] pl-2" : "text-[var(--text-tertiary)]"
                           }`}
                         >
                           {h.title}
@@ -651,17 +648,17 @@ const ArticleReader = () => {
 
               {/* Share actions */}
               <div>
-                <h4 className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest border-b border-neutral-700/20 pb-2 mb-4">
+                <h4 className="text-[10px] font-bold text-[var(--text-tertiary)] uppercase tracking-widest border-b border-[var(--border-primary)] pb-2 mb-4 transition-colors">
                   // SHARE JOURNAL
                 </h4>
                 <div className="flex gap-3">
-                  <button onClick={() => handleShareClick("twitter")} className="border border-neutral-700/20 hover:border-neutral-400 p-2 text-xs transition-colors text-neutral-400 hover:text-white rounded-none">
+                  <button onClick={() => handleShareClick("twitter")} className="border border-[var(--border-primary)] hover:border-[var(--text-primary)] p-2 text-xs transition-colors text-[var(--text-secondary)] hover:text-[var(--text-primary)] rounded-none">
                     <FaTwitter />
                   </button>
-                  <button onClick={() => handleShareClick("linkedin")} className="border border-neutral-700/20 hover:border-neutral-400 p-2 text-xs transition-colors text-neutral-400 hover:text-white rounded-none">
+                  <button onClick={() => handleShareClick("linkedin")} className="border border-[var(--border-primary)] hover:border-[var(--text-primary)] p-2 text-xs transition-colors text-[var(--text-secondary)] hover:text-[var(--text-primary)] rounded-none">
                     <FaLinkedin />
                   </button>
-                  <button onClick={() => handleShareClick("email")} className="border border-neutral-700/20 hover:border-neutral-400 p-2 text-xs transition-colors text-neutral-400 hover:text-white rounded-none">
+                  <button onClick={() => handleShareClick("email")} className="border border-[var(--border-primary)] hover:border-[var(--text-primary)] p-2 text-xs transition-colors text-[var(--text-secondary)] hover:text-[var(--text-primary)] rounded-none">
                     <FaEnvelope />
                   </button>
                 </div>
@@ -673,11 +670,11 @@ const ArticleReader = () => {
           <main className="lg:col-span-6">
             
             {/* Author Byline line */}
-            <div className="flex items-center justify-between border-b border-neutral-700/20 pb-4 mb-8 text-[10px] text-neutral-500 uppercase select-none">
+            <div className="flex items-center justify-between border-b border-[var(--border-primary)] pb-4 mb-8 text-[10px] text-[var(--text-tertiary)] uppercase select-none transition-colors duration-300">
               <div className="flex items-center gap-3">
-                <div className="w-6 h-6 bg-[#ADFF2F] text-black font-extrabold flex items-center justify-center rounded-full text-[8px]">MK</div>
+                <div className="w-6 h-6 bg-[var(--color-toxic-green)] text-[var(--color-obsidian)] font-extrabold flex items-center justify-center rounded-full text-[8px] transition-colors">MK</div>
                 <div>
-                  <span className="text-white font-bold block">{post.author?.name || "Musa Musa Kannike"}</span>
+                  <span className="text-[var(--text-primary)] font-bold block transition-colors">{post.author?.name || "Musa Musa Kannike"}</span>
                   <span>SYSTEM DEVELOPER</span>
                 </div>
               </div>
@@ -694,20 +691,20 @@ const ArticleReader = () => {
 
             {/* Content Upgrade download bundle card */}
             {post.contentUpgrade && post.contentUpgrade.title && (
-              <div className="mt-12 border-2 border-dashed border-[#ADFF2F]/40 bg-neutral-900/10 p-6 rounded-none relative overflow-hidden select-none">
+              <div className="mt-12 border-2 border-dashed border-[var(--color-toxic-green)]/40 bg-[var(--bg-tertiary)] p-6 rounded-none relative overflow-hidden select-none transition-colors duration-300">
                 <div className="absolute inset-0 bg-scanline opacity-[0.01] pointer-events-none" />
                 <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
                   <div>
-                    <span className="bg-[#ADFF2F] text-black font-extrabold px-2 py-0.5 text-[8px] tracking-widest uppercase">
+                    <span className="bg-[var(--color-toxic-green)] text-[var(--color-obsidian)] font-extrabold px-2 py-0.5 text-[8px] tracking-widest uppercase transition-colors">
                       CONTENT UPGRADE
                     </span>
-                    <h4 className="text-sm font-bold text-white uppercase mt-2 mb-1">{post.contentUpgrade.title}</h4>
-                    <p className="text-[10px] text-neutral-400 uppercase max-w-md leading-relaxed">{post.contentUpgrade.description}</p>
+                    <h4 className="text-sm font-bold text-[var(--text-primary)] uppercase mt-2 mb-1 transition-colors">{post.contentUpgrade.title}</h4>
+                    <p className="text-[10px] text-[var(--text-secondary)] uppercase max-w-md leading-relaxed transition-colors">{post.contentUpgrade.description}</p>
                   </div>
                   <a
                     href={post.contentUpgrade.fileUrl}
                     target="_blank"
-                    className="flex items-center justify-center gap-2 border border-white text-white font-bold py-2.5 px-4 text-xs tracking-wider uppercase hover:bg-[#ADFF2F] hover:text-black hover:border-[#ADFF2F] transition-all rounded-none w-full sm:w-auto"
+                    className="flex items-center justify-center gap-2 border border-[var(--text-primary)] text-[var(--text-primary)] font-bold py-2.5 px-4 text-xs tracking-wider uppercase hover:bg-[var(--color-toxic-green)] hover:text-[var(--color-obsidian)] hover:border-[var(--color-toxic-green)] transition-all rounded-none w-full sm:w-auto"
                   >
                     <FaFileDownload /> DOWNLOAD PDF
                   </a>
@@ -716,14 +713,14 @@ const ArticleReader = () => {
             )}
 
             {/* Public Interactive Comments / Discussions Section */}
-            <section className="mt-16 border-t border-neutral-700/20 pt-12">
-              <div className="flex gap-2 items-center text-xs font-bold text-white uppercase tracking-widest mb-6">
+            <section className="mt-16 border-t border-[var(--border-primary)] pt-12 transition-colors">
+              <div className="flex gap-2 items-center text-xs font-bold text-[var(--text-primary)] uppercase tracking-widest mb-6 transition-colors">
                 <FaCommentDots className="text-[var(--color-toxic-green)]" /> DISCUSSION THREAD ({comments.length})
               </div>
 
               {/* Error/Success Alerts */}
               {commentMsg && (
-                <div className="mb-6 border border-white/10 bg-neutral-900/60 p-3 text-[10px] text-neutral-400 font-mono">
+                <div className="mb-6 border border-[var(--border-primary)] bg-[var(--bg-secondary)] p-3 text-[10px] text-[var(--text-secondary)] font-mono transition-colors">
                   {commentMsg}
                 </div>
               )}
@@ -732,7 +729,7 @@ const ArticleReader = () => {
               <form id="comment-form" onSubmit={handleCommentSubmit} className="space-y-4">
                 
                 {replyToId && (
-                  <div className="flex justify-between items-center bg-neutral-900 border-l-2 border-[#ADFF2F] px-3 py-2 text-[10px] text-neutral-400 uppercase select-none">
+                  <div className="flex justify-between items-center bg-[var(--bg-tertiary)] border-l-2 border-[var(--color-toxic-green)] px-3 py-2 text-[10px] text-[var(--text-secondary)] uppercase select-none transition-colors duration-300">
                     <span>REPLYING TO: {replyToName}</span>
                     <button
                       type="button"
@@ -740,7 +737,7 @@ const ArticleReader = () => {
                         setReplyToId(null);
                         setReplyToName("");
                       }}
-                      className="text-[#ADFF2F] hover:underline"
+                      className="text-[var(--color-toxic-green)] hover:underline"
                     >
                       [ CANCEL ]
                     </button>
@@ -748,12 +745,12 @@ const ArticleReader = () => {
                 )}
 
                 {!user && (
-                  <div className="border border-dashed border-white/10 p-4 text-center rounded-none select-none">
-                    <p className="text-[10px] text-neutral-500 uppercase mb-3">You must be logged in to participate in the discussions.</p>
+                  <div className="border border-dashed border-[var(--border-primary)] p-4 text-center rounded-none select-none transition-colors">
+                    <p className="text-[10px] text-[var(--text-tertiary)] uppercase mb-3 transition-colors">You must be logged in to participate in the discussions.</p>
                     <button
                       type="button"
                       onClick={() => setIsAuthOpen(true)}
-                      className="text-xs bg-white text-black font-extrabold px-4 py-2 uppercase tracking-wider rounded-none hover:bg-[#ADFF2F] transition-colors"
+                      className="text-xs bg-[var(--text-primary)] text-[var(--bg-primary)] font-extrabold px-4 py-2 uppercase tracking-wider rounded-none hover:bg-[var(--color-toxic-green)] hover:text-[var(--color-obsidian)] transition-colors duration-300"
                     >
                       Connect Account
                     </button>
@@ -762,8 +759,8 @@ const ArticleReader = () => {
 
                 {user && (
                   <div className="space-y-3">
-                    <div className="text-[9px] text-neutral-500 uppercase select-none">
-                      COMMENTING AS: <span className="text-white font-bold">{user.name} ({user.email})</span>
+                    <div className="text-[9px] text-[var(--text-tertiary)] uppercase select-none transition-colors">
+                      COMMENTING AS: <span className="text-[var(--text-primary)] font-bold transition-colors">{user.name} ({user.email})</span>
                     </div>
                     <textarea
                       placeholder="ENTER YOUR COMMENT HERE..."
@@ -771,12 +768,12 @@ const ArticleReader = () => {
                       value={commentContent}
                       onChange={(e) => setCommentContent(e.target.value)}
                       required
-                      className="w-full bg-neutral-950 border border-white/10 p-3 text-xs text-white placeholder-neutral-600 focus:border-[#ADFF2F] focus:outline-none rounded-none font-mono"
+                      className="w-full bg-[var(--bg-primary)] border border-[var(--border-secondary)] p-3 text-xs text-[var(--text-primary)] placeholder-[var(--text-tertiary)] focus:border-[var(--color-toxic-green)] focus:outline-none rounded-none font-mono transition-colors duration-300"
                     />
                     <button
                       type="submit"
                       disabled={commentLoading}
-                      className="flex items-center justify-center gap-2 bg-[#ADFF2F] text-black font-extrabold px-6 py-3 text-xs tracking-wider uppercase transition-colors hover:bg-white rounded-none disabled:opacity-50"
+                      className="flex items-center justify-center gap-2 bg-[var(--color-toxic-green)] text-[var(--color-obsidian)] font-extrabold px-6 py-3 text-xs tracking-wider uppercase transition-colors hover:bg-[var(--text-primary)] hover:text-[var(--bg-primary)] rounded-none disabled:opacity-50"
                     >
                       <FaPaperPlane size={10} /> {commentLoading ? "PUBLISHING..." : "SUBMIT COMMENT"}
                     </button>
@@ -789,7 +786,7 @@ const ArticleReader = () => {
                 {comments.length > 0 ? (
                   renderCommentTree(comments)
                 ) : (
-                  <div className="py-8 text-center border border-white/5 text-[10px] text-neutral-500 uppercase select-none">
+                  <div className="py-8 text-center border border-[var(--border-primary)] text-[10px] text-[var(--text-tertiary)] uppercase select-none transition-colors">
                     No comments in this thread yet. Be the first to start the discussion!
                   </div>
                 )}
@@ -800,19 +797,19 @@ const ArticleReader = () => {
           {/* Right side next-article suggestions (optional/desktop) */}
           <aside className="lg:col-span-3 hidden lg:block select-none">
             {nextPost && (
-              <div className="sticky top-28 border border-white/10 bg-[#070707] p-6 rounded-none max-h-[85vh] overflow-y-auto">
-                <span className="bg-white text-black font-extrabold px-2 py-0.5 text-[8px] tracking-widest uppercase">
+              <div className="sticky top-28 border border-[var(--border-primary)] bg-[var(--bg-secondary)] p-6 rounded-none max-h-[85vh] overflow-y-auto transition-colors duration-300">
+                <span className="bg-[var(--text-primary)] text-[var(--bg-primary)] px-2 py-0.5 text-[8px] tracking-widest uppercase transition-colors">
                   UP NEXT
                 </span>
-                <h4 className="text-xs font-bold text-white uppercase mt-4 mb-2 tracking-tight line-clamp-2" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
+                <h4 className="text-xs font-bold text-[var(--text-primary)] uppercase mt-4 mb-2 tracking-tight line-clamp-2 transition-colors" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
                   <Link href={`/blog/${nextPost.slug}`}>{nextPost.title}</Link>
                 </h4>
-                <p className="text-[10px] text-neutral-400 uppercase leading-relaxed line-clamp-3 mb-4">
+                <p className="text-[10px] text-[var(--text-secondary)] uppercase leading-relaxed line-clamp-3 mb-4 transition-colors">
                   {nextPost.summary}
                 </p>
                 <Link
                   href={`/blog/${nextPost.slug}`}
-                  className="inline-block text-[9px] text-[#ADFF2F] font-bold hover:underline tracking-widest uppercase"
+                  className="inline-block text-[9px] text-[var(--color-toxic-green)] font-bold hover:underline tracking-widest uppercase"
                 >
                   [ LOAD POST NOW ]
                 </Link>
@@ -824,10 +821,10 @@ const ArticleReader = () => {
 
       {/* Infinite scroll load sentinel */}
       {nextPost && (
-        <div ref={nextSentinelRef} className="py-20 border-t border-white/5 text-center bg-black/40 select-none">
-          <div className="inline-block w-6 h-6 border border-neutral-700 border-t-[#ADFF2F] rounded-full animate-spin mb-3" />
-          <p className="text-[10px] text-neutral-500 uppercase tracking-widest">Keep scrolling to load the next article</p>
-          <p className="text-xs text-white font-bold mt-2 uppercase">{nextPost.title}</p>
+        <div ref={nextSentinelRef} className="py-20 border-t border-[var(--border-primary)] text-center bg-[var(--bg-secondary)]/40 select-none transition-colors">
+          <div className="inline-block w-6 h-6 border border-[var(--border-secondary)] border-t-[var(--color-toxic-green)] rounded-full animate-spin mb-3" />
+          <p className="text-[10px] text-[var(--text-tertiary)] uppercase tracking-widest transition-colors">Keep scrolling to load the next article</p>
+          <p className="text-xs text-[var(--text-primary)] font-bold mt-2 uppercase transition-colors">{nextPost.title}</p>
         </div>
       )}
 

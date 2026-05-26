@@ -152,13 +152,14 @@ export default function Testimonials() {
           width: 100%;
           min-height: 80vh;
           padding: 130px 0 160px;
-          background: #000;
+          background: var(--bg-primary);
           overflow: hidden;
           font-family: "DM Sans", system-ui, -apple-system, sans-serif;
-          color: #fff;
+          color: var(--text-primary);
           display: flex;
           flex-direction: column;
           justify-content: center;
+          transition: background 0.3s ease;
         }
 
         .test-noise {
@@ -189,8 +190,8 @@ export default function Testimonials() {
           display: inline-flex;
           align-items: center;
           gap: 8px;
-          background: rgba(255, 255, 255, 0.08);
-          border: 1px solid rgba(255, 255, 255, 0.22);
+          background: var(--border-primary);
+          border: 1px solid var(--border-secondary);
           backdrop-filter: blur(8px);
           border-radius: 100px;
           padding: 6px 14px 6px 10px;
@@ -198,7 +199,7 @@ export default function Testimonials() {
           font-weight: 500;
           letter-spacing: 0.08em;
           text-transform: uppercase;
-          color: rgba(255, 255, 255, 0.9);
+          color: var(--text-primary);
           margin-bottom: 28px;
         }
 
@@ -206,7 +207,7 @@ export default function Testimonials() {
           width: 6px;
           height: 6px;
           border-radius: 50%;
-          background: #fff;
+          background: var(--text-primary);
           animation: pulse 2s ease-in-out infinite;
         }
 
@@ -221,12 +222,12 @@ export default function Testimonials() {
           font-weight: 800;
           line-height: 0.95;
           letter-spacing: -2px;
-          color: #fff;
+          color: var(--text-primary);
         }
 
         .test-heading em {
           font-style: normal;
-          background: linear-gradient(135deg, #fff 30%, rgba(255,255,255,0.38));
+          background: linear-gradient(135deg, var(--text-primary) 30%, var(--text-secondary));
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
@@ -267,8 +268,8 @@ export default function Testimonials() {
         /* Card Styles */
         .test-card {
           width: 420px;
-          background: rgba(255, 255, 255, 0.03);
-          border: 1px solid rgba(255, 255, 255, 0.07);
+          background: var(--glass-bg);
+          border: 1px solid var(--glass-border);
           border-radius: 24px;
           padding: 40px 36px;
           transition: background 0.35s, border-color 0.35s, transform 0.35s, box-shadow 0.35s;
@@ -279,15 +280,15 @@ export default function Testimonials() {
         }
 
         .test-card:hover {
-          background: rgba(255, 255, 255, 0.055);
-          border-color: rgba(255, 255, 255, 0.15);
+          background: var(--bg-tertiary);
+          border-color: var(--color-toxic-green);
           transform: translateY(-4px);
-          box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+          box-shadow: 0 16px 40px var(--border-secondary);
         }
 
         .quote-icon {
           font-size: 24px;
-          color: rgba(255, 255, 255, 0.15);
+          color: var(--border-secondary);
           margin-bottom: 20px;
         }
 
@@ -295,14 +296,14 @@ export default function Testimonials() {
           font-size: 16px;
           font-weight: 300;
           line-height: 1.7;
-          color: rgba(255, 255, 255, 0.7);
+          color: var(--text-secondary);
           flex-grow: 1;
         }
 
         .test-divider {
           border: none;
           height: 1px;
-          background: rgba(255, 255, 255, 0.08);
+          background: var(--border-primary);
           margin: 28px 0 20px;
         }
 
@@ -323,7 +324,7 @@ export default function Testimonials() {
           font-family: "Syne", system-ui, sans-serif;
           font-size: 18px;
           font-weight: 700;
-          color: #fff;
+          color: var(--text-primary);
           display: flex;
           align-items: center;
           gap: 8px;
@@ -336,7 +337,7 @@ export default function Testimonials() {
 
         .author-role {
           font-size: 13px;
-          color: rgba(255, 255, 255, 0.4);
+          color: var(--text-tertiary);
           font-weight: 500;
           letter-spacing: 0.02em;
         }
@@ -363,12 +364,12 @@ export default function Testimonials() {
 
         .fade-left {
           left: 0;
-          background: linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
+          background: linear-gradient(to right, var(--bg-primary) 0%, transparent 100%);
         }
 
         .fade-right {
           right: 0;
-          background: linear-gradient(to left, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
+          background: linear-gradient(to left, var(--bg-primary) 0%, transparent 100%);
         }
 
         /* Responsive */
