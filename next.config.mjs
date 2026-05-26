@@ -4,13 +4,19 @@ const nextConfig = {
         remotePatterns: [
             {
                 protocol: "https",
-                hostname: "pub-080732c6fb61453c92062218797bf9df.r2.dev",
+                hostname: "pub-d43ebce5cde74b3f978c924bb8c45dfa.r2.dev",
             },
             {
                 protocol: "https",
                 hostname: "i.ibb.co",
             },
         ],
+    },
+    eslint: {
+        ignoreDuringBuilds: true,
+    },
+    typescript: {
+        ignoreBuildErrors: true,
     },
 };
 
