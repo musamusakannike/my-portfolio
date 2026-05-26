@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "designs": {
+    "Wired-Inspired-design-analysis": {
+      "source": "voltagent/awesome-design-md",
+      "sourcePath": "design-md/wired/DESIGN.md",
+      "outputPath": "DESIGN.md",
+      "ref": "HEAD",
+      "commitSha": "3883984baf05226208a5dae15730a3593548b808",
+      "contentHash": "eb439dcc573401dc30583f40e7eef8a60b769232da59e524de6dce56d5c3593e",
+      "fetchedAt": "2026-05-26T09:04:27.789Z"
+    }
+  }
+}
