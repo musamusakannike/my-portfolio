@@ -1,292 +1,86 @@
 "use client";
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import parse, { Element } from "html-react-parser";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { FaClock, FaEye, FaArrowLeft, FaTwitter, FaLinkedin, FaEnvelope, FaFileDownload, FaCommentDots, FaPaperPlane, FaCopy, FaCheck } from "react-icons/fa";
 import AuthModal from "@/components/ui/AuthModal";
 import LoadingWrapper from "@/components/ui/LoadingWrapper";
 
-/* ─── Blog Article Typography CSS injected into HTML posts ─────────────────── */
-const ARTICLE_STYLES = `
-  @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..900;1,8..60,300..900&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap');
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: 'Source Serif 4', Georgia, 'Times New Roman', serif;
-    font-size: 18px;
-    line-height: 1.85;
-    color: #1a1a1a;
-    background: #FAF9F6;
-    padding: 0;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    word-break: break-word;
-    overflow-wrap: break-word;
-  }
-
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Inter', system-ui, sans-serif;
-    font-weight: 700;
-    line-height: 1.25;
-    color: #0a0a0a;
-    margin-top: 2.2em;
-    margin-bottom: 0.6em;
-    letter-spacing: -0.02em;
-  }
-  h1 { font-size: 2em; }
-  h2 { font-size: 1.5em; border-bottom: 2px solid #e5e5e5; padding-bottom: 0.3em; }
-  h3 { font-size: 1.25em; color: #1a1a1a; }
-  h4 { font-size: 1.05em; text-transform: uppercase; letter-spacing: 0.04em; color: #404040; }
-
-  p { margin-bottom: 1.4em; color: #2d2d2d; }
-
-  a { color: #15803d; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
-  a:hover { color: #166534; }
-
-  strong, b { font-weight: 700; color: #0a0a0a; }
-  em, i { font-style: italic; color: #2d2d2d; }
-
-  ul, ol { padding-left: 1.6em; margin-bottom: 1.4em; }
-  li { margin-bottom: 0.4em; line-height: 1.7; }
-  ul li::marker { color: #15803d; }
-  ol li::marker { color: #15803d; font-weight: 600; }
-
-  blockquote {
-    border-left: 4px solid #15803d;
-    margin: 2em 0;
-    padding: 1em 1.5em;
-    background: #f0fdf4;
-    border-radius: 0 6px 6px 0;
-    font-style: italic;
-    color: #374151;
-    font-size: 1.05em;
-  }
-  blockquote p:last-child { margin-bottom: 0; }
-
-  /* ── Code Blocks ── */
-  pre {
-    background: #1e1e2e;
-    border-radius: 10px;
-    padding: 0;
-    margin: 1.8em 0;
-    overflow: hidden;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.18);
-    position: relative;
-  }
-  pre .code-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: #181825;
-    padding: 10px 16px;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-  }
-  pre .code-lang {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    color: #cba6f7;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    font-weight: 700;
-  }
-  pre .copy-btn {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    color: #6c7086;
-    background: none;
-    border: 1px solid #313244;
-    padding: 3px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: all 0.2s;
-    letter-spacing: 0.05em;
-  }
-  pre .copy-btn:hover { color: #a6e3a1; border-color: #a6e3a1; }
-  pre code {
-    font-family: 'JetBrains Mono', 'Fira Code', monospace !important;
-    font-size: 14px;
-    line-height: 1.65;
-    color: #cdd6f4;
-    padding: 1.2em 1.4em;
-    display: block;
-    overflow-x: auto;
-    tab-size: 2;
-  }
-
-  /* ── Inline Code ── */
-  code {
-    font-family: 'JetBrains Mono', 'Fira Code', monospace;
-    font-size: 0.875em;
-    background: #e8f0e9;
-    color: #15803d;
-    padding: 0.15em 0.45em;
-    border-radius: 4px;
-    font-weight: 500;
-  }
-  pre code { background: none; color: #cdd6f4; padding: 0; font-size: 14px; }
-
-  /* ── Tables ── */
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 1.8em 0;
-    font-size: 0.9em;
-    font-family: 'Inter', sans-serif;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
-  }
-  th {
-    background: #0a0a0a;
-    color: #FAF9F6;
-    font-weight: 600;
-    text-align: left;
-    padding: 12px 16px;
-    font-size: 0.82em;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-  }
-  td {
-    padding: 11px 16px;
-    border-bottom: 1px solid #e5e5e5;
-    color: #2d2d2d;
-    vertical-align: top;
-  }
-  tr:last-child td { border-bottom: none; }
-  tr:nth-child(even) td { background: #f9f9f7; }
-
-  /* ── Images ── */
-  img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;
-    margin: 1.5em 0;
-    display: block;
-    box-shadow: 0 2px 16px rgba(0,0,0,0.1);
-  }
-  figure { margin: 2em 0; }
-  figcaption {
-    text-align: center;
-    font-size: 0.85em;
-    color: #6b7280;
-    margin-top: 0.5em;
-    font-style: italic;
-  }
-
-  /* ── Horizontal rule ── */
-  hr { border: none; border-top: 2px solid #e5e5e5; margin: 2.5em 0; }
-
-  /* ── Keyboard / abbr ── */
-  kbd {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.8em;
-    background: #f1f5f9;
-    border: 1px solid #cbd5e1;
-    border-bottom-width: 2px;
-    border-radius: 4px;
-    padding: 0.1em 0.4em;
-    color: #374151;
-  }
-
-  /* ── Callout / info boxes (common in CMS HTML) ── */
-  .callout, .note, .info, .warning, .tip {
-    padding: 1em 1.4em;
-    border-radius: 8px;
-    margin: 1.6em 0;
-    font-size: 0.95em;
-  }
-  .callout, .info { background: #eff6ff; border-left: 4px solid #3b82f6; }
-  .note { background: #fefce8; border-left: 4px solid #eab308; }
-  .warning { background: #fff7ed; border-left: 4px solid #f97316; }
-  .tip { background: #f0fdf4; border-left: 4px solid #15803d; }
-
-  /* ── Selection ── */
-  ::selection { background: #bbf7d0; color: #14532d; }
-`;
-
-/* Inject the copy-to-clipboard script into rendered HTML */
-const buildHtmlDocument = (bodyHtml) => {
-  return `<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>${ARTICLE_STYLES}</style>
-</head>
-<body>
-${bodyHtml}
-<script>
-  // Enhance pre > code blocks with a header and copy button
-  document.querySelectorAll('pre').forEach(function(pre) {
-    const code = pre.querySelector('code');
-    if (!code) return;
-    const lang = (code.className.match(/language-([\\w-]+)/) || [])[1] || 'code';
-    const header = document.createElement('div');
-    header.className = 'code-header';
-    const langLabel = document.createElement('span');
-    langLabel.className = 'code-lang';
-    langLabel.textContent = lang;
-    const copyBtn = document.createElement('button');
-    copyBtn.className = 'copy-btn';
-    copyBtn.textContent = 'COPY';
-    copyBtn.addEventListener('click', function() {
-      navigator.clipboard.writeText(code.innerText).then(function() {
-        copyBtn.textContent = 'COPIED ✓';
-        copyBtn.style.color = '#a6e3a1';
-        copyBtn.style.borderColor = '#a6e3a1';
-        setTimeout(function() { copyBtn.textContent = 'COPY'; copyBtn.style.color = ''; copyBtn.style.borderColor = ''; }, 2000);
-      });
+/* ─── HTML content renderer with syntax-highlighted code blocks ────────────── */
+const HtmlCodeBlock = ({ lang, code }) => {
+  const [copied, setCopied] = useState(false);
+  const handleCopy = () => {
+    navigator.clipboard.writeText(code).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
     });
-    header.appendChild(langLabel);
-    header.appendChild(copyBtn);
-    pre.insertBefore(header, code);
-  });
-<\/script>
-</body>
-</html>`;
+  };
+
+  const normalizedLang = (lang || 'text').toLowerCase()
+    .replace(/^js$/, 'javascript')
+    .replace(/^ts$/, 'typescript')
+    .replace(/^sh$|^bash$|^shell$/, 'bash')
+    .replace(/^py$/, 'python');
+
+  return (
+    <div className="my-8 rounded-xl overflow-hidden shadow-2xl" style={{ background: '#1e1e2e' }}>
+      <div className="flex items-center justify-between px-5 py-3" style={{ background: '#181825', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+        <div className="flex items-center gap-2">
+          <span className="w-3 h-3 rounded-full" style={{ background: '#ff5f57' }} />
+          <span className="w-3 h-3 rounded-full" style={{ background: '#febc2e' }} />
+          <span className="w-3 h-3 rounded-full" style={{ background: '#28c840' }} />
+        </div>
+        <span className="font-mono text-[10px] font-bold tracking-widest uppercase" style={{ color: '#cba6f7' }}>{normalizedLang}</span>
+        <button
+          onClick={handleCopy}
+          className="flex items-center gap-1.5 font-mono text-[10px] tracking-wider transition-all duration-200 px-3 py-1 rounded border"
+          style={copied ? { color: '#a6e3a1', borderColor: '#a6e3a1' } : { color: '#6c7086', borderColor: '#313244' }}
+        >
+          {copied ? <FaCheck size={9} /> : <FaCopy size={9} />}
+          {copied ? 'COPIED' : 'COPY'}
+        </button>
+      </div>
+      <SyntaxHighlighter
+        language={normalizedLang}
+        style={oneDark}
+        customStyle={{ margin: 0, padding: '1.25em 1.4em', background: '#1e1e2e', borderRadius: 0, fontSize: '13.5px', lineHeight: '1.7', overflowX: 'auto' }}
+        codeTagProps={{ style: { fontFamily: "'JetBrains Mono', 'Fira Code', monospace", fontSize: '13.5px' } }}
+        showLineNumbers={code.split('\n').length > 5}
+        lineNumberStyle={{ color: '#4a4a5a', fontSize: '11px', minWidth: '2.5em', paddingRight: '1em', userSelect: 'none' }}
+        wrapLongLines={false}
+      >
+        {code}
+      </SyntaxHighlighter>
+    </div>
+  );
 };
 
 const SafeHtmlRenderer = ({ html }) => {
-  const iframeRef = useRef(null);
-  const isFullDoc = /<!doctype|<html/i.test(html.trim().slice(0, 20));
-  const srcDoc = isFullDoc ? html : buildHtmlDocument(html);
-
-  const handleLoad = () => {
-    const iframe = iframeRef.current;
-    if (!iframe || !iframe.contentWindow) return;
-    const resize = () => {
-      try {
-        iframe.style.height = iframe.contentWindow.document.documentElement.scrollHeight + 'px';
-      } catch {}
-    };
-    resize();
-    const observer = new MutationObserver(resize);
-    observer.observe(iframe.contentWindow.document.body, { subtree: true, childList: true, attributes: true, characterData: true });
+  const options = {
+    replace(domNode) {
+      if (domNode instanceof Element && domNode.name === 'pre') {
+        const codeNode = domNode.children?.find(c => c instanceof Element && c.name === 'code');
+        if (!codeNode) return;
+        const langClass = codeNode.attribs?.class || '';
+        const langMatch = langClass.match(/language-([\w-]+)/);
+        const lang = langMatch ? langMatch[1] : 'text';
+        const rawCode = codeNode.children
+          ?.map(c => (c.type === 'text' ? c.data : c.children?.map(cc => cc.data).join('') || ''))
+          .join('') || '';
+        const code = rawCode.replace(/\n$/, '');
+        return <HtmlCodeBlock key={lang + code.slice(0, 20)} lang={lang} code={code} />;
+      }
+    },
   };
 
-  useEffect(() => {
-    const handleResize = () => {
-      const iframe = iframeRef.current;
-      if (iframe && iframe.contentWindow) {
-        try { iframe.style.height = iframe.contentWindow.document.documentElement.scrollHeight + 'px'; } catch {}
-      }
-    };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
   return (
-    <iframe
-      ref={iframeRef}
-      srcDoc={srcDoc}
-      onLoad={handleLoad}
-      className="w-full border-none overflow-hidden"
-      sandbox="allow-popups allow-scripts allow-same-origin"
-      style={{ minHeight: '400px', height: 'auto' }}
-      title="Article content"
-    />
+    <div className="html-article prose-like">
+      {parse(html, options)}
+    </div>
   );
 };
 
@@ -632,7 +426,7 @@ const ArticleReader = () => {
     return parts;
   };
 
-  // ─── Code Block Component with Copy Button ───────────────────────────────────
+  // ─── Code Block Component with Syntax Highlighting ──────────────────────────
   const CodeBlock = ({ lang, code, blockKey }) => {
     const [copied, setCopied] = useState(false);
     const handleCopy = () => {
@@ -641,6 +435,16 @@ const ArticleReader = () => {
         setTimeout(() => setCopied(false), 2000);
       });
     };
+
+    // Normalise language identifier for react-syntax-highlighter
+    const normalizedLang = (lang || 'text').toLowerCase()
+      .replace(/^js$/, 'javascript')
+      .replace(/^ts$/, 'typescript')
+      .replace(/^jsx$/, 'jsx')
+      .replace(/^tsx$/, 'tsx')
+      .replace(/^sh$|^bash$|^shell$/, 'bash')
+      .replace(/^py$/, 'python');
+
     return (
       <div key={blockKey} className="my-8 rounded-xl overflow-hidden shadow-2xl" style={{ background: '#1e1e2e' }}>
         {/* Code block header */}
@@ -660,15 +464,37 @@ const ArticleReader = () => {
             {copied ? 'COPIED' : 'COPY'}
           </button>
         </div>
-        {/* Code content */}
-        <pre className="overflow-x-auto p-5 m-0" style={{ background: '#1e1e2e' }}>
-          <code
-            className="font-mono text-sm leading-relaxed"
-            style={{ color: '#cdd6f4', fontFamily: "'JetBrains Mono', 'Fira Code', monospace", fontSize: '13.5px', lineHeight: '1.7', tabSize: 2 }}
-          >
-            {code}
-          </code>
-        </pre>
+        {/* Syntax-highlighted code content */}
+        <SyntaxHighlighter
+          language={normalizedLang}
+          style={oneDark}
+          customStyle={{
+            margin: 0,
+            padding: '1.25em 1.4em',
+            background: '#1e1e2e',
+            borderRadius: 0,
+            fontSize: '13.5px',
+            lineHeight: '1.7',
+            overflowX: 'auto',
+          }}
+          codeTagProps={{
+            style: {
+              fontFamily: "'JetBrains Mono', 'Fira Code', monospace",
+              fontSize: '13.5px',
+            },
+          }}
+          showLineNumbers={code.split('\n').length > 5}
+          lineNumberStyle={{
+            color: '#4a4a5a',
+            fontSize: '11px',
+            minWidth: '2.5em',
+            paddingRight: '1em',
+            userSelect: 'none',
+          }}
+          wrapLongLines={false}
+        >
+          {code}
+        </SyntaxHighlighter>
       </div>
     );
   };
@@ -678,10 +504,32 @@ const ArticleReader = () => {
     if (!markdown) return null;
 
     const fontSizePx = fontSize === "sm" ? "15px" : fontSize === "lg" ? "19px" : "17px";
-    const blocks = markdown.split("\n\n");
+
+    // Split markdown into segments: fenced code blocks are kept whole,
+    // everything else is split on double newlines.
+    const segments = [];
+    const fenceRegex = /(```[\s\S]*?```)/g;
+    let lastIdx = 0;
+    let match;
+    while ((match = fenceRegex.exec(markdown)) !== null) {
+      if (match.index > lastIdx) {
+        // Text before this code block — split on double newlines
+        markdown.slice(lastIdx, match.index).split("\n\n").forEach(b => {
+          if (b.trim()) segments.push(b);
+        });
+      }
+      segments.push(match[1]);
+      lastIdx = match.index + match[0].length;
+    }
+    if (lastIdx < markdown.length) {
+      markdown.slice(lastIdx).split("\n\n").forEach(b => {
+        if (b.trim()) segments.push(b);
+      });
+    }
+
     const renderedBlocks = [];
 
-    blocks.forEach((block, index) => {
+    segments.forEach((block, index) => {
       const trimmed = block.trim();
       if (!trimmed) return;
 
@@ -736,7 +584,7 @@ const ArticleReader = () => {
         return;
       }
 
-      // Fenced code blocks ```lang
+      // Fenced code blocks ```lang ... ```
       if (trimmed.startsWith("```")) {
         const lines = trimmed.split("\n");
         const lang = lines[0].replace(/^```/, "").trim() || "text";
