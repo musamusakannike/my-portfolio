@@ -432,7 +432,7 @@ const ArticleReader = () => {
         0,
         <div key="inline-newsletter" className="my-10 border border-white/10 bg-neutral-900/60 p-6 rounded-none text-center relative overflow-hidden">
           <div className="absolute inset-0 bg-scanline opacity-[0.02] pointer-events-none" />
-          <h4 className="text-xs font-bold text-white uppercase tracking-widest mb-2">// INLINE_NEWSLETTER_ALERT</h4>
+          <h4 className="text-xs font-bold text-white uppercase tracking-widest mb-2">// INLINE NEWSLETTER ALERT</h4>
           <p className="text-[10px] text-neutral-400 uppercase max-w-sm mx-auto mb-4">Enjoying Musa's logs? Submit your email to receive deep technical checklists directly in your inbox.</p>
           <form onSubmit={handleInlineNewsletterSubmit} className="max-w-xs mx-auto flex gap-2">
             <input
@@ -486,7 +486,7 @@ const ArticleReader = () => {
           }}
           className="text-[9px] text-[#ADFF2F] hover:underline uppercase font-bold"
         >
-          [ REPLY_TO ]
+          [ REPLY TO ]
         </button>
 
         {/* Child comments */}
@@ -555,7 +555,7 @@ const ArticleReader = () => {
         </Link>
         
         <span className="text-[10px] text-neutral-500 hidden md:inline uppercase tracking-widest">
-          CODIAC // TECH_JOURNAL // VOL.{new Date(post.createdAt).getFullYear()}
+          CODIAC // TECH JOURNAL // VOL.{new Date(post.createdAt).getFullYear()}
         </span>
 
         {/* Header toolbar Controls */}
@@ -615,7 +615,7 @@ const ArticleReader = () => {
               {/* Reading time details */}
               <div className="border border-neutral-700/20 p-4 bg-neutral-900/10 rounded-none font-mono">
                 <div className="flex gap-2 items-center text-[10px] text-neutral-500 uppercase mb-2">
-                  <FaClock /> ESTIMATED_READ
+                  <FaClock /> ESTIMATED READ
                 </div>
                 <div className="text-xl font-bold tracking-tight text-white uppercase">
                   {post.readTime} MIN READ
@@ -626,7 +626,7 @@ const ArticleReader = () => {
               {headings.length > 0 && (
                 <div>
                   <h4 className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest border-b border-neutral-700/20 pb-2 mb-4">
-                    // TABLE_OF_CONTENTS
+                    // TABLE OF CONTENTS
                   </h4>
                   <ul className="space-y-3 text-[10px] font-bold tracking-widest">
                     {headings.map((h) => (
@@ -652,7 +652,7 @@ const ArticleReader = () => {
               {/* Share actions */}
               <div>
                 <h4 className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest border-b border-neutral-700/20 pb-2 mb-4">
-                  // SHARE_JOURNAL
+                  // SHARE JOURNAL
                 </h4>
                 <div className="flex gap-3">
                   <button onClick={() => handleShareClick("twitter")} className="border border-neutral-700/20 hover:border-neutral-400 p-2 text-xs transition-colors text-neutral-400 hover:text-white rounded-none">
@@ -678,7 +678,7 @@ const ArticleReader = () => {
                 <div className="w-6 h-6 bg-[#ADFF2F] text-black font-extrabold flex items-center justify-center rounded-full text-[8px]">MK</div>
                 <div>
                   <span className="text-white font-bold block">{post.author?.name || "Musa Musa Kannike"}</span>
-                  <span>SYSTEM_DEVELOPER</span>
+                  <span>SYSTEM DEVELOPER</span>
                 </div>
               </div>
               <div>
@@ -699,7 +699,7 @@ const ArticleReader = () => {
                 <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
                   <div>
                     <span className="bg-[#ADFF2F] text-black font-extrabold px-2 py-0.5 text-[8px] tracking-widest uppercase">
-                      CONTENT_UPGRADE
+                      CONTENT UPGRADE
                     </span>
                     <h4 className="text-sm font-bold text-white uppercase mt-2 mb-1">{post.contentUpgrade.title}</h4>
                     <p className="text-[10px] text-neutral-400 uppercase max-w-md leading-relaxed">{post.contentUpgrade.description}</p>
@@ -709,7 +709,7 @@ const ArticleReader = () => {
                     target="_blank"
                     className="flex items-center justify-center gap-2 border border-white text-white font-bold py-2.5 px-4 text-xs tracking-wider uppercase hover:bg-[#ADFF2F] hover:text-black hover:border-[#ADFF2F] transition-all rounded-none w-full sm:w-auto"
                   >
-                    <FaFileDownload /> DOWNLOAD_PDF
+                    <FaFileDownload /> DOWNLOAD PDF
                   </a>
                 </div>
               </div>
@@ -718,7 +718,7 @@ const ArticleReader = () => {
             {/* Public Interactive Comments / Discussions Section */}
             <section className="mt-16 border-t border-neutral-700/20 pt-12">
               <div className="flex gap-2 items-center text-xs font-bold text-white uppercase tracking-widest mb-6">
-                <FaCommentDots className="text-[var(--color-toxic-green)]" /> DISCUSSION_THREAD ({comments.length})
+                <FaCommentDots className="text-[var(--color-toxic-green)]" /> DISCUSSION THREAD ({comments.length})
               </div>
 
               {/* Error/Success Alerts */}
@@ -733,7 +733,7 @@ const ArticleReader = () => {
                 
                 {replyToId && (
                   <div className="flex justify-between items-center bg-neutral-900 border-l-2 border-[#ADFF2F] px-3 py-2 text-[10px] text-neutral-400 uppercase select-none">
-                    <span>REPLYING_TO: {replyToName}</span>
+                    <span>REPLYING TO: {replyToName}</span>
                     <button
                       type="button"
                       onClick={() => {
@@ -763,10 +763,10 @@ const ArticleReader = () => {
                 {user && (
                   <div className="space-y-3">
                     <div className="text-[9px] text-neutral-500 uppercase select-none">
-                      COMMENTING_AS: <span className="text-white font-bold">{user.name} ({user.email})</span>
+                      COMMENTING AS: <span className="text-white font-bold">{user.name} ({user.email})</span>
                     </div>
                     <textarea
-                      placeholder="ENTER_YOUR_COMMENT_HERE..."
+                      placeholder="ENTER YOUR COMMENT HERE..."
                       rows={4}
                       value={commentContent}
                       onChange={(e) => setCommentContent(e.target.value)}
@@ -778,7 +778,7 @@ const ArticleReader = () => {
                       disabled={commentLoading}
                       className="flex items-center justify-center gap-2 bg-[#ADFF2F] text-black font-extrabold px-6 py-3 text-xs tracking-wider uppercase transition-colors hover:bg-white rounded-none disabled:opacity-50"
                     >
-                      <FaPaperPlane size={10} /> {commentLoading ? "PUBLISHING..." : "SUBMIT_COMMENT"}
+                      <FaPaperPlane size={10} /> {commentLoading ? "PUBLISHING..." : "SUBMIT COMMENT"}
                     </button>
                   </div>
                 )}
@@ -802,7 +802,7 @@ const ArticleReader = () => {
             {nextPost && (
               <div className="sticky top-28 border border-white/10 bg-[#070707] p-6 rounded-none max-h-[85vh] overflow-y-auto">
                 <span className="bg-white text-black font-extrabold px-2 py-0.5 text-[8px] tracking-widest uppercase">
-                  UP_NEXT
+                  UP NEXT
                 </span>
                 <h4 className="text-xs font-bold text-white uppercase mt-4 mb-2 tracking-tight line-clamp-2" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
                   <Link href={`/blog/${nextPost.slug}`}>{nextPost.title}</Link>
@@ -814,7 +814,7 @@ const ArticleReader = () => {
                   href={`/blog/${nextPost.slug}`}
                   className="inline-block text-[9px] text-[#ADFF2F] font-bold hover:underline tracking-widest uppercase"
                 >
-                  [ LOAD_POST_NOW ]
+                  [ LOAD POST NOW ]
                 </Link>
               </div>
             )}

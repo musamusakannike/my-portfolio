@@ -301,7 +301,7 @@ const AdminDashboard = () => {
       <div className="min-h-screen bg-[#0A0A0A] text-neutral-200 flex items-center justify-center p-6 font-mono">
         <TerminalWindow title="security@codiac.online:~/admin_login">
           <div className="text-red-500 font-extrabold text-sm mb-4 uppercase animate-pulse">
-            [ACCESS_DENIED]: ADMINISTRATIVE CREDENTIALS MISSING OR EXPIRED
+            [ACCESS DENIED]: ADMINISTRATIVE CREDENTIALS MISSING OR EXPIRED
           </div>
           <p className="text-xs text-neutral-400 leading-relaxed mb-6 uppercase">
             Connection rejected from remote address. This console is reserved for authorized system engineering operations. Please connect using the verified administrator email loaded in the workspace environments.
@@ -311,7 +311,7 @@ const AdminDashboard = () => {
               href="/blog"
               className="text-xs bg-white text-black font-extrabold px-4 py-2 hover:bg-[#ADFF2F] transition-colors rounded-none text-center"
             >
-              [ BACK_TO_JOURNAL ]
+              [ BACK TO JOURNAL ]
             </Link>
           </div>
         </TerminalWindow>
@@ -333,7 +333,7 @@ const AdminDashboard = () => {
               <FaArrowLeft size={16} />
             </Link>
             <h1 className="text-lg font-bold text-white tracking-tighter uppercase">
-              CODIAC // ADMIN_DASHBOARD
+              CODIAC // ADMIN DASHBOARD
             </h1>
           </div>
           <div className="text-xs text-neutral-500 uppercase tracking-widest hidden md:block">
@@ -343,7 +343,7 @@ const AdminDashboard = () => {
 
         {/* Stark Masthead Band */}
         <div className="bg-[#ADFF2F] text-black py-2.5 text-center text-[10px] font-extrabold tracking-[0.2em] uppercase select-none relative z-10">
-          OPERATIONAL_CONTROL_PANEL // DATABASE_INTERFACE // S3_R2_MEDIA_TUNNEL
+          OPERATIONAL CONTROL PANEL // DATABASE INTERFACE // S3 R2 MEDIA TUNNEL
         </div>
 
         <main className="max-w-6xl mx-auto px-6 mt-10 relative z-10">
@@ -352,11 +352,11 @@ const AdminDashboard = () => {
             {/* Left Control Navigation (Sidebar) */}
             <aside className="lg:col-span-3 space-y-2 select-none">
               {[
-                { id: "MANAGE_POSTS", label: "MANAGE_POSTS", icon: <FaFolder /> },
-                { id: "WRITE_POST", label: "WRITE_JOURNAL", icon: <FaPen /> },
-                { id: "MODERATE_COMMENTS", label: "MODERATE_COMMENTS", icon: <FaComments />, count: comments.filter(c => !c.approved).length },
+                { id: "MANAGE_POSTS", label: "MANAGE POSTS", icon: <FaFolder /> },
+                { id: "WRITE_POST", label: "WRITE JOURNAL", icon: <FaPen /> },
+                { id: "MODERATE_COMMENTS", label: "MODERATE COMMENTS", icon: <FaComments />, count: comments.filter(c => !c.approved).length },
                 { id: "SUBSCRIBERS", label: "SUBSCRIBERS", icon: <FaUsers /> },
-                { id: "NEWSLETTER", label: "SEND_CAMPAIGN", icon: <FaEnvelope /> },
+                { id: "NEWSLETTER", label: "SEND CAMPAIGN", icon: <FaEnvelope /> },
               ].map((tab) => (
                 <button
                   key={tab.id}
@@ -391,7 +391,7 @@ const AdminDashboard = () => {
               {activeTab === "MANAGE_POSTS" && (
                 <TerminalWindow title="database:~/journal_entries">
                   <div className="flex justify-between items-center mb-6">
-                    <h3 className="text-xs font-bold text-white uppercase tracking-widest">// JOURNAL_CATALOG ({posts.length} entries)</h3>
+                    <h3 className="text-xs font-bold text-white uppercase tracking-widest">// JOURNAL CATALOG ({posts.length} entries)</h3>
                     <button
                       onClick={() => {
                         resetComposerForm();
@@ -408,7 +408,7 @@ const AdminDashboard = () => {
                       <table className="w-full text-left text-xs text-neutral-400">
                         <thead>
                           <tr className="border-b border-white/10 text-neutral-500 text-[10px] uppercase tracking-widest">
-                            <th className="py-3 px-2">ARTICLE_TITLE</th>
+                            <th className="py-3 px-2">ARTICLE TITLE</th>
                             <th className="py-3 px-2">CATEGORY</th>
                             <th className="py-3 px-2">VIEWS</th>
                             <th className="py-3 px-2">STATUS</th>
@@ -475,7 +475,7 @@ const AdminDashboard = () => {
                   <form onSubmit={handleComposerSubmit} className="space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-[10px] text-neutral-500 uppercase tracking-widest mb-2 font-bold">ARTICLE_TITLE *</label>
+                        <label className="block text-[10px] text-neutral-500 uppercase tracking-widest mb-2 font-bold">ARTICLE TITLE *</label>
                         <input
                           type="text"
                           required
@@ -490,7 +490,7 @@ const AdminDashboard = () => {
                         />
                       </div>
                       <div>
-                        <label className="block text-[10px] text-neutral-500 uppercase tracking-widest mb-2 font-bold">NORMALIZED_SLUG *</label>
+                        <label className="block text-[10px] text-neutral-500 uppercase tracking-widest mb-2 font-bold">NORMALIZED SLUG *</label>
                         <input
                           type="text"
                           required
@@ -517,7 +517,7 @@ const AdminDashboard = () => {
                         </select>
                       </div>
                       <div>
-                        <label className="block text-[10px] text-neutral-500 uppercase tracking-widest mb-2 font-bold">COMMA_SEPARATED_TAGS</label>
+                        <label className="block text-[10px] text-neutral-500 uppercase tracking-widest mb-2 font-bold">COMMA SEPARATED TAGS</label>
                         <input
                           type="text"
                           value={tagsInput}
@@ -527,7 +527,7 @@ const AdminDashboard = () => {
                         />
                       </div>
                       <div>
-                        <label className="block text-[10px] text-neutral-500 uppercase tracking-widest mb-2 font-bold">PUBLISHING_STATUS</label>
+                        <label className="block text-[10px] text-neutral-500 uppercase tracking-widest mb-2 font-bold">PUBLISHING STATUS</label>
                         <div className="flex items-center h-11 border border-white/10 bg-black px-4">
                           <input
                             type="checkbox"
@@ -537,7 +537,7 @@ const AdminDashboard = () => {
                             className="mr-3 accent-[#ADFF2F]"
                           />
                           <label htmlFor="published" className="text-xs text-neutral-400 uppercase select-none">
-                            PUBLISH_ARTICLE_LIVE
+                            PUBLISH ARTICLE LIVE
                           </label>
                         </div>
                       </div>
@@ -545,7 +545,7 @@ const AdminDashboard = () => {
 
                     {/* Image R2 Upload block */}
                     <div>
-                      <label className="block text-[10px] text-neutral-500 uppercase tracking-widest mb-2 font-bold">COVER_IMAGE_LINK *</label>
+                      <label className="block text-[10px] text-neutral-500 uppercase tracking-widest mb-2 font-bold">COVER IMAGE LINK *</label>
                       <div className="flex gap-2">
                         <input
                           type="text"
@@ -569,7 +569,7 @@ const AdminDashboard = () => {
                     </div>
 
                     <div>
-                      <label className="block text-[10px] text-neutral-500 uppercase tracking-widest mb-2 font-bold">SUMMARY_EXCERPT *</label>
+                      <label className="block text-[10px] text-neutral-500 uppercase tracking-widest mb-2 font-bold">SUMMARY EXCERPT *</label>
                       <textarea
                         required
                         value={summary}
@@ -582,7 +582,7 @@ const AdminDashboard = () => {
 
                     {/* Writer Markdown block */}
                     <div>
-                      <label className="block text-[10px] text-neutral-500 uppercase tracking-widest mb-2 font-bold">MARKDOWN_POST_BODY *</label>
+                      <label className="block text-[10px] text-neutral-500 uppercase tracking-widest mb-2 font-bold">MARKDOWN POST BODY *</label>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                           <textarea
@@ -598,7 +598,7 @@ const AdminDashboard = () => {
                         {/* Live preview */}
                         <div className="border border-white/10 bg-neutral-900/10 p-4 max-h-[352px] md:max-h-none overflow-y-auto font-mono text-xs leading-relaxed uppercase select-none">
                           <div className="text-[9px] text-neutral-500 border-b border-white/5 pb-2 mb-4 uppercase tracking-widest">
-                            // LIVE_COMPILER_PREVIEW
+                            // LIVE COMPILER PREVIEW
                           </div>
                           {content ? (
                             <div className="prose max-w-none text-neutral-400">
@@ -619,11 +619,11 @@ const AdminDashboard = () => {
                     {/* Content Upgrade optionals */}
                     <div className="border border-white/5 bg-[#050505] p-5 rounded-none space-y-4">
                       <h4 className="text-[10px] font-bold text-white uppercase tracking-widest border-b border-white/5 pb-2">
-                        // OPTIONAL_CONTENT_UPGRADE
+                        // OPTIONAL CONTENT UPGRADE
                       </h4>
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div>
-                          <label className="block text-[9px] text-neutral-500 uppercase tracking-widest mb-2 font-bold">UPGRADE_TITLE</label>
+                          <label className="block text-[9px] text-neutral-500 uppercase tracking-widest mb-2 font-bold">UPGRADE TITLE</label>
                           <input
                             type="text"
                             value={upgradeTitle}
@@ -633,7 +633,7 @@ const AdminDashboard = () => {
                           />
                         </div>
                         <div>
-                          <label className="block text-[9px] text-neutral-500 uppercase tracking-widest mb-2 font-bold">UPGRADE_DESCRIPTION</label>
+                          <label className="block text-[9px] text-neutral-500 uppercase tracking-widest mb-2 font-bold">UPGRADE DESCRIPTION</label>
                           <input
                             type="text"
                             value={upgradeDesc}
@@ -643,7 +643,7 @@ const AdminDashboard = () => {
                           />
                         </div>
                         <div>
-                          <label className="block text-[9px] text-neutral-500 uppercase tracking-widest mb-2 font-bold">UPGRADE_ASSET_URL (R2 / PDF)</label>
+                          <label className="block text-[9px] text-neutral-500 uppercase tracking-widest mb-2 font-bold">UPGRADE ASSET URL (R2 / PDF)</label>
                           <input
                             type="text"
                             value={upgradeUrl}
@@ -660,7 +660,7 @@ const AdminDashboard = () => {
                         type="submit"
                         className="bg-white hover:bg-[#ADFF2F] text-black font-extrabold text-xs px-8 py-3 tracking-widest uppercase transition-colors rounded-none"
                       >
-                        {postId ? "UPDATE_JOURNAL_POST" : "PUBLISH_POST"}
+                        {postId ? "UPDATE JOURNAL POST" : "PUBLISH POST"}
                       </button>
                       <button
                         type="button"
@@ -681,7 +681,7 @@ const AdminDashboard = () => {
               {activeTab === "MODERATE_COMMENTS" && (
                 <TerminalWindow title="moderator:~/discussions">
                   <h3 className="text-xs font-bold text-white uppercase tracking-widest mb-6 border-b border-white/10 pb-2">
-                    // USER_DISCUSSIONS_MODERATION
+                    // USER DISCUSSIONS MODERATION
                   </h3>
 
                   {comments.length > 0 ? (
@@ -699,7 +699,7 @@ const AdminDashboard = () => {
                               {comm.content}
                             </p>
                             <div className="text-[9px] text-neutral-600 uppercase">
-                              POST_ID: <span className="text-neutral-400 font-bold">{comm.postId}</span>
+                              POST ID: <span className="text-neutral-400 font-bold">{comm.postId}</span>
                             </div>
                           </div>
                           
@@ -709,7 +709,7 @@ const AdminDashboard = () => {
                                 ? "border-green-500/20 bg-green-500/10 text-green-400"
                                 : "border-yellow-500/20 bg-yellow-500/10 text-yellow-400"
                             }`}>
-                              {comm.approved ? "APPROVED" : "PENDING_APPROVAL"}
+                              {comm.approved ? "APPROVED" : "PENDING APPROVAL"}
                             </span>
                             
                             <div className="flex gap-2">
@@ -744,7 +744,7 @@ const AdminDashboard = () => {
               {activeTab === "SUBSCRIBERS" && (
                 <TerminalWindow title="list:~/verified_subscribers">
                   <h3 className="text-xs font-bold text-white uppercase tracking-widest mb-6 border-b border-white/10 pb-2">
-                    // NEWSLETTER_SUBSCRIBERS ({subscribers.length} verified)
+                    // NEWSLETTER SUBSCRIBERS ({subscribers.length} verified)
                   </h3>
 
                   {subscribers.length > 0 ? (
@@ -752,8 +752,8 @@ const AdminDashboard = () => {
                       <table className="w-full text-left text-xs text-neutral-400">
                         <thead>
                           <tr className="border-b border-white/10 text-neutral-500 text-[10px] uppercase tracking-widest">
-                            <th className="py-3 px-2">EMAIL_ADDRESS</th>
-                            <th className="py-3 px-2">SUBSCRIPTION_DATE</th>
+                            <th className="py-3 px-2">EMAIL ADDRESS</th>
+                            <th className="py-3 px-2">SUBSCRIPTION DATE</th>
                             <th className="py-3 px-2">VERIFIED</th>
                           </tr>
                         </thead>
@@ -780,7 +780,7 @@ const AdminDashboard = () => {
               {activeTab === "NEWSLETTER" && (
                 <TerminalWindow title="campaign:~/resend_dispatch">
                   <h3 className="text-xs font-bold text-white uppercase tracking-widest mb-6 border-b border-white/10 pb-2">
-                    // SEND_NEWSLETTER_CAMPAIGN
+                    // SEND NEWSLETTER CAMPAIGN
                   </h3>
 
                   {newsletterStatus && (
@@ -791,7 +791,7 @@ const AdminDashboard = () => {
 
                   <form onSubmit={handleSendNewsletter} className="space-y-6">
                     <div>
-                      <label className="block text-[10px] text-neutral-500 uppercase tracking-widest mb-2 font-bold">EMAIL_SUBJECT *</label>
+                      <label className="block text-[10px] text-neutral-500 uppercase tracking-widest mb-2 font-bold">EMAIL SUBJECT *</label>
                       <input
                         type="text"
                         required
@@ -803,7 +803,7 @@ const AdminDashboard = () => {
                     </div>
 
                     <div>
-                      <label className="block text-[10px] text-neutral-500 uppercase tracking-widest mb-2 font-bold">NEWSLETTER_BODY (HTML SUPPORTED) *</label>
+                      <label className="block text-[10px] text-neutral-500 uppercase tracking-widest mb-2 font-bold">NEWSLETTER BODY (HTML SUPPORTED) *</label>
                       <textarea
                         required
                         value={newsletterBody}
@@ -823,7 +823,7 @@ const AdminDashboard = () => {
                       disabled={newsletterLoading}
                       className="bg-white hover:bg-[#ADFF2F] text-black font-extrabold text-xs px-8 py-3 tracking-widest uppercase transition-colors rounded-none disabled:opacity-50"
                     >
-                      {newsletterLoading ? "TRANSMITTING..." : "DISPATCH_CAMPAIGN"}
+                      {newsletterLoading ? "TRANSMITTING..." : "DISPATCH CAMPAIGN"}
                     </button>
                   </form>
                 </TerminalWindow>

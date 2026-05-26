@@ -128,7 +128,7 @@ const AuthModal = ({ isOpen, onClose, onAuthSuccess }) => {
           {/* Title header */}
           <div className="mb-8 border-b border-white/10 pb-4 text-center">
             <h3 className="text-xl font-bold text-white tracking-tighter uppercase">
-              CODIAC // {isLogin ? "USER_LOGIN" : "CREATE_ACCOUNT"}
+              CODIAC // {isLogin ? "USER LOGIN" : "CREATE ACCOUNT"}
             </h3>
             <p className="text-xs text-neutral-500 mt-1 uppercase">
               {isLogin ? "Access technical journals & dashboard" : "Join the developer network"}
@@ -171,7 +171,7 @@ const AuthModal = ({ isOpen, onClose, onAuthSuccess }) => {
               </span>
               <input
                 type="email"
-                placeholder="EMAIL_ADDRESS"
+                placeholder="EMAIL ADDRESS"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -198,14 +198,14 @@ const AuthModal = ({ isOpen, onClose, onAuthSuccess }) => {
               disabled={loading}
               className="w-full bg-white hover:bg-[var(--color-toxic-green)] text-black font-bold py-3 text-sm tracking-widest uppercase transition-colors rounded-none disabled:opacity-50"
             >
-              {loading ? "PROCESSING..." : isLogin ? "LOG_IN" : "SIGN_UP"}
+              {loading ? "PROCESSING..." : isLogin ? "LOG IN" : "SIGN UP"}
             </button>
           </form>
 
           {/* Social Divider */}
           <div className="my-6 flex items-center justify-between text-xs text-neutral-600">
             <span className="h-px w-1/3 bg-white/5" />
-            <span className="uppercase">OR_USE</span>
+            <span className="uppercase">OR USE</span>
             <span className="h-px w-1/3 bg-white/5" />
           </div>
 
@@ -216,12 +216,12 @@ const AuthModal = ({ isOpen, onClose, onAuthSuccess }) => {
             className="flex w-full items-center justify-center gap-3 border border-white/10 bg-black hover:bg-neutral-900 py-3 text-xs tracking-wider text-white uppercase transition-colors rounded-none disabled:opacity-50"
           >
             <FaGoogle className="text-red-500" />
-            <span>CONTINUE_WITH_GOOGLE</span>
+            <span>CONTINUE WITH GOOGLE</span>
           </button>
 
           {/* Switch action */}
           <div className="mt-8 text-center text-xs text-neutral-400">
-            {isLogin ? "NEW_VISITOR? " : "ALREADY_REGISTERED? "}
+            {isLogin ? "NEW VISITOR? " : "ALREADY REGISTERED? "}
             <button
               onClick={() => {
                 setIsLogin(!isLogin);
@@ -230,7 +230,7 @@ const AuthModal = ({ isOpen, onClose, onAuthSuccess }) => {
               }}
               className="text-[var(--color-toxic-green)] hover:underline uppercase"
             >
-              {isLogin ? "create_account" : "log_in_now"}
+              {isLogin ? "create account" : "log in now"}
             </button>
           </div>
         </motion.div>

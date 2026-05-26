@@ -230,7 +230,7 @@ const BlogHub = () => {
 
         {/* Stark Magazine-Style Masthead Band */}
         <div className="bg-white text-black py-3 text-center tracking-[0.25em] font-extrabold text-sm uppercase relative z-10 select-none">
-          CODIAC // TECHNOLOGY_JOURNAL // CORE_ENGINEERING
+          CODIAC // TECHNOLOGY JOURNAL // CORE ENGINEERING
         </div>
 
         <main className="max-w-6xl mx-auto px-6 mt-12 relative z-10">
@@ -273,7 +273,7 @@ const BlogHub = () => {
             >
               <input
                 type="text"
-                placeholder="SEARCH_JOURNAL..."
+                placeholder="SEARCH JOURNAL..."
                 value={searchQuery}
                 onChange={handleSearchChange}
                 className="w-full bg-neutral-900/60 border border-white/10 pl-4 pr-10 py-2.5 text-xs text-white placeholder-neutral-600 focus:border-[#ADFF2F] focus:outline-none rounded-none tracking-wide"
@@ -337,7 +337,7 @@ const BlogHub = () => {
                         </div>
                       )}
                       <div className="absolute top-4 left-4 bg-white text-black px-3 py-1 font-bold text-[10px] tracking-widest uppercase">
-                        COVER_STORY
+                        COVER STORY
                       </div>
                     </div>
                     
@@ -370,7 +370,7 @@ const BlogHub = () => {
                         href={`/blog/${coverPost.slug}`}
                         className="inline-flex items-center justify-center w-full md:w-auto text-center border border-white text-white font-bold py-3 px-6 text-xs uppercase hover:bg-white hover:text-black transition-colors rounded-none tracking-widest"
                       >
-                        READ_JOURNAL
+                        READ JOURNAL
                       </Link>
                     </div>
                   </div>
@@ -431,7 +431,7 @@ const BlogHub = () => {
                             href={`/blog/${post.slug}`}
                             className="inline-flex w-full items-center justify-center border border-white/10 group-hover:border-white text-white group-hover:bg-white group-hover:text-black font-bold py-2 px-4 text-xs tracking-wider transition-all uppercase rounded-none text-center"
                           >
-                            READ_ARTICLE
+                            READ ARTICLE
                           </Link>
                         </div>
                       </div>
@@ -455,7 +455,7 @@ const BlogHub = () => {
             <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center relative z-10">
               <div className="md:col-span-7">
                 <div className="flex items-center gap-2 text-xs text-[var(--color-toxic-green)] font-bold tracking-widest uppercase mb-3">
-                  <FaNewspaper /> NEWSLETTER_LIST
+                  <FaNewspaper /> NEWSLETTER LIST
                 </div>
                 <h3 className="text-xl md:text-2xl font-black text-white uppercase tracking-tighter mb-3">
                   Subscribed for Distributed Architecture Writeups?
@@ -470,7 +470,7 @@ const BlogHub = () => {
                   <div className="flex flex-col sm:flex-row gap-2">
                     <input
                       type="email"
-                      placeholder="ENTER_YOUR_EMAIL"
+                      placeholder="ENTER YOUR EMAIL"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       required
@@ -497,9 +497,9 @@ const BlogHub = () => {
 
         {/* Global Footer link to show home */}
         <footer className="mt-20 border-t border-white/5 pt-8 text-center text-xs text-neutral-600 uppercase">
-          <p className="mb-2">SYSTEM_ENGINEERING: Musa Musa Kannike. MIT LICENSE.</p>
+          <p className="mb-2">SYSTEM ENGINEERING: Musa Musa Kannike. MIT LICENSE.</p>
           <Link href="/" className="text-[var(--color-toxic-green)] hover:underline tracking-widest font-bold">
-            [ BACK_TO_PORTFOLIO ]
+            [ BACK TO PORTFOLIO ]
           </Link>
         </footer>
 
