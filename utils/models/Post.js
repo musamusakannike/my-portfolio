@@ -67,12 +67,11 @@ const PostSchema = new mongoose.Schema(
 );
 
 // Automate reading time calculation based on word count (~200 words per minute)
-PostSchema.pre("save", function (next) {
+PostSchema.pre("save", function () {
   if (this.isModified("content")) {
     const words = this.content ? this.content.split(/\s+/).length : 0;
     this.readTime = Math.max(1, Math.ceil(words / 200));
   }
-  next();
 });
 
 export default mongoose.models.Post || mongoose.model("Post", PostSchema);
