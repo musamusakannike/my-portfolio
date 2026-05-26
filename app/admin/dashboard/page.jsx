@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { FaArrowLeft, FaPen, FaFolder, FaComments, FaUsers, FaEnvelope, FaUpload, FaTrash, FaCheck, FaTimes, FaGlobe, FaFileAlt } from "react-icons/fa";
+import { FaArrowLeft, FaPen, FaFolder, FaComments, FaUsers, FaEnvelope, FaUpload, FaTrash, FaCheck, FaTimes, FaGlobe, FaFileAlt, FaBold, FaItalic, FaHeading, FaListUl, FaListOl, FaQuoteLeft, FaCode, FaLink, FaImage, FaEye, FaExpand, FaSun, FaMoon } from "react-icons/fa";
 import LoadingWrapper from "@/components/ui/LoadingWrapper";
 import TerminalWindow from "@/components/ui/TerminalWindow";
 import ThemeSwitcher from "@/components/ui/ThemeSwitcher";
@@ -31,6 +31,148 @@ const AdminDashboard = () => {
   
   const [composerStatus, setComposerStatus] = useState("");
   const [uploading, setUploading] = useState(false);
+
+  // Premium Editor Layout States
+  const [editorMode, setEditorMode] = useState("split"); // "split" | "write" | "preview"
+  const [previewTheme, setPreviewTheme] = useState("dark"); // "dark" | "light"
+  const [previewFontSize, setPreviewFontSize] = useState("md"); // "sm" | "md" | "lg"
+
+  const textareaRef = useRef(null);
+
+  const insertFormatting = (prefix, suffix = "") => {
+    const textarea = textareaRef.current;
+    if (!textarea) return;
+
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const currentText = textarea.value;
+
+    const selectedText = currentText.substring(start, end);
+    const newText =
+      currentText.substring(0, start) +
+      prefix +
+      (selectedText || "text") +
+      suffix +
+      currentText.substring(end);
+
+    setContent(newText);
+
+    // Reset cursor position after state updates
+    setTimeout(() => {
+      textarea.focus();
+      const selectionStart = start + prefix.length;
+      const selectionEnd = selectionStart + (selectedText ? selectedText.length : 4);
+      textarea.setSelectionRange(selectionStart, selectionEnd);
+    }, 50);
+  };
+
+  const parseInline = (text) => {
+    if (!text) return "";
+    let html = text
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+    html = html.replace(/!\[(.*?)\]\((.*?)\)/g, '<img src="$2" alt="$1" class="inline-block max-w-full h-auto grayscale hover:grayscale-0 transition-all duration-300 my-2" />');
+    html = html.replace(/\*\*(.*?)\*\*/g, '<strong class="font-extrabold text-[var(--text-primary)]">$1</strong>');
+    html = html.replace(/\*(.*?)\*/g, '<em class="italic">$1</em>');
+    html = html.replace(/_(.*?)_/g, '<em class="italic">$1</em>');
+    html = html.replace(/`(.*?)`/g, '<code class="bg-[var(--bg-secondary)] border border-[var(--border-primary)]/50 px-1.5 py-0.5 font-mono text-[10px] text-[var(--color-toxic-green)] rounded-none">$1</code>');
+    html = html.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-[var(--color-toxic-green)] hover:underline font-bold transition-colors">$1</a>');
+    return html;
+  };
+
+  const parseMarkdownToHtml = (markdown, pTheme) => {
+    if (!markdown) return "";
+    const blocks = markdown.split(/\n\n+/);
+    return blocks.map((block, index) => {
+      const trimmed = block.trim();
+      if (!trimmed) return "";
+      
+      if (trimmed.startsWith("```")) {
+        const lines = trimmed.split("\n");
+        const lang = lines[0].replace("```", "") || "javascript";
+        let code = lines.slice(1);
+        if (code[code.length - 1] === "```") {
+          code = code.slice(0, -1);
+        } else {
+          code = code.map(line => line === "```" ? "" : line);
+        }
+        const joinedCode = code.join("\n");
+        return `
+          <pre class="bg-black/95 text-neutral-300 border border-white/10 p-5 overflow-x-auto rounded-none font-mono text-xs my-6 leading-relaxed select-all relative group">
+            <div class="flex justify-between text-[9px] text-neutral-500 uppercase border-b border-white/5 pb-2 mb-3 select-none">
+              <span>${lang}</span>
+              <span class="cursor-pointer hover:text-white" onclick="navigator.clipboard.writeText(\`${joinedCode.replace(/`/g, '\\`').replace(/\$/g, '\\$')}\`); alert('[SYS]: Code copied to clipboard');">[COPY_CODE]</span>
+            </div>
+            <code>${joinedCode}</code>
+          </pre>
+        `;
+      }
+      
+      if (trimmed.startsWith("## ")) {
+        const title = trimmed.replace("## ", "").replace(/[\*\_]/g, "");
+        const id = title.toLowerCase().replace(/[^a-z0-9-]/g, "-").replace(/-+/g, "-");
+        const isLight = pTheme === "light";
+        const hClass = isLight ? "text-black font-serif text-2xl font-black mt-10 mb-4 transition-colors" : "text-[#ADFF2F] font-mono text-xl font-black mt-10 mb-4 transition-colors";
+        const hStyle = isLight ? "font-family: 'Playfair Display', Georgia, serif; font-size: 26px;" : "font-family: var(--font-mono); font-size: 18px;";
+        return `<h2 id="${id}" class="${hClass}" style="${hStyle}">${parseInline(title)}</h2>`;
+      }
+      
+      if (trimmed.startsWith("### ")) {
+        const title = trimmed.replace("### ", "").replace(/[\*\_]/g, "");
+        const id = title.toLowerCase().replace(/[^a-z0-9-]/g, "-").replace(/-+/g, "-");
+        const isLight = pTheme === "light";
+        const hClass = isLight ? "text-black font-serif text-xl font-bold mt-8 mb-3 transition-colors" : "text-white font-mono text-base font-bold mt-8 mb-3 transition-colors";
+        const hStyle = isLight ? "font-family: 'Playfair Display', Georgia, serif; font-size: 20px;" : "font-family: var(--font-mono); font-size: 15px;";
+        return `<h3 id="${id}" class="${hClass}" style="${hStyle}">${parseInline(title)}</h3>`;
+      }
+      
+      if (trimmed.startsWith("- ") || trimmed.startsWith("* ")) {
+        const lines = trimmed.split("\n");
+        const listItems = lines.map(line => {
+          const content = line.substring(2);
+          return `<li class="mb-1">${parseInline(content)}</li>`;
+        }).join("");
+        return `<ul class="list-disc pl-6 my-4 space-y-1 text-xs leading-relaxed tracking-wide">${listItems}</ul>`;
+      }
+      
+      if (/^\d+\.\s/.test(trimmed)) {
+        const lines = trimmed.split("\n");
+        const listItems = lines.map(line => {
+          const match = line.match(/^\d+\.\s(.*)$/);
+          const content = match ? match[1] : line;
+          return `<li class="mb-1">${parseInline(content)}</li>`;
+        }).join("");
+        return `<ol class="list-decimal pl-6 my-4 space-y-1 text-xs leading-relaxed tracking-wide">${listItems}</ol>`;
+      }
+      
+      if (trimmed.startsWith("> ")) {
+        const quoteLines = trimmed.split("\n").map(l => l.substring(2)).join("<br />");
+        return `
+          <blockquote class="border-l-2 border-[#ADFF2F] pl-4 italic text-neutral-400 my-6">
+            <p class="text-xs leading-relaxed tracking-wider">"${parseInline(quoteLines)}"</p>
+          </blockquote>
+        `;
+      }
+      
+      if (trimmed.startsWith("![") && trimmed.endsWith(")")) {
+        const match = trimmed.match(/^!\[(.*?)\]\((.*?)\)$/);
+        if (match) {
+          return `
+            <div class="my-6 border border-[var(--border-primary)] bg-[var(--bg-tertiary)]/50 p-2 text-center">
+              <img src="${match[2]}" alt="${match[1]}" class="max-w-full h-auto mx-auto grayscale hover:grayscale-0 transition-all duration-300" />
+              <span class="text-[9px] text-[var(--text-tertiary)] uppercase mt-2 block tracking-widest">// ${match[1]}</span>
+            </div>
+          `;
+        }
+      }
+      
+      const isLight = pTheme === "light";
+      const pClass = isLight ? "text-xs tracking-wider leading-relaxed mb-6 text-neutral-700 font-serif leading-8" : "text-xs tracking-wider leading-relaxed mb-6 text-neutral-300 font-mono";
+      const pStyle = isLight ? "font-family: 'Lora', serif; font-size: 12px;" : "font-family: var(--font-sans); font-size: 12px;";
+      return `<p class="${pClass}" style="${pStyle}">${parseInline(trimmed)}</p>`;
+    }).join("");
+  };
 
   // System items lists
   const [posts, setPosts] = useState([]);
@@ -580,37 +722,184 @@ const AdminDashboard = () => {
                       />
                     </div>
 
-                    {/* Writer Markdown block */}
-                    <div>
-                      <label className="block text-[10px] text-[var(--text-tertiary)] uppercase tracking-widest mb-2 font-bold transition-colors">MARKDOWN POST BODY *</label>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <textarea
-                            required
-                            value={content}
-                            onChange={(e) => setContent(e.target.value)}
-                            rows={16}
-                            className="w-full bg-[var(--bg-primary)] border border-[var(--border-secondary)] p-3 font-mono text-xs text-[var(--text-primary)] placeholder-[var(--text-tertiary)] focus:border-[var(--color-toxic-green)] focus:outline-none rounded-none leading-relaxed transition-all duration-300"
-                            placeholder="## INTRODUCTION&#10;&#10;Redis has evolved...&#10;&#10;## COMPONENT_DECAY&#10;&#10;Here is code:&#10;&#10;```javascript&#10;const x = 5;&#10;```"
-                          />
-                        </div>
+                    {/* Rich Production Grade Markdown Post Composer */}
+                    <div className="space-y-2">
+                      <label className="block text-[10px] text-[var(--text-tertiary)] uppercase tracking-widest mb-1 font-bold transition-colors">MARKDOWN POST BODY *</label>
+                      <div className="border border-[var(--border-primary)] bg-[var(--bg-secondary)]/10 p-1 space-y-3 transition-colors duration-300">
                         
-                        {/* Live preview */}
-                        <div className="border border-[var(--border-primary)] bg-[var(--bg-tertiary)]/30 p-4 max-h-[352px] md:max-h-none overflow-y-auto font-mono text-xs leading-relaxed select-none transition-colors duration-300">
-                          <div className="text-[9px] text-[var(--text-tertiary)] border-b border-[var(--border-primary)]/50 pb-2 mb-4 uppercase tracking-widest transition-colors">
-                            // LIVE COMPILER PREVIEW
+                        {/* Editor / Preview Mode Header Controls */}
+                        <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3 bg-[var(--bg-tertiary)] p-3 border-b border-[var(--border-primary)] select-none">
+                          
+                          {/* Tab Switcher for Writing Modes */}
+                          <div className="flex border border-[var(--border-primary)] bg-[var(--bg-primary)] p-0.5 rounded-none text-[10px] font-bold tracking-wider">
+                            {[
+                              { id: "write", label: "EDIT", icon: <FaPen size={9} /> },
+                              { id: "split", label: "SPLIT VIEW", icon: <FaExpand size={9} /> },
+                              { id: "preview", label: "PREVIEW", icon: <FaEye size={9} /> }
+                            ].map((mode) => (
+                              <button
+                                key={mode.id}
+                                type="button"
+                                onClick={() => setEditorMode(mode.id)}
+                                className={`px-3 py-1.5 flex items-center gap-1.5 transition-colors rounded-none ${
+                                  editorMode === mode.id
+                                    ? "bg-[var(--text-primary)] text-[var(--bg-primary)]"
+                                    : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                                }`}
+                              >
+                                {mode.icon}
+                                <span>{mode.label}</span>
+                              </button>
+                            ))}
                           </div>
-                          {content ? (
-                            <div className="prose max-w-none text-[var(--text-secondary)] transition-colors">
-                              {content.split("\n\n").map((b, idx) => {
-                                if (b.trim().startsWith("## ")) return <h2 key={idx} className="text-[var(--color-toxic-green)] text-xs font-bold uppercase mt-4 mb-2 transition-colors">{b.replace("## ", "")}</h2>;
-                                if (b.trim().startsWith("### ")) return <h3 key={idx} className="text-[var(--text-primary)] text-xs font-bold uppercase mt-3 mb-1 transition-colors">{b.replace("### ", "")}</h3>;
-                                if (b.trim().startsWith("```")) return <pre key={idx} className="bg-[var(--bg-secondary)] p-3 text-[10px] font-mono border border-[var(--border-primary)]/50 my-3 transition-colors"><code>{b.replace(/```[a-z]*/i, "").replace("```", "")}</code></pre>;
-                                return <p key={idx} className="mb-3">{b}</p>;
-                              })}
+
+                          {/* Preview Customizers */}
+                          {editorMode !== "write" && (
+                            <div className="flex items-center gap-3 ml-auto text-[10px] font-bold">
+                              
+                              {/* Font size legibility toggles */}
+                              <div className="flex border border-[var(--border-primary)] bg-[var(--bg-primary)] p-0.5 rounded-none text-[8px]">
+                                <button
+                                  type="button"
+                                  onClick={() => setPreviewFontSize("sm")}
+                                  className={`px-2 py-1 ${previewFontSize === "sm" ? "bg-neutral-800 text-white" : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"}`}
+                                >
+                                  A-
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => setPreviewFontSize("md")}
+                                  className={`px-2 py-1 ${previewFontSize === "md" ? "bg-neutral-800 text-white" : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"}`}
+                                >
+                                  A
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => setPreviewFontSize("lg")}
+                                  className={`px-2 py-1 ${previewFontSize === "lg" ? "bg-neutral-800 text-white" : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"}`}
+                                >
+                                  A+
+                                </button>
+                              </div>
+
+                              {/* Theme switcher */}
+                              <button
+                                type="button"
+                                onClick={() => setPreviewTheme(previewTheme === "dark" ? "light" : "dark")}
+                                className="border border-[var(--border-primary)] bg-[var(--bg-primary)] hover:border-[var(--text-primary)] p-1.5 text-xs transition-colors rounded-none flex items-center justify-center"
+                                title="Toggle Preview Theme"
+                              >
+                                {previewTheme === "dark" ? <FaSun size={10} className="text-yellow-500" /> : <FaMoon size={10} />}
+                              </button>
                             </div>
-                          ) : (
-                            <span className="text-[var(--text-tertiary)] italic transition-colors">Preview compilation is currently empty...</span>
+                          )}
+                        </div>
+
+                        {/* Interactive Rich Formatting Toolbar (Only in write and split modes) */}
+                        {editorMode !== "preview" && (
+                          <div className="flex flex-wrap items-center gap-1.5 px-3 py-2 bg-[var(--bg-tertiary)]/50 border-b border-[var(--border-primary)] select-none">
+                            {[
+                              { icon: <FaBold size={11} />, prefix: "**", suffix: "**", title: "Bold" },
+                              { icon: <FaItalic size={11} />, prefix: "*", suffix: "*", title: "Italic" },
+                              { icon: <FaHeading size={11} />, prefix: "## ", suffix: "", title: "Header 2" },
+                              { icon: <span className="font-extrabold text-[9px] font-mono">H3</span>, prefix: "### ", suffix: "", title: "Header 3" },
+                              { icon: <FaListUl size={11} />, prefix: "- ", suffix: "", title: "Bullet List" },
+                              { icon: <FaListOl size={11} />, prefix: "1. ", suffix: "", title: "Numbered List" },
+                              { icon: <FaQuoteLeft size={11} />, prefix: "> ", suffix: "", title: "Blockquote" },
+                              { icon: <FaCode size={11} />, prefix: "`", suffix: "`", title: "Inline Code" },
+                              { icon: <span className="font-mono text-[9px] font-bold">&lt;/&gt;</span>, prefix: "```javascript\n", suffix: "\n```", title: "Code Block" },
+                              { icon: <FaLink size={11} />, prefix: "[Link Label](", suffix: ")", title: "Link" },
+                              { icon: <FaImage size={11} />, prefix: "![Alt Label](", suffix: ")", title: "Image" },
+                            ].map((item, idx) => (
+                              <button
+                                key={idx}
+                                type="button"
+                                onClick={() => insertFormatting(item.prefix, item.suffix)}
+                                className="w-7 h-7 flex items-center justify-center border border-[var(--border-primary)] hover:border-[var(--text-primary)] hover:bg-[var(--bg-secondary)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-all rounded-none"
+                                title={item.title}
+                              >
+                                {item.icon}
+                              </button>
+                            ))}
+                          </div>
+                        )}
+
+                        {/* Main Workspace: Split / Editor / Preview Container */}
+                        <div className={`grid gap-4 ${editorMode === "split" ? "grid-cols-1 md:grid-cols-2" : "grid-cols-1"}`}>
+                          
+                          {/* Code editor textarea wrapper */}
+                          {editorMode !== "preview" && (
+                            <div className="relative">
+                              <textarea
+                                ref={textareaRef}
+                                required
+                                value={content}
+                                onChange={(e) => setContent(e.target.value)}
+                                onKeyDown={(e) => {
+                                  if (e.key === "Tab") {
+                                    e.preventDefault();
+                                    const start = e.target.selectionStart;
+                                    const end = e.target.selectionEnd;
+                                    const currentVal = e.target.value;
+                                    const newVal = currentVal.substring(0, start) + "  " + currentVal.substring(end);
+                                    setContent(newVal);
+                                    setTimeout(() => {
+                                      e.target.selectionStart = e.target.selectionEnd = start + 2;
+                                    }, 10);
+                                  }
+                                }}
+                                rows={18}
+                                className="w-full bg-[var(--bg-primary)] border border-[var(--border-secondary)] p-4 font-mono text-xs text-[var(--text-primary)] placeholder-[var(--text-tertiary)] focus:border-[var(--color-toxic-green)] focus:outline-none rounded-none leading-relaxed transition-all duration-300 resize-y"
+                                placeholder="## INTRODUCTION&#10;&#10;Write down your technical log entry in markdown..."
+                              />
+                              
+                              {/* Editor Stats Footer Bar */}
+                              <div className="flex justify-between items-center bg-[var(--bg-tertiary)] border-x border-b border-[var(--border-secondary)] px-3 py-1.5 text-[9px] font-mono text-[var(--text-tertiary)] select-none">
+                                <span className="flex items-center gap-3">
+                                  <span>CHARS: {content.length}</span>
+                                  <span>WORDS: {content.trim().split(/\s+/).filter(Boolean).length}</span>
+                                </span>
+                                <span>
+                                  READ TIME: {Math.max(1, Math.ceil(content.trim().split(/\s+/).filter(Boolean).length / 200))} MIN
+                                </span>
+                              </div>
+                            </div>
+                          )}
+                          
+                          {/* High Fidelity Theme-able Blog Styled Preview */}
+                          {editorMode !== "write" && (
+                            <div 
+                              className={`border border-[var(--border-primary)] p-6 overflow-y-auto transition-all duration-300 select-text ${
+                                previewTheme === "light" 
+                                  ? "bg-white text-neutral-800" 
+                                  : "bg-[#0b0b0b] text-neutral-300"
+                              }`}
+                              style={{ 
+                                maxHeight: editorMode === "split" ? "404px" : "none",
+                                minHeight: editorMode === "split" ? "404px" : "300px" 
+                              }}
+                            >
+                              
+                              {/* Mini preview bar header */}
+                              <div className="flex justify-between items-center text-[9px] font-mono text-neutral-500 border-b border-neutral-700/20 pb-2 mb-4 select-none">
+                                <span>// DYNAMIC PREVIEW COMPILER</span>
+                                <span>THEME: {previewTheme.toUpperCase()} &bull; SCALE: {previewFontSize.toUpperCase()}</span>
+                              </div>
+
+                              {content ? (
+                                <article 
+                                  className="prose max-w-none break-words"
+                                  style={{
+                                    fontSize: previewFontSize === "sm" ? "11px" : previewFontSize === "lg" ? "14px" : "12px"
+                                  }}
+                                  dangerouslySetInnerHTML={{ __html: parseMarkdownToHtml(content, previewTheme) }}
+                                />
+                              ) : (
+                                <div className="py-12 text-center text-neutral-500 italic text-xs select-none">
+                                  Preview compilation is currently empty...
+                                </div>
+                              )}
+                            </div>
                           )}
                         </div>
                       </div>
