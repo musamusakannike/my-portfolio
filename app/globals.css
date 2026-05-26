@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&family=Geist:wght@100..900&family=JetBrains+Mono:wght@100..800&family=Cairo:wght@300;400;500;600;700;800&family=Amiri:wght@400;700&family=El+Messiri:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Lora:ital,wght@0,400..700;1,400..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&family=Geist:wght@100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Cairo:wght@300;400;500;600;700;800&family=Amiri:wght@400;700&family=El+Messiri:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Lora:ital,wght@0,400..700;1,400..700&family=Source+Serif+4:ital,opsz,wght@0,8..60,300..900;1,8..60,300..900&family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
   /* Light mode defaults */
@@ -166,3 +166,54 @@ h6 {
 .terminal-glow {
   box-shadow: 0 0 40px rgba(173, 255, 47, 0.08);
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Blog Article Prose Styles (scoped to .blog-article)
+   ═══════════════════════════════════════════════════════════════════════════ */
+.blog-article {
+  /* Comfortable reading measure */
+  max-width: 68ch;
+}
+
+/* Heading hierarchy in markdown articles */
+.blog-article h1,
+.blog-article h2,
+.blog-article h3,
+.blog-article h4 {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: var(--text-primary);
+}
+
+/* Body text */
+.blog-article p {
+  font-family: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+  color: var(--text-secondary);
+}
+
+/* List markers use accent color */
+.blog-article ul li::marker,
+.blog-article ol li::marker {
+  color: var(--color-toxic-green);
+  font-weight: 600;
+}
+
+/* Inline code */
+.blog-article :not(pre) > code {
+  font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+  font-size: 0.875em;
+  background: rgba(21, 128, 61, 0.08);
+  color: var(--color-toxic-green);
+  border: 1px solid rgba(21, 128, 61, 0.2);
+  padding: 0.12em 0.4em;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+/* Block links */
+.blog-article a {
+  color: var(--color-toxic-green);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: opacity 0.2s;
+}
+.blog-article a:hover { opacity: 0.75; }
