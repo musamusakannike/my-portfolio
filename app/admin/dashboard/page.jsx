@@ -346,11 +346,6 @@ const AdminDashboard = () => {
           </div>
         </header>
 
-        {/* Stark Masthead Band */}
-        <div className="bg-[var(--color-toxic-green)] text-[var(--color-obsidian)] py-2.5 text-center text-[10px] font-extrabold tracking-[0.2em] uppercase select-none relative z-10 transition-colors duration-300">
-          OPERATIONAL CONTROL PANEL // DATABASE INTERFACE // S3 R2 MEDIA TUNNEL
-        </div>
-
         <main className="max-w-6xl mx-auto px-6 mt-10 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             
@@ -490,8 +485,8 @@ const AdminDashboard = () => {
                             // Auto generate slug
                             setSlug(e.target.value.toLowerCase().replace(/[^a-z0-9\s-]/g, "").replace(/\s+/g, "-"));
                           }}
-                          className="w-full bg-[var(--bg-primary)] border border-[var(--border-secondary)] p-3 text-xs text-[var(--text-primary)] placeholder-[var(--text-tertiary)] focus:border-[var(--color-toxic-green)] focus:outline-none rounded-none font-mono uppercase transition-all duration-300"
-                          placeholder="E.g. REDIS IN-MEMORY BUFFER PATTERNS"
+                          className="w-full bg-[var(--bg-primary)] border border-[var(--border-secondary)] p-3 text-xs text-[var(--text-primary)] placeholder-[var(--text-tertiary)] focus:border-[var(--color-toxic-green)] focus:outline-none rounded-none font-mono transition-all duration-300"
+                          placeholder="E.g. Redis In-Memory Buffer Patterns"
                         />
                       </div>
                       <div>
@@ -527,7 +522,7 @@ const AdminDashboard = () => {
                           type="text"
                           value={tagsInput}
                           onChange={(e) => setTagsInput(e.target.value)}
-                          className="w-full bg-[var(--bg-primary)] border border-[var(--border-secondary)] p-3 text-xs text-[var(--text-primary)] placeholder-[var(--text-tertiary)] focus:border-[var(--color-toxic-green)] focus:outline-none rounded-none font-mono uppercase transition-all duration-300"
+                          className="w-full bg-[var(--bg-primary)] border border-[var(--border-secondary)] p-3 text-xs text-[var(--text-primary)] placeholder-[var(--text-tertiary)] focus:border-[var(--color-toxic-green)] focus:outline-none rounded-none font-mono transition-all duration-300"
                           placeholder="redis, cashing, fullstack"
                         />
                       </div>
@@ -580,8 +575,8 @@ const AdminDashboard = () => {
                         value={summary}
                         onChange={(e) => setSummary(e.target.value)}
                         rows={2}
-                        className="w-full bg-[var(--bg-primary)] border border-[var(--border-secondary)] p-3 text-xs text-[var(--text-primary)] placeholder-[var(--text-tertiary)] focus:border-[var(--color-toxic-green)] focus:outline-none rounded-none font-mono uppercase transition-all duration-300"
-                        placeholder="PROVIDE A SHORT EXCERPT EXPLAINING THE ARTICLE IN 2 SENTENCES"
+                        className="w-full bg-[var(--bg-primary)] border border-[var(--border-secondary)] p-3 text-xs text-[var(--text-primary)] placeholder-[var(--text-tertiary)] focus:border-[var(--color-toxic-green)] focus:outline-none rounded-none font-mono transition-all duration-300"
+                        placeholder="Provide a short excerpt explaining the article in 2 sentences"
                       />
                     </div>
 
@@ -601,7 +596,7 @@ const AdminDashboard = () => {
                         </div>
                         
                         {/* Live preview */}
-                        <div className="border border-[var(--border-primary)] bg-[var(--bg-tertiary)]/30 p-4 max-h-[352px] md:max-h-none overflow-y-auto font-mono text-xs leading-relaxed uppercase select-none transition-colors duration-300">
+                        <div className="border border-[var(--border-primary)] bg-[var(--bg-tertiary)]/30 p-4 max-h-[352px] md:max-h-none overflow-y-auto font-mono text-xs leading-relaxed select-none transition-colors duration-300">
                           <div className="text-[9px] text-[var(--text-tertiary)] border-b border-[var(--border-primary)]/50 pb-2 mb-4 uppercase tracking-widest transition-colors">
                             // LIVE COMPILER PREVIEW
                           </div>
@@ -633,8 +628,8 @@ const AdminDashboard = () => {
                             type="text"
                             value={upgradeTitle}
                             onChange={(e) => setUpgradeTitle(e.target.value)}
-                            className="w-full bg-[var(--bg-primary)] border border-[var(--border-secondary)] p-3 text-xs text-[var(--text-primary)] placeholder-[var(--text-tertiary)] focus:border-[var(--color-toxic-green)] focus:outline-none rounded-none font-mono uppercase transition-all duration-300"
-                            placeholder="E.g. REDIS CHEATSHEET PDF"
+                            className="w-full bg-[var(--bg-primary)] border border-[var(--border-secondary)] p-3 text-xs text-[var(--text-primary)] placeholder-[var(--text-tertiary)] focus:border-[var(--color-toxic-green)] focus:outline-none rounded-none font-mono transition-all duration-300"
+                            placeholder="E.g. Redis Cheatsheet PDF"
                           />
                         </div>
                         <div>
@@ -643,8 +638,8 @@ const AdminDashboard = () => {
                             type="text"
                             value={upgradeDesc}
                             onChange={(e) => setUpgradeDesc(e.target.value)}
-                            className="w-full bg-[var(--bg-primary)] border border-[var(--border-secondary)] p-3 text-xs text-[var(--text-primary)] placeholder-[var(--text-tertiary)] focus:border-[var(--color-toxic-green)] focus:outline-none rounded-none font-mono uppercase transition-all duration-300"
-                            placeholder="E.g. COMPREHENSIVE ARCHITECTURE DIAGRAM"
+                            className="w-full bg-[var(--bg-primary)] border border-[var(--border-secondary)] p-3 text-xs text-[var(--text-primary)] placeholder-[var(--text-tertiary)] focus:border-[var(--color-toxic-green)] focus:outline-none rounded-none font-mono transition-all duration-300"
+                            placeholder="E.g. Comprehensive architecture diagram"
                           />
                         </div>
                         <div>
@@ -802,8 +797,8 @@ const AdminDashboard = () => {
                         required
                         value={newsletterSubject}
                         onChange={(e) => setNewsletterSubject(e.target.value)}
-                        className="w-full bg-[var(--bg-primary)] border border-[var(--border-secondary)] p-3 text-xs text-[var(--text-primary)] placeholder-[var(--text-tertiary)] focus:border-[var(--color-toxic-green)] focus:outline-none rounded-none font-mono uppercase transition-all duration-300"
-                        placeholder="E.g. VOL.12: REDIS ARCHITECTURE CHEATSHEET PACK"
+                        className="w-full bg-[var(--bg-primary)] border border-[var(--border-secondary)] p-3 text-xs text-[var(--text-primary)] placeholder-[var(--text-tertiary)] focus:border-[var(--color-toxic-green)] focus:outline-none rounded-none font-mono transition-all duration-300"
+                        placeholder="E.g. Vol.12: Redis Architecture Cheatsheet Pack"
                       />
                     </div>
 

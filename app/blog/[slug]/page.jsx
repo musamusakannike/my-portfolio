@@ -383,7 +383,7 @@ const ArticleReader = () => {
       if (trimmed.startsWith("- ") || trimmed.startsWith("* ")) {
         const items = trimmed.split("\n").map(li => li.substring(2).replace(/[\*\_]/g, ""));
         renderedBlocks.push(
-          <ul key={index} className="list-disc pl-6 my-4 space-y-2 text-xs leading-relaxed uppercase tracking-wide">
+          <ul key={index} className="list-disc pl-6 my-4 space-y-2 text-xs leading-relaxed tracking-wide">
             {items.map((it, idx) => <li key={idx}>{it}</li>)}
           </ul>
         );
@@ -395,7 +395,7 @@ const ArticleReader = () => {
         const quote = trimmed.substring(2).replace(/[\*\_]/g, "");
         renderedBlocks.push(
           <blockquote key={index} className="border-l-2 border-[#ADFF2F] pl-4 italic text-neutral-400 my-6">
-            <p className="text-xs uppercase leading-relaxed tracking-wider">"{quote}"</p>
+            <p className="text-xs leading-relaxed tracking-wider">"{quote}"</p>
           </blockquote>
         );
         return;
@@ -411,13 +411,12 @@ const ArticleReader = () => {
       renderedBlocks.push(
         <p
           key={index}
-          className={`text-xs uppercase tracking-wider leading-relaxed mb-6 transition-colors ${
+          className={`text-xs tracking-wider leading-relaxed mb-6 transition-colors ${
             theme === "light" ? "text-neutral-700 font-serif leading-8" : "text-neutral-300 font-mono"
           }`}
           style={{
             fontFamily: theme === "light" ? "'Lora', serif" : "var(--font-sans)",
             fontSize: fontSize === "sm" ? "11px" : fontSize === "lg" ? "14px" : "12px",
-            textTransform: theme === "light" ? "none" : "uppercase", // Light mode utilizes normal sentence casing for reader comfort!
           }}
         >
           {renderedText}
@@ -434,7 +433,7 @@ const ArticleReader = () => {
         <div key="inline-newsletter" className="my-10 border border-[var(--border-primary)] bg-[var(--bg-secondary)] p-6 rounded-none text-center relative overflow-hidden transition-colors duration-300">
           <div className="absolute inset-0 bg-scanline opacity-[0.01] dark:opacity-[0.02] pointer-events-none" />
           <h4 className="text-xs font-bold text-[var(--text-primary)] uppercase tracking-widest mb-2 transition-colors">// INLINE NEWSLETTER ALERT</h4>
-          <p className="text-[10px] text-[var(--text-secondary)] uppercase max-w-sm mx-auto mb-4 transition-colors">Enjoying Musa's logs? Submit your email to receive deep technical checklists directly in your inbox.</p>
+          <p className="text-[10px] text-[var(--text-secondary)] max-w-sm mx-auto mb-4 transition-colors">Enjoying Musa's logs? Submit your email to receive deep technical checklists directly in your inbox.</p>
           <form onSubmit={handleInlineNewsletterSubmit} className="max-w-xs mx-auto flex gap-2">
             <input
               type="email"
@@ -473,7 +472,7 @@ const ArticleReader = () => {
           <span>{new Date(c.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</span>
         </div>
         
-        <p className="text-[var(--text-secondary)] text-xs uppercase tracking-wide leading-relaxed font-mono pl-1 border-l border-[var(--color-toxic-green)]/20 mb-3 transition-colors">
+        <p className="text-[var(--text-secondary)] text-xs tracking-wide leading-relaxed font-mono pl-1 border-l border-[var(--color-toxic-green)]/20 mb-3 transition-colors">
           {c.content}
         </p>
 
@@ -595,7 +594,7 @@ const ArticleReader = () => {
           <span className="bg-[var(--color-toxic-green)] text-[var(--color-obsidian)] font-extrabold px-3 py-1 text-[9px] tracking-widest uppercase transition-colors">
             {post.category}
           </span>
-          <h1 className="text-xl md:text-3xl font-extrabold text-white uppercase tracking-tight mt-4 leading-tight" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
+          <h1 className="text-xl md:text-3xl font-extrabold text-white tracking-tight mt-4 leading-tight" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
             {post.title}
           </h1>
         </div>
@@ -698,8 +697,8 @@ const ArticleReader = () => {
                     <span className="bg-[var(--color-toxic-green)] text-[var(--color-obsidian)] font-extrabold px-2 py-0.5 text-[8px] tracking-widest uppercase transition-colors">
                       CONTENT UPGRADE
                     </span>
-                    <h4 className="text-sm font-bold text-[var(--text-primary)] uppercase mt-2 mb-1 transition-colors">{post.contentUpgrade.title}</h4>
-                    <p className="text-[10px] text-[var(--text-secondary)] uppercase max-w-md leading-relaxed transition-colors">{post.contentUpgrade.description}</p>
+                    <h4 className="text-sm font-bold text-[var(--text-primary)] mt-2 mb-1 transition-colors">{post.contentUpgrade.title}</h4>
+                    <p className="text-[10px] text-[var(--text-secondary)] max-w-md leading-relaxed transition-colors">{post.contentUpgrade.description}</p>
                   </div>
                   <a
                     href={post.contentUpgrade.fileUrl}
@@ -746,7 +745,7 @@ const ArticleReader = () => {
 
                 {!user && (
                   <div className="border border-dashed border-[var(--border-primary)] p-4 text-center rounded-none select-none transition-colors">
-                    <p className="text-[10px] text-[var(--text-tertiary)] uppercase mb-3 transition-colors">You must be logged in to participate in the discussions.</p>
+                    <p className="text-[10px] text-[var(--text-tertiary)] mb-3 transition-colors">You must be logged in to participate in the discussions.</p>
                     <button
                       type="button"
                       onClick={() => setIsAuthOpen(true)}
@@ -786,7 +785,7 @@ const ArticleReader = () => {
                 {comments.length > 0 ? (
                   renderCommentTree(comments)
                 ) : (
-                  <div className="py-8 text-center border border-[var(--border-primary)] text-[10px] text-[var(--text-tertiary)] uppercase select-none transition-colors">
+                  <div className="py-8 text-center border border-[var(--border-primary)] text-[10px] text-[var(--text-tertiary)] select-none transition-colors">
                     No comments in this thread yet. Be the first to start the discussion!
                   </div>
                 )}
@@ -801,10 +800,10 @@ const ArticleReader = () => {
                 <span className="bg-[var(--text-primary)] text-[var(--bg-primary)] px-2 py-0.5 text-[8px] tracking-widest uppercase transition-colors">
                   UP NEXT
                 </span>
-                <h4 className="text-xs font-bold text-[var(--text-primary)] uppercase mt-4 mb-2 tracking-tight line-clamp-2 transition-colors" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
+                <h4 className="text-xs font-bold text-[var(--text-primary)] mt-4 mb-2 tracking-tight line-clamp-2 transition-colors" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
                   <Link href={`/blog/${nextPost.slug}`}>{nextPost.title}</Link>
                 </h4>
-                <p className="text-[10px] text-[var(--text-secondary)] uppercase leading-relaxed line-clamp-3 mb-4 transition-colors">
+                <p className="text-[10px] text-[var(--text-secondary)] leading-relaxed line-clamp-3 mb-4 transition-colors">
                   {nextPost.summary}
                 </p>
                 <Link
@@ -823,8 +822,8 @@ const ArticleReader = () => {
       {nextPost && (
         <div ref={nextSentinelRef} className="py-20 border-t border-[var(--border-primary)] text-center bg-[var(--bg-secondary)]/40 select-none transition-colors">
           <div className="inline-block w-6 h-6 border border-[var(--border-secondary)] border-t-[var(--color-toxic-green)] rounded-full animate-spin mb-3" />
-          <p className="text-[10px] text-[var(--text-tertiary)] uppercase tracking-widest transition-colors">Keep scrolling to load the next article</p>
-          <p className="text-xs text-[var(--text-primary)] font-bold mt-2 uppercase transition-colors">{nextPost.title}</p>
+          <p className="text-[10px] text-[var(--text-tertiary)] tracking-widest transition-colors">Keep scrolling to load the next article</p>
+          <p className="text-xs text-[var(--text-primary)] font-bold mt-2 transition-colors">{nextPost.title}</p>
         </div>
       )}
 

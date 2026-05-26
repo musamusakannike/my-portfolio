@@ -230,10 +230,10 @@ const BlogHub = () => {
           
           {/* Headline Description */}
           <div className="mb-12 text-center md:text-left">
-            <h1 className="text-4xl md:text-5xl font-extrabold text-[var(--text-primary)] tracking-tighter uppercase mb-4 transition-colors" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
+            <h1 className="text-4xl md:text-5xl font-extrabold text-[var(--text-primary)] tracking-tighter mb-4 transition-colors" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
               The Tech Journal
             </h1>
-            <p className="text-[var(--text-tertiary)] text-sm max-w-xl leading-relaxed uppercase transition-colors">
+            <p className="text-[var(--text-tertiary)] text-sm max-w-xl leading-relaxed transition-colors">
               High-density writeups, architectural guides, and production logs on fullstack development, AI pipelines, and distributed engineering.
             </p>
           </div>
@@ -343,12 +343,12 @@ const BlogHub = () => {
                           <span>&bull;</span>
                           <span className="flex items-center gap-1"><FaEye size={8} /> {coverPost.views}</span>
                         </div>
-                        <h2 className="text-2xl md:text-3xl font-extrabold text-[var(--text-primary)] leading-tight tracking-tight uppercase group-hover:text-[var(--color-toxic-green)] transition-colors mb-4" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
+                        <h2 className="text-2xl md:text-3xl font-extrabold text-[var(--text-primary)] leading-tight tracking-tight group-hover:text-[var(--color-toxic-green)] transition-colors mb-4" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
                           <Link href={`/blog/${coverPost.slug}`}>
                             {coverPost.title}
                           </Link>
                         </h2>
-                        <p className="text-[var(--text-secondary)] text-xs leading-relaxed mb-6 uppercase transition-colors">
+                        <p className="text-[var(--text-secondary)] text-xs leading-relaxed mb-6 transition-colors">
                           {coverPost.summary}
                         </p>
                         <div className="flex flex-wrap gap-1.5 mb-6">
@@ -402,12 +402,12 @@ const BlogHub = () => {
                             <span>&bull;</span>
                             <span className="flex items-center gap-0.5"><FaClock size={8} /> {post.readTime}m read</span>
                           </div>
-                          <h3 className="text-lg font-bold text-[var(--text-primary)] tracking-tight uppercase group-hover:text-[var(--color-toxic-green)] transition-colors mb-3 line-clamp-2" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
+                          <h3 className="text-lg font-bold text-[var(--text-primary)] tracking-tight group-hover:text-[var(--color-toxic-green)] transition-colors mb-3 line-clamp-2" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
                             <Link href={`/blog/${post.slug}`}>
                               {post.title}
                             </Link>
                           </h3>
-                          <p className="text-[var(--text-secondary)] text-[11px] leading-relaxed mb-4 line-clamp-3 uppercase transition-colors">
+                          <p className="text-[var(--text-secondary)] text-[11px] leading-relaxed mb-4 line-clamp-3 transition-colors">
                             {post.summary}
                           </p>
                         </div>
@@ -450,10 +450,10 @@ const BlogHub = () => {
                 <div className="flex items-center gap-2 text-xs text-[var(--color-toxic-green)] font-bold tracking-widest uppercase mb-3">
                   <FaNewspaper /> NEWSLETTER LIST
                 </div>
-                <h3 className="text-xl md:text-2xl font-black text-[var(--text-primary)] uppercase tracking-tighter mb-3 transition-colors">
+                <h3 className="text-xl md:text-2xl font-black text-[var(--text-primary)] tracking-tighter mb-3 transition-colors">
                   Subscribed for Distributed Architecture Writeups?
                 </h3>
-                <p className="text-xs text-[var(--text-secondary)] uppercase leading-relaxed max-w-md transition-colors">
+                <p className="text-xs text-[var(--text-secondary)] leading-relaxed max-w-md transition-colors">
                   Get high-density engineering breakdown logs directly in your mailbox, verified spam-free. Receive templates, checklists, and code repositories.
                 </p>
               </div>
