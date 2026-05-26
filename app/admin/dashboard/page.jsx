@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { FaArrowLeft, FaPen, FaFolder, FaComments, FaUsers, FaEnvelope, FaUpload, FaTrash, FaCheck, FaTimes, FaGlobe, FaFileAlt, FaBold, FaItalic, FaHeading, FaListUl, FaListOl, FaQuoteLeft, FaCode, FaLink, FaImage, FaEye, FaExpand, FaSun, FaMoon } from "react-icons/fa";
+import { FaArrowLeft, FaPen, FaFolder, FaComments, FaUsers, FaEnvelope, FaUpload, FaTrash, FaCheck, FaTimes, FaGlobe, FaFileAlt, FaBold, FaItalic, FaHeading, FaListUl, FaListOl, FaQuoteLeft, FaCode, FaLink, FaImage, FaEye, FaExpand, FaSun, FaMoon, FaTags } from "react-icons/fa";
 import LoadingWrapper from "@/components/ui/LoadingWrapper";
 import TerminalWindow from "@/components/ui/TerminalWindow";
 import ThemeSwitcher from "@/components/ui/ThemeSwitcher";
@@ -81,6 +81,12 @@ const AdminDashboard = () => {
   const [editorMode, setEditorMode] = useState("split"); // "split" | "write" | "preview"
   const [previewTheme, setPreviewTheme] = useState("dark"); // "dark" | "light"
   const [previewFontSize, setPreviewFontSize] = useState("md"); // "sm" | "md" | "lg"
+
+  // Dynamic categories state
+  const [categories, setCategories] = useState([]);
+  const [newCategoryName, setNewCategoryName] = useState("");
+  const [categoryStatus, setCategoryStatus] = useState("");
+  const [categoryLoading, setCategoryLoading] = useState(false);
 
   const textareaRef = useRef(null);
 
@@ -255,8 +261,63 @@ const AdminDashboard = () => {
     }
   };
 
+  const fetchCategories = async () => {
+    try {
+      const res = await fetch("/api/admin/categories");
+      const data = await res.json();
+      if (data.success) {
+        setCategories(data.categories || []);
+      }
+    } catch (e) {
+      console.error("Failed to fetch categories:", e);
+    }
+  };
+
+  const handleCreateCategory = async (e) => {
+    e.preventDefault();
+    setCategoryStatus("");
+    if (!newCategoryName.trim()) return;
+
+    setCategoryLoading(true);
+    try {
+      const res = await fetch("/api/admin/categories", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: newCategoryName }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to create category");
+
+      setCategoryStatus(`[SUCCESS]: Category '${data.category.name}' created successfully.`);
+      setNewCategoryName("");
+      fetchCategories();
+    } catch (err) {
+      setCategoryStatus(`[ERROR]: ${err.message}`);
+    } finally {
+      setCategoryLoading(false);
+    }
+  };
+
+  const handleDeleteCategory = async (id) => {
+    if (!confirm("Are you sure you want to delete this category? Any post using this category will still retain the string value, but it will be removed from future selection options.")) return;
+
+    try {
+      const res = await fetch(`/api/admin/categories?id=${id}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to delete category");
+      fetchCategories();
+    } catch (err) {
+      alert(err.message);
+    }
+  };
+
   const fetchAdminData = async () => {
     try {
+      // Fetch dynamic categories
+      await fetchCategories();
+
       // 1. Fetch posts
       const postsRes = await fetch("/api/admin/posts");
       const postsData = await postsRes.json();
@@ -381,7 +442,7 @@ const AdminDashboard = () => {
     setSlug("");
     setSummary("");
     setContent("");
-    setCategory("SYSTEM DESIGN");
+    setCategory(categories[0]?.name || "SYSTEM DESIGN");
     setTagsInput("");
     setCoverImage("");
     setPublished(false);
@@ -541,6 +602,7 @@ const AdminDashboard = () => {
               {[
                 { id: "MANAGE_POSTS", label: "MANAGE POSTS", icon: <FaFolder /> },
                 { id: "WRITE_POST", label: "WRITE JOURNAL", icon: <FaPen /> },
+                { id: "CATEGORIES", label: "MANAGE CATEGORIES", icon: <FaTags /> },
                 { id: "MODERATE_COMMENTS", label: "MODERATE COMMENTS", icon: <FaComments />, count: comments.filter(c => !c.approved).length },
                 { id: "SUBSCRIBERS", label: "SUBSCRIBERS", icon: <FaUsers /> },
                 { id: "NEWSLETTER", label: "SEND CAMPAIGN", icon: <FaEnvelope /> },
@@ -697,10 +759,11 @@ const AdminDashboard = () => {
                           onChange={(e) => setCategory(e.target.value)}
                           className="w-full bg-[var(--bg-primary)] border border-[var(--border-secondary)] p-3 text-xs text-[var(--text-primary)] focus:border-[var(--color-toxic-green)] focus:outline-none rounded-none font-mono transition-all duration-300"
                         >
-                          <option value="FRONTEND">FRONTEND</option>
-                          <option value="BACKEND">BACKEND</option>
-                          <option value="AI SYSTEMS">AI SYSTEMS</option>
-                          <option value="SYSTEM DESIGN">SYSTEM DESIGN</option>
+                          {categories.map((cat) => (
+                            <option key={cat._id} value={cat.name}>
+                              {cat.name}
+                            </option>
+                          ))}
                         </select>
                       </div>
                       <div>
@@ -1075,6 +1138,86 @@ const AdminDashboard = () => {
                       All comment logs are moderatively stable. Zero pending comments.
                     </div>
                   )}
+                </TerminalWindow>
+              )}
+
+              {/* Tab: DYNAMIC CATEGORIES MANAGEMENT */}
+              {activeTab === "CATEGORIES" && (
+                <TerminalWindow title="categories:~/dynamic_tags">
+                  <h3 className="text-xs font-bold text-[var(--text-primary)] uppercase tracking-widest mb-6 border-b border-[var(--border-primary)] pb-2 transition-colors">
+                    // MANAGE DYNAMIC CATEGORIES
+                  </h3>
+
+                  {categoryStatus && (
+                    <div className="mb-6 border border-[var(--border-primary)] bg-[var(--bg-tertiary)] p-3 text-xs text-[var(--text-secondary)] leading-normal transition-colors">
+                      {categoryStatus}
+                    </div>
+                  )}
+
+                  {/* Creation Form */}
+                  <form onSubmit={handleCreateCategory} className="mb-8 border border-[var(--border-primary)] bg-[var(--bg-secondary)]/30 p-5 rounded-none space-y-4 transition-colors duration-300">
+                    <h4 className="text-[10px] font-bold text-[var(--text-primary)] uppercase tracking-widest border-b border-[var(--border-primary)] pb-2 transition-colors">
+                      // CREATE NEW CATEGORY
+                    </h4>
+                    <div className="flex flex-col sm:flex-row gap-3">
+                      <input
+                        type="text"
+                        required
+                        value={newCategoryName}
+                        onChange={(e) => setNewCategoryName(e.target.value)}
+                        className="flex-1 bg-[var(--bg-primary)] border border-[var(--border-secondary)] p-3 text-xs text-[var(--text-primary)] placeholder-[var(--text-tertiary)] focus:border-[var(--color-toxic-green)] focus:outline-none rounded-none font-mono transition-all duration-300"
+                        placeholder="E.g. DEVOPS"
+                      />
+                      <button
+                        type="submit"
+                        disabled={categoryLoading}
+                        className="bg-[var(--text-primary)] hover:bg-[var(--color-toxic-green)] text-[var(--bg-primary)] hover:text-[var(--color-obsidian)] font-extrabold text-xs px-6 py-3 tracking-widest uppercase transition-colors rounded-none whitespace-nowrap disabled:opacity-50"
+                      >
+                        {categoryLoading ? "CREATING..." : "ADD CATEGORY"}
+                      </button>
+                    </div>
+                  </form>
+
+                  {/* List categories */}
+                  <div className="border border-[var(--border-primary)] bg-[var(--bg-secondary)]/10 p-1 transition-colors duration-300">
+                    <div className="bg-[var(--bg-tertiary)] p-3 border-b border-[var(--border-primary)] select-none">
+                      <span className="text-[10px] font-bold tracking-wider">// REGISTERED CATEGORIES ({categories.length})</span>
+                    </div>
+                    {categories.length > 0 ? (
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-left text-xs text-[var(--text-secondary)] transition-colors">
+                          <thead>
+                            <tr className="border-b border-[var(--border-primary)] text-[var(--text-tertiary)] text-[10px] uppercase tracking-widest transition-colors">
+                              <th className="py-3 px-4">CATEGORY NAME</th>
+                              <th className="py-3 px-4 text-right">ACTIONS</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {categories.map((cat) => (
+                              <tr key={cat._id} className="border-b border-[var(--border-primary)]/50 hover:bg-[var(--bg-tertiary)] transition-colors">
+                                <td className="py-4 px-4 font-bold text-[var(--text-primary)] uppercase transition-colors">
+                                  {cat.name}
+                                </td>
+                                <td className="py-4 px-4 text-right flex justify-end gap-3">
+                                  <button
+                                    onClick={() => handleDeleteCategory(cat._id)}
+                                    className="text-red-500 hover:text-[var(--text-primary)] transition-colors flex items-center gap-1 bg-red-500/10 border border-red-500/30 text-[9px] font-bold px-2 py-1 uppercase rounded-none transition-all"
+                                    title="Delete category"
+                                  >
+                                    <FaTrash size={8} /> Delete
+                                  </button>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    ) : (
+                      <div className="py-12 text-center text-[var(--text-tertiary)] text-xs border border-dashed border-[var(--border-primary)]/50 uppercase select-none transition-colors">
+                        No categories found in database.
+                      </div>
+                    )}
+                  </div>
                 </TerminalWindow>
               )}
 

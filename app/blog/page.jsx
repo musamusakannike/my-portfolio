@@ -29,11 +29,12 @@ const BlogHub = () => {
   const searchContainerRef = useRef(null);
   const postsGridRef = useRef(null);
 
-  const categories = ["ALL", "FRONTEND", "BACKEND", "AI SYSTEMS", "SYSTEM DESIGN"];
+  const [categories, setCategories] = useState(["ALL", "FRONTEND", "BACKEND", "AI SYSTEMS", "SYSTEM DESIGN"]);
 
   // Fetch posts and check active user session
   useEffect(() => {
     fetchPosts();
+    fetchCategories();
     checkSession();
 
     // Close suggestions dropdown on clicking outside
@@ -57,6 +58,18 @@ const BlogHub = () => {
       }
     } catch (e) {
       console.error(e);
+    }
+  };
+
+  const fetchCategories = async () => {
+    try {
+      const res = await fetch("/api/categories");
+      const data = await res.json();
+      if (data.success && data.categories) {
+        setCategories(["ALL", ...data.categories.map(c => c.name)]);
+      }
+    } catch (e) {
+      console.error("Failed to fetch categories:", e);
     }
   };
 
