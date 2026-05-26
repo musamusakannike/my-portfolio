@@ -926,41 +926,41 @@ const ArticleReader = () => {
       )}
 
       {/* Dynamic Header */}
-      <header className="border-b border-[var(--border-primary)] bg-[var(--glass-bg)] sticky top-0 z-40 backdrop-blur-md px-6 py-4 flex items-center justify-between transition-colors duration-300">
-        <Link href="/blog" className="text-xs font-bold tracking-widest flex items-center gap-2 hover:opacity-85 transition-opacity text-[var(--text-primary)] uppercase">
-          <FaArrowLeft /> Back to Journal
+      <header className="border-b border-[var(--border-primary)] bg-[var(--glass-bg)] sticky top-0 z-40 backdrop-blur-md px-6 py-3.5 flex items-center justify-between transition-colors duration-300">
+        <Link href="/blog" className="text-sm font-bold tracking-wide flex items-center gap-2 hover:text-[var(--color-toxic-green)] transition-colors text-[var(--text-primary)]">
+          <FaArrowLeft size={12} /> Back to Journal
         </Link>
-
-        {/* Header toolbar Controls */}
+        {/* Font size controls */}
         <div className="flex items-center gap-3">
-          {/* Legibility text size adjustment */}
-          <div className="flex border border-neutral-700/30 text-[9px] font-bold rounded-none overflow-hidden">
-            <button onClick={() => setFontSize("sm")} className={`px-2 py-1 ${fontSize === "sm" ? "bg-neutral-800 text-white" : "hover:bg-neutral-100 dark:hover:bg-neutral-900"}`}>A-</button>
-            <button onClick={() => setFontSize("md")} className={`px-2 py-1 ${fontSize === "md" ? "bg-neutral-800 text-white" : "hover:bg-neutral-100 dark:hover:bg-neutral-900"}`}>A</button>
-            <button onClick={() => setFontSize("lg")} className={`px-2 py-1 ${fontSize === "lg" ? "bg-neutral-800 text-white" : "hover:bg-neutral-100 dark:hover:bg-neutral-900"}`}>A+</button>
+          <div className="flex rounded-full border border-[var(--border-secondary)] overflow-hidden text-[10px] font-bold">
+            <button onClick={() => setFontSize("sm")} className={`px-3 py-1.5 transition-colors ${fontSize === "sm" ? "bg-[var(--text-primary)] text-[var(--bg-primary)]" : "hover:bg-[var(--bg-tertiary)] text-[var(--text-secondary)]"}`}>A−</button>
+            <button onClick={() => setFontSize("md")} className={`px-3 py-1.5 border-x border-[var(--border-secondary)] transition-colors ${fontSize === "md" ? "bg-[var(--text-primary)] text-[var(--bg-primary)]" : "hover:bg-[var(--bg-tertiary)] text-[var(--text-secondary)]"}`}>A</button>
+            <button onClick={() => setFontSize("lg")} className={`px-3 py-1.5 transition-colors ${fontSize === "lg" ? "bg-[var(--text-primary)] text-[var(--bg-primary)]" : "hover:bg-[var(--bg-tertiary)] text-[var(--text-secondary)]"}`}>A+</button>
           </div>
         </div>
-      </header>      {/* Cover Image Header */}
-      <div className="w-full h-64 md:h-96 relative bg-[var(--bg-tertiary)] border-b border-[var(--border-primary)] overflow-hidden select-none transition-colors duration-300">
+      </header>
+
+      {/* ── Cover Image Hero ── */}
+      <div className="w-full h-72 md:h-[500px] relative bg-[var(--bg-tertiary)] overflow-hidden select-none transition-colors duration-300">
         {post.coverImage ? (
           <img
             src={post.coverImage}
             alt={post.title}
-            className="w-full h-full object-cover grayscale opacity-60"
+            className="w-full h-full object-cover"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-xs text-[var(--text-tertiary)] uppercase transition-colors">
-            No Cover Image Included
+          <div className="w-full h-full bg-gradient-to-br from-emerald-50 to-slate-100 flex items-center justify-center">
+            <span className="text-sm text-[var(--text-tertiary)]">No cover image</span>
           </div>
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
-
+        {/* Gradient overlay for text legibility */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
         {/* Cover metadata */}
-        <div className="absolute bottom-6 left-6 right-6 max-w-4xl mx-auto px-6">
-          <span className="bg-[var(--color-toxic-green)] text-[var(--color-obsidian)] font-extrabold px-3 py-1 text-[9px] tracking-widest uppercase transition-colors">
+        <div className="absolute bottom-0 left-0 right-0 px-8 pb-8 max-w-4xl">
+          <span className="inline-block bg-[var(--color-toxic-green)] text-[var(--color-obsidian)] font-extrabold px-3 py-1 text-[9px] tracking-widest uppercase rounded-full mb-4 transition-colors">
             {post.category}
           </span>
-          <h1 className="text-xl md:text-3xl font-extrabold text-white tracking-tight mt-4 leading-tight" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
+          <h1 className="text-2xl md:text-4xl font-extrabold text-white tracking-tight leading-tight drop-shadow-lg" style={{ fontFamily: "'Inter', system-ui, sans-serif" }}>
             {post.title}
           </h1>
         </div>
@@ -970,37 +970,40 @@ const ArticleReader = () => {
       <div className="max-w-6xl mx-auto px-6 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
 
-          {/* Sticky Left Sidebar (Table of Contents + Controls) */}
+          {/* Sticky Left Sidebar */}
           <aside className="lg:col-span-3 hidden lg:block select-none">
-            <div className="sticky top-28 space-y-8 max-h-[80vh] overflow-y-auto pr-4">
+            <div className="sticky top-24 space-y-6 max-h-[80vh] overflow-y-auto pr-2">
 
-              {/* Reading time details */}
-              <div className="border border-[var(--border-primary)] p-4 bg-[var(--bg-tertiary)] rounded-none font-mono transition-colors">
-                <div className="flex gap-2 items-center text-[10px] text-[var(--text-tertiary)] uppercase mb-2 transition-colors">
-                  <FaClock /> ESTIMATED READ
+              {/* Reading time */}
+              <div className="rounded-2xl border border-[var(--border-primary)] p-5 bg-[var(--bg-secondary)] shadow-sm transition-colors">
+                <div className="flex gap-2 items-center text-[10px] text-[var(--text-tertiary)] uppercase font-bold mb-2 tracking-wider transition-colors">
+                  <FaClock /> Estimated Read
                 </div>
-                <div className="text-xl font-bold tracking-tight text-[var(--text-primary)] uppercase transition-colors">
-                  {post.readTime} MIN READ
+                <div className="text-2xl font-extrabold tracking-tight text-[var(--text-primary)] transition-colors">
+                  {post.readTime} <span className="text-sm font-medium text-[var(--text-tertiary)]">min</span>
                 </div>
               </div>
 
               {/* Table of contents */}
               {headings.length > 0 && (
-                <div>
-                  <h4 className="text-[10px] font-bold text-[var(--text-tertiary)] uppercase tracking-widest border-b border-[var(--border-primary)] pb-2 mb-4 transition-colors">
-                    // TABLE OF CONTENTS
+                <div className="rounded-2xl border border-[var(--border-primary)] p-5 bg-[var(--bg-secondary)] shadow-sm transition-colors">
+                  <h4 className="text-[10px] font-extrabold text-[var(--text-tertiary)] uppercase tracking-widest border-b border-[var(--border-primary)] pb-2 mb-4 transition-colors">
+                    Table of Contents
                   </h4>
-                  <ul className="space-y-3 text-[10px] font-bold tracking-widest">
+                  <ul className="space-y-2 text-[11px] font-medium tracking-wide">
                     {headings.map((h) => (
-                      <li key={h.id} style={{ paddingLeft: h.level === 3 ? "12px" : "0" }}>
+                      <li key={h.id} style={{ paddingLeft: h.level === 3 ? "10px" : "0" }}>
                         <a
                           href={`#${h.id}`}
                           onClick={(e) => {
                             e.preventDefault();
                             document.getElementById(h.id)?.scrollIntoView({ behavior: "smooth" });
                           }}
-                          className={`hover:text-[var(--color-toxic-green)] transition-colors block uppercase ${activeId === h.id ? "text-[var(--color-toxic-green)] border-l-2 border-[var(--color-toxic-green)] pl-2" : "text-[var(--text-tertiary)]"
-                            }`}
+                          className={`hover:text-[var(--color-toxic-green)] transition-colors block truncate ${
+                            activeId === h.id
+                              ? "text-[var(--color-toxic-green)] font-bold border-l-2 border-[var(--color-toxic-green)] pl-2"
+                              : "text-[var(--text-tertiary)]"
+                          }`}
                         >
                           {h.title}
                         </a>
@@ -1010,20 +1013,20 @@ const ArticleReader = () => {
                 </div>
               )}
 
-              {/* Share actions */}
-              <div>
-                <h4 className="text-[10px] font-bold text-[var(--text-tertiary)] uppercase tracking-widest border-b border-[var(--border-primary)] pb-2 mb-4 transition-colors">
-                  SHARE JOURNAL
+              {/* Share buttons */}
+              <div className="rounded-2xl border border-[var(--border-primary)] p-5 bg-[var(--bg-secondary)] shadow-sm transition-colors">
+                <h4 className="text-[10px] font-extrabold text-[var(--text-tertiary)] uppercase tracking-widest border-b border-[var(--border-primary)] pb-2 mb-4 transition-colors">
+                  Share Article
                 </h4>
-                <div className="flex gap-3">
-                  <button onClick={() => handleShareClick("twitter")} className="border border-[var(--border-primary)] hover:border-[var(--text-primary)] p-2 text-xs transition-colors text-[var(--text-secondary)] hover:text-[var(--text-primary)] rounded-none">
-                    <FaTwitter />
+                <div className="flex gap-2">
+                  <button onClick={() => handleShareClick("twitter")} className="flex-1 border border-[var(--border-primary)] hover:border-sky-400 hover:text-sky-500 p-2.5 text-xs transition-colors text-[var(--text-secondary)] rounded-xl">
+                    <FaTwitter className="mx-auto" />
                   </button>
-                  <button onClick={() => handleShareClick("linkedin")} className="border border-[var(--border-primary)] hover:border-[var(--text-primary)] p-2 text-xs transition-colors text-[var(--text-secondary)] hover:text-[var(--text-primary)] rounded-none">
-                    <FaLinkedin />
+                  <button onClick={() => handleShareClick("linkedin")} className="flex-1 border border-[var(--border-primary)] hover:border-blue-600 hover:text-blue-600 p-2.5 text-xs transition-colors text-[var(--text-secondary)] rounded-xl">
+                    <FaLinkedin className="mx-auto" />
                   </button>
-                  <button onClick={() => handleShareClick("email")} className="border border-[var(--border-primary)] hover:border-[var(--text-primary)] p-2 text-xs transition-colors text-[var(--text-secondary)] hover:text-[var(--text-primary)] rounded-none">
-                    <FaEnvelope />
+                  <button onClick={() => handleShareClick("email")} className="flex-1 border border-[var(--border-primary)] hover:border-[var(--color-toxic-green)] hover:text-[var(--color-toxic-green)] p-2.5 text-xs transition-colors text-[var(--text-secondary)] rounded-xl">
+                    <FaEnvelope className="mx-auto" />
                   </button>
                 </div>
               </div>
@@ -1033,18 +1036,18 @@ const ArticleReader = () => {
           {/* Core Article text reader */}
           <main className="lg:col-span-6">
 
-            {/* Author Byline line */}
-            <div className="flex items-center justify-between border-b border-[var(--border-primary)] pb-4 mb-8 text-[10px] text-[var(--text-tertiary)] uppercase select-none transition-colors duration-300">
+            {/* Author Byline */}
+            <div className="flex items-center justify-between border-b border-[var(--border-primary)] pb-5 mb-8 select-none transition-colors duration-300">
               <div className="flex items-center gap-3">
-                <div className="w-6 h-6 bg-[var(--color-toxic-green)] text-[var(--color-obsidian)] font-extrabold flex items-center justify-center rounded-full text-[8px] transition-colors">MK</div>
+                <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-emerald-600 text-white font-extrabold flex items-center justify-center rounded-full text-xs shadow-md transition-colors">MK</div>
                 <div>
-                  <span className="text-[var(--text-primary)] font-bold block transition-colors">{post.author?.name || "Musa Musa Kannike"}</span>
-                  <span>SYSTEM DEVELOPER</span>
+                  <span className="text-sm text-[var(--text-primary)] font-semibold block transition-colors" style={{ fontFamily: "'Inter', system-ui, sans-serif" }}>{post.author?.name || "Musa Musa Kannike"}</span>
+                  <span className="text-[10px] text-[var(--text-tertiary)] uppercase tracking-wider">Fullstack Engineer</span>
                 </div>
               </div>
-              <div>
-                <span className="block text-right">{new Date(post.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</span>
-                <span className="flex items-center gap-1"><FaEye /> {post.views} VIEWS</span>
+              <div className="text-right">
+                <span className="block text-[11px] text-[var(--text-tertiary)]">{new Date(post.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</span>
+                <span className="flex items-center gap-1 text-[10px] text-[var(--text-tertiary)] justify-end mt-0.5"><FaEye size={9} /> {post.views} views</span>
               </div>
             </div>
 
@@ -1080,10 +1083,11 @@ const ArticleReader = () => {
               </div>
             )}
 
-            {/* Public Interactive Comments / Discussions Section */}
-            <section className="mt-16 border-t border-[var(--border-primary)] pt-12 transition-colors">
-              <div className="flex gap-2 items-center text-xs font-bold text-[var(--text-primary)] uppercase tracking-widest mb-6 transition-colors">
-                <FaCommentDots className="text-[var(--color-toxic-green)]" /> DISCUSSION THREAD ({comments.length})
+            {/* Comments section */}
+            <section className="mt-16 border-t border-[var(--border-primary)] pt-10 transition-colors">
+              <div className="flex gap-2 items-center text-base font-bold text-[var(--text-primary)] mb-6 transition-colors" style={{ fontFamily: "'Inter', system-ui, sans-serif" }}>
+                <FaCommentDots className="text-[var(--color-toxic-green)]" size={16} />
+                Discussion <span className="text-sm font-normal text-[var(--text-tertiary)]">{comments.length} comment{comments.length !== 1 ? 's' : ''}</span>
               </div>
 
               {/* Error/Success Alerts */}
@@ -1150,49 +1154,56 @@ const ArticleReader = () => {
               </form>
 
               {/* Nested Comments Display */}
-              <div className="mt-8 space-y-6">
+              <div className="mt-8 space-y-5">
                 {comments.length > 0 ? (
                   renderCommentTree(comments)
                 ) : (
-                  <div className="py-8 text-center border border-[var(--border-primary)] text-[10px] text-[var(--text-tertiary)] select-none transition-colors">
-                    No comments in this thread yet. Be the first to start the discussion!
+                  <div className="py-10 text-center rounded-2xl border border-dashed border-[var(--border-primary)] text-sm text-[var(--text-tertiary)] select-none transition-colors">
+                    No comments yet — be the first to start the discussion!
                   </div>
                 )}
               </div>
             </section>
           </main>
 
-          {/* Right side next-article suggestions (optional/desktop) */}
+          {/* Right sidebar — Up Next */}
           <aside className="lg:col-span-3 hidden lg:block select-none">
             {nextPost && (
-              <div className="sticky top-28 border border-[var(--border-primary)] bg-[var(--bg-secondary)] p-6 rounded-none max-h-[85vh] overflow-y-auto transition-colors duration-300">
-                <span className="bg-[var(--text-primary)] text-[var(--bg-primary)] px-2 py-0.5 text-[8px] tracking-widest uppercase transition-colors">
-                  UP NEXT
-                </span>
-                <h4 className="text-xs font-bold text-[var(--text-primary)] mt-4 mb-2 tracking-tight line-clamp-2 transition-colors" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
-                  <Link href={`/blog/${nextPost.slug}`}>{nextPost.title}</Link>
-                </h4>
-                <p className="text-[10px] text-[var(--text-secondary)] leading-relaxed line-clamp-3 mb-4 transition-colors">
-                  {nextPost.summary}
-                </p>
-                <Link
-                  href={`/blog/${nextPost.slug}`}
-                  className="inline-block text-[9px] text-[var(--color-toxic-green)] font-bold hover:underline tracking-widest uppercase"
-                >
-                  LOAD POST NOW
-                </Link>
+              <div className="sticky top-24 rounded-2xl border border-[var(--border-primary)] bg-[var(--bg-secondary)] overflow-hidden shadow-sm transition-colors duration-300">
+                {nextPost.coverImage && (
+                  <div className="h-36 overflow-hidden">
+                    <img src={nextPost.coverImage} alt={nextPost.title} className="w-full h-full object-cover" />
+                  </div>
+                )}
+                <div className="p-5">
+                  <span className="inline-block bg-[var(--text-primary)] text-[var(--bg-primary)] px-2.5 py-0.5 text-[9px] font-bold tracking-widest uppercase rounded-full mb-3 transition-colors">
+                    Up Next
+                  </span>
+                  <h4 className="text-sm font-bold text-[var(--text-primary)] mb-2 tracking-tight line-clamp-2 transition-colors leading-snug" style={{ fontFamily: "'Inter', system-ui, sans-serif" }}>
+                    <Link href={`/blog/${nextPost.slug}`}>{nextPost.title}</Link>
+                  </h4>
+                  <p className="text-[11px] text-[var(--text-secondary)] leading-relaxed line-clamp-3 mb-4 transition-colors">
+                    {nextPost.summary}
+                  </p>
+                  <Link
+                    href={`/blog/${nextPost.slug}`}
+                    className="inline-flex items-center gap-1.5 text-xs text-[var(--color-toxic-green)] font-bold hover:underline tracking-wide"
+                  >
+                    Read Article →
+                  </Link>
+                </div>
               </div>
             )}
           </aside>
         </div>
       </div>
 
-      {/* Infinite scroll load sentinel */}
+      {/* Next article scroll sentinel */}
       {nextPost && (
-        <div ref={nextSentinelRef} className="py-20 border-t border-[var(--border-primary)] text-center bg-[var(--bg-secondary)]/40 select-none transition-colors">
-          <div className="inline-block w-6 h-6 border border-[var(--border-secondary)] border-t-[var(--color-toxic-green)] rounded-full animate-spin mb-3" />
-          <p className="text-[10px] text-[var(--text-tertiary)] tracking-widest transition-colors">Keep scrolling to load the next article</p>
-          <p className="text-xs text-[var(--text-primary)] font-bold mt-2 transition-colors">{nextPost.title}</p>
+        <div ref={nextSentinelRef} className="py-16 border-t border-[var(--border-primary)] text-center bg-gradient-to-b from-transparent to-[var(--bg-secondary)] select-none transition-colors">
+          <div className="inline-block w-5 h-5 border-2 border-[var(--border-secondary)] border-t-[var(--color-toxic-green)] rounded-full animate-spin mb-3" />
+          <p className="text-xs text-[var(--text-tertiary)] mb-1">Next up</p>
+          <p className="text-sm text-[var(--text-primary)] font-bold" style={{ fontFamily: "'Inter', system-ui, sans-serif" }}>{nextPost.title}</p>
         </div>
       )}
 
