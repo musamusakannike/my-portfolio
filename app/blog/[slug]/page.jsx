@@ -3,10 +3,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
-import { FaClock, FaEye, FaArrowLeft, FaSun, FaMoon, FaShareAlt, FaTwitter, FaLinkedin, FaEnvelope, FaFileDownload, FaCommentDots, FaPaperPlane, FaUser } from "react-icons/fa";
+import { FaClock, FaEye, FaArrowLeft, FaShareAlt, FaTwitter, FaLinkedin, FaEnvelope, FaFileDownload, FaCommentDots, FaPaperPlane, FaUser } from "react-icons/fa";
 import AuthModal from "@/components/ui/AuthModal";
 import LoadingWrapper from "@/components/ui/LoadingWrapper";
-import { useTheme } from "@/components/ThemeProvider";
 
 const SafeHtmlRenderer = ({ html }) => {
   const iframeRef = useRef(null);
@@ -59,7 +58,7 @@ const ArticleReader = () => {
   
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
-  const { theme, toggleTheme } = useTheme();
+  const theme = "light";
   const [fontSize, setFontSize] = useState("md"); // "sm", "md", "lg" for accessibility
   
   // Highlight to Share state
@@ -90,6 +89,24 @@ const ArticleReader = () => {
   const [subEmail, setSubEmail] = useState("");
   const [subLoading, setSubLoading] = useState(false);
   const [subMsg, setSubMsg] = useState("");
+
+  // Force light mode only for the blog pages
+  useEffect(() => {
+    const root = document.documentElement;
+    const isDark = root.classList.contains("dark");
+    if (isDark) {
+      root.classList.remove("dark");
+    }
+    
+    return () => {
+      // Re-enable dark mode on exit if user's saved preference was dark
+      const savedTheme = localStorage.getItem("theme");
+      const systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      if (savedTheme === "dark" || (!savedTheme && systemDark)) {
+        root.classList.add("dark");
+      }
+    };
+  }, []);
 
   // Fetch article data
   useEffect(() => {
@@ -596,10 +613,6 @@ const ArticleReader = () => {
         <Link href="/blog" className="text-xs font-bold tracking-widest flex items-center gap-2 hover:opacity-85 transition-opacity text-[var(--text-primary)] uppercase">
           <FaArrowLeft /> Back to Journal
         </Link>
-        
-        <span className="text-[10px] text-[var(--text-tertiary)] hidden md:inline uppercase tracking-widest transition-colors">
-          CODIAC // TECH JOURNAL // VOL.{new Date(post.createdAt).getFullYear()}
-        </span>
 
         {/* Header toolbar Controls */}
         <div className="flex items-center gap-3">
@@ -609,15 +622,6 @@ const ArticleReader = () => {
             <button onClick={() => setFontSize("md")} className={`px-2 py-1 ${fontSize === "md" ? "bg-neutral-800 text-white" : "hover:bg-neutral-100 dark:hover:bg-neutral-900"}`}>A</button>
             <button onClick={() => setFontSize("lg")} className={`px-2 py-1 ${fontSize === "lg" ? "bg-neutral-800 text-white" : "hover:bg-neutral-100 dark:hover:bg-neutral-900"}`}>A+</button>
           </div>
-          
-          {/* Theme toggler */}
-          <button
-            onClick={toggleTheme}
-            className="border border-neutral-700/30 hover:border-neutral-400 p-2 transition-colors rounded-none text-[var(--text-primary)]"
-            title="Toggle Legibility Theme"
-          >
-            {theme === "dark" ? <FaSun size={12} className="text-yellow-500" /> : <FaMoon size={12} />}
-          </button>
         </div>
       </header>      {/* Cover Image Header */}
       <div className="w-full h-64 md:h-96 relative bg-[var(--bg-tertiary)] border-b border-[var(--border-primary)] overflow-hidden select-none transition-colors duration-300">

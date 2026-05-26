@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import { FaSearch, FaUser, FaSignOutAlt, FaPlus, FaNewspaper, FaTags, FaClock, FaEye } from "react-icons/fa";
 import AuthModal from "@/components/ui/AuthModal";
 import LoadingWrapper from "@/components/ui/LoadingWrapper";
-import ThemeSwitcher from "@/components/ui/ThemeSwitcher";
 import gsap from "gsap";
 
 const BlogHub = () => {
@@ -30,6 +29,24 @@ const BlogHub = () => {
   const postsGridRef = useRef(null);
 
   const [categories, setCategories] = useState(["ALL", "FRONTEND", "BACKEND", "AI SYSTEMS", "SYSTEM DESIGN"]);
+
+  // Force light mode only for the blog pages
+  useEffect(() => {
+    const root = document.documentElement;
+    const isDark = root.classList.contains("dark");
+    if (isDark) {
+      root.classList.remove("dark");
+    }
+    
+    return () => {
+      // Re-enable dark mode on exit if user's saved preference was dark
+      const savedTheme = localStorage.getItem("theme");
+      const systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      if (savedTheme === "dark" || (!savedTheme && systemDark)) {
+        root.classList.add("dark");
+      }
+    };
+  }, []);
 
   // Fetch posts and check active user session
   useEffect(() => {
@@ -235,7 +252,6 @@ const BlogHub = () => {
                 <FaUser size={10} className="inline mr-2" /> Connect
               </button>
             )}
-            <ThemeSwitcher />
           </div>
         </header>
 
