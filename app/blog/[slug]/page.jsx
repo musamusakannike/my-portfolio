@@ -8,6 +8,51 @@ import AuthModal from "@/components/ui/AuthModal";
 import LoadingWrapper from "@/components/ui/LoadingWrapper";
 import { useTheme } from "@/components/ThemeProvider";
 
+const SafeHtmlRenderer = ({ html }) => {
+  const iframeRef = useRef(null);
+
+  const handleLoad = () => {
+    const iframe = iframeRef.current;
+    if (iframe && iframe.contentWindow) {
+      iframe.style.height = iframe.contentWindow.document.documentElement.scrollHeight + 'px';
+      
+      const doc = iframe.contentWindow.document;
+      const observer = new MutationObserver(() => {
+        iframe.style.height = doc.documentElement.scrollHeight + 'px';
+      });
+      observer.observe(doc.body, { subtree: true, childList: true, attributes: true });
+    }
+  };
+
+  useEffect(() => {
+    const handleResize = () => {
+      const iframe = iframeRef.current;
+      if (iframe && iframe.contentWindow) {
+        iframe.style.height = iframe.contentWindow.document.documentElement.scrollHeight + 'px';
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  return (
+    <iframe
+      ref={iframeRef}
+      srcDoc={html}
+      onLoad={handleLoad}
+      className="w-full border-none overflow-hidden"
+      sandbox="allow-popups allow-scripts allow-same-origin"
+      style={{ minHeight: '600px', height: 'auto' }}
+    />
+  );
+};
+
+const isHtml = (content) => {
+  if (!content) return false;
+  const trimmed = content.trim().toLowerCase();
+  return trimmed.startsWith("<!doctype") || trimmed.startsWith("<html") || trimmed.startsWith("<div") || trimmed.startsWith("<body") || trimmed.includes("</html>");
+};
+
 const ArticleReader = () => {
   const { slug } = useParams();
   const router = useRouter();
@@ -685,7 +730,11 @@ const ArticleReader = () => {
 
             {/* Custom rendered paragraphs */}
             <article ref={articleContentRef} className="prose max-w-none">
-              {renderMarkdownContent(post.content)}
+              {isHtml(post.content) ? (
+                <SafeHtmlRenderer html={post.content} />
+              ) : (
+                renderMarkdownContent(post.content)
+              )}
             </article>
 
             {/* Content Upgrade download bundle card */}

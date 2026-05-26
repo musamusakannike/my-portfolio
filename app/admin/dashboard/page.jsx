@@ -9,6 +9,51 @@ import TerminalWindow from "@/components/ui/TerminalWindow";
 import ThemeSwitcher from "@/components/ui/ThemeSwitcher";
 import { useTheme } from "@/components/ThemeProvider";
 
+const SafeHtmlRenderer = ({ html }) => {
+  const iframeRef = useRef(null);
+
+  const handleLoad = () => {
+    const iframe = iframeRef.current;
+    if (iframe && iframe.contentWindow) {
+      iframe.style.height = iframe.contentWindow.document.documentElement.scrollHeight + 'px';
+      
+      const doc = iframe.contentWindow.document;
+      const observer = new MutationObserver(() => {
+        iframe.style.height = doc.documentElement.scrollHeight + 'px';
+      });
+      observer.observe(doc.body, { subtree: true, childList: true, attributes: true });
+    }
+  };
+
+  useEffect(() => {
+    const handleResize = () => {
+      const iframe = iframeRef.current;
+      if (iframe && iframe.contentWindow) {
+        iframe.style.height = iframe.contentWindow.document.documentElement.scrollHeight + 'px';
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  return (
+    <iframe
+      ref={iframeRef}
+      srcDoc={html}
+      onLoad={handleLoad}
+      className="w-full border-none overflow-hidden"
+      sandbox="allow-popups allow-scripts allow-same-origin"
+      style={{ minHeight: '350px', height: 'auto' }}
+    />
+  );
+};
+
+const isHtml = (content) => {
+  if (!content) return false;
+  const trimmed = content.trim().toLowerCase();
+  return trimmed.startsWith("<!doctype") || trimmed.startsWith("<html") || trimmed.startsWith("<div") || trimmed.startsWith("<body") || trimmed.includes("</html>");
+};
+
 const AdminDashboard = () => {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState("MANAGE_POSTS");
@@ -887,13 +932,17 @@ const AdminDashboard = () => {
                               </div>
 
                               {content ? (
-                                <article 
-                                  className="prose max-w-none break-words"
-                                  style={{
-                                    fontSize: previewFontSize === "sm" ? "11px" : previewFontSize === "lg" ? "14px" : "12px"
-                                  }}
-                                  dangerouslySetInnerHTML={{ __html: parseMarkdownToHtml(content, previewTheme) }}
-                                />
+                                isHtml(content) ? (
+                                  <SafeHtmlRenderer html={content} />
+                                ) : (
+                                  <article 
+                                    className="prose max-w-none break-words"
+                                    style={{
+                                      fontSize: previewFontSize === "sm" ? "11px" : previewFontSize === "lg" ? "14px" : "12px"
+                                    }}
+                                    dangerouslySetInnerHTML={{ __html: parseMarkdownToHtml(content, previewTheme) }}
+                                  />
+                                )
                               ) : (
                                 <div className="py-12 text-center text-neutral-500 italic text-xs select-none">
                                   Preview compilation is currently empty...
