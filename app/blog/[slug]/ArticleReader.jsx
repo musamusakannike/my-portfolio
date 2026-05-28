@@ -320,9 +320,10 @@ const ArticleReader = ({ slug }) => {
   }, []);
 
   const handleShareClick = (platform) => {
-    if (!selectedText) return;
     const url = window.location.href;
-    const shareText = `"${selectedText}" — Read more on Musa's Tech Journal:`;
+    const shareText = selectedText
+      ? `"${selectedText}" — Read more on Musa's Tech Journal:`
+      : `${post?.title || "Musa's Tech Journal"} — Read more:`;
 
     let shareUrl = "";
     if (platform === "twitter") {
