@@ -60,8 +60,22 @@ const HtmlCodeBlock = ({ lang, code }) => {
 };
 
 const SafeHtmlRenderer = ({ html }) => {
+  // Extract body content if it's a full HTML document
+  let cleanHtml = html;
+  if (html.includes('<body')) {
+    const bodyMatch = html.match(/<body[^>]*>([\s\S]*)<\/body>/i);
+    if (bodyMatch) {
+      cleanHtml = bodyMatch[1];
+    }
+  }
+  
   const options = {
     replace(domNode) {
+      // Skip html, head, and body tags to prevent breaking React structure
+      if (domNode instanceof Element && ['html', 'head', 'body'].includes(domNode.name)) {
+        return <></>;
+      }
+      
       if (domNode instanceof Element && domNode.name === 'pre') {
         const codeNode = domNode.children?.find(c => c instanceof Element && c.name === 'code');
         if (!codeNode) return;
@@ -79,7 +93,7 @@ const SafeHtmlRenderer = ({ html }) => {
 
   return (
     <div className="html-article prose-like">
-      {parse(html, options)}
+      {parse(cleanHtml, options)}
     </div>
   );
 };
@@ -271,27 +285,11 @@ const ArticleReader = ({ slug }) => {
     };
   }, [headings, post]);
 
-  // Infinite scroll next-article loading sentinel trigger
-  useEffect(() => {
-    if (!nextPost || hasScrolledToNext) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          setHasScrolledToNext(true);
-          // Transition to next article: change URL, title and fetch new post content
-          router.push(`/blog/${nextPost.slug}`, { scroll: true });
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    if (nextSentinelRef.current) {
-      observer.observe(nextSentinelRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, [nextPost, hasScrolledToNext]);
+  // Auto-scroll to next article disabled - users can manually navigate
+  // useEffect(() => {
+  //   if (!nextPost || hasScrolledToNext) return;
+  //   const observer = new IntersectionObserver(...)
+  // }, [nextPost, hasScrolledToNext]);
 
   // Selection change listener for Highlight to Share tooltips
   useEffect(() => {
@@ -415,10 +413,10 @@ const ArticleReader = ({ slug }) => {
     let match;
     while ((match = regex.exec(text)) !== null) {
       if (match.index > lastIndex) parts.push(text.slice(lastIndex, match.index));
-      if (match[1] !== undefined) parts.push(<strong key={match.index} className="font-bold text-[var(--text-primary)]">{match[1]}</strong>);
+      if (match[1] !== undefined) parts.push(<strong key={match.index} className="font-bold text-gray-900 dark:text-gray-100">{match[1]}</strong>);
       else if (match[2] !== undefined) parts.push(<em key={match.index} className="italic">{match[2]}</em>);
       else if (match[3] !== undefined) parts.push(<code key={match.index} className="bg-emerald-50 text-emerald-700 border border-emerald-200 text-[0.85em] px-1.5 py-0.5 rounded font-mono">{match[3]}</code>);
-      else if (match[4] !== undefined) parts.push(<a key={match.index} href={match[5]} target="_blank" rel="noopener noreferrer" className="text-[var(--color-toxic-green)] underline underline-offset-2 hover:opacity-80 transition-opacity">{match[4]}</a>);
+      else if (match[4] !== undefined) parts.push(<a key={match.index} href={match[5]} target="_blank" rel="noopener noreferrer" className="text-green-600 dark:text-[#ADFF2F] underline underline-offset-2 hover:opacity-80 transition-opacity">{match[4]}</a>);
       lastIndex = regex.lastIndex;
     }
     if (lastIndex < text.length) parts.push(text.slice(lastIndex));
@@ -537,8 +535,8 @@ const ArticleReader = ({ slug }) => {
         const title = trimmed.replace(/^# /, "");
         const id = title.toLowerCase().replace(/[^a-z0-9-]/g, "-").replace(/-+/g, "-");
         renderedBlocks.push(
-          <h1 key={index} id={id} className="font-bold text-[var(--text-primary)] mt-12 mb-5 leading-tight tracking-tight"
-            style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: "2rem", borderBottom: '2px solid var(--border-primary)', paddingBottom: '0.4em' }}>
+          <h1 key={index} id={id} className="font-bold text-gray-900 dark:text-gray-100 mt-12 mb-5 leading-tight tracking-tight"
+            style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: "2rem", borderBottom: '2px solid rgba(10,10,10,0.08)', paddingBottom: '0.4em' }}>
             {parseInline(title)}
           </h1>
         );
@@ -550,8 +548,8 @@ const ArticleReader = ({ slug }) => {
         const title = trimmed.replace(/^## /, "");
         const id = title.toLowerCase().replace(/[^a-z0-9-]/g, "-").replace(/-+/g, "-");
         renderedBlocks.push(
-          <h2 key={index} id={id} className="font-bold text-[var(--text-primary)] mt-10 mb-4 leading-snug tracking-tight"
-            style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: "1.55rem", borderBottom: '1.5px solid var(--border-primary)', paddingBottom: '0.3em' }}>
+          <h2 key={index} id={id} className="font-bold text-gray-900 dark:text-gray-100 mt-10 mb-4 leading-snug tracking-tight"
+            style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: "1.55rem", borderBottom: '1.5px solid rgba(10,10,10,0.08)', paddingBottom: '0.3em' }}>
             {parseInline(title)}
           </h2>
         );
@@ -563,7 +561,7 @@ const ArticleReader = ({ slug }) => {
         const title = trimmed.replace(/^### /, "");
         const id = title.toLowerCase().replace(/[^a-z0-9-]/g, "-").replace(/-+/g, "-");
         renderedBlocks.push(
-          <h3 key={index} id={id} className="font-semibold text-[var(--text-primary)] mt-8 mb-3 leading-snug"
+          <h3 key={index} id={id} className="font-semibold text-gray-900 dark:text-gray-100 mt-8 mb-3 leading-snug"
             style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: "1.2rem" }}>
             {parseInline(title)}
           </h3>
@@ -575,7 +573,7 @@ const ArticleReader = ({ slug }) => {
       if (trimmed.startsWith("#### ")) {
         const title = trimmed.replace(/^#### /, "");
         renderedBlocks.push(
-          <h4 key={index} className="font-semibold text-[var(--text-secondary)] mt-6 mb-2 text-base uppercase tracking-wide"
+          <h4 key={index} className="font-semibold text-gray-600 dark:text-gray-400 mt-6 mb-2 text-base uppercase tracking-wide"
             style={{ fontFamily: "'Inter', system-ui, sans-serif" }}>
             {parseInline(title)}
           </h4>
@@ -594,7 +592,7 @@ const ArticleReader = ({ slug }) => {
 
       // Horizontal rule
       if (/^---+$/.test(trimmed) || /^\*\*\*+$/.test(trimmed)) {
-        renderedBlocks.push(<hr key={index} className="my-10 border-t-2 border-[var(--border-primary)]" />);
+        renderedBlocks.push(<hr key={index} className="my-10 border-t-2 border-gray-200 dark:border-gray-800" />);
         return;
       }
 
@@ -602,8 +600,8 @@ const ArticleReader = ({ slug }) => {
       if (/^\d+\.\s/.test(trimmed)) {
         const items = trimmed.split("\n").filter(Boolean).map(li => li.replace(/^\d+\.\s+/, ""));
         renderedBlocks.push(
-          <ol key={index} className="list-decimal pl-7 my-5 space-y-2" style={{ fontSize: fontSizePx, lineHeight: '1.8', fontFamily: "'Source Serif 4', Georgia, serif", color: 'var(--text-secondary)' }}>
-            {items.map((it, idx) => <li key={idx} className="pl-1">{parseInline(it)}</li>)}
+          <ol key={index} className="list-decimal pl-7 my-5 space-y-2" style={{ fontSize: fontSizePx, lineHeight: '1.8', fontFamily: "'Source Serif 4', Georgia, serif", color: '#404040' }}>
+            {items.map((it, idx) => <li key={idx} className="pl-1 text-gray-600 dark:text-gray-400">{parseInline(it)}</li>)}
           </ol>
         );
         return;
@@ -613,8 +611,8 @@ const ArticleReader = ({ slug }) => {
       if (trimmed.startsWith("- ") || trimmed.startsWith("* ")) {
         const items = trimmed.split("\n").filter(l => /^[-*]\s/.test(l)).map(li => li.replace(/^[-*]\s+/, ""));
         renderedBlocks.push(
-          <ul key={index} className="pl-7 my-5 space-y-2" style={{ fontSize: fontSizePx, lineHeight: '1.8', fontFamily: "'Source Serif 4', Georgia, serif", color: 'var(--text-secondary)', listStyleType: 'disc' }}>
-            {items.map((it, idx) => <li key={idx} className="pl-1" style={{ markerColor: 'var(--color-toxic-green)' }}>{parseInline(it)}</li>)}
+          <ul key={index} className="pl-7 my-5 space-y-2" style={{ fontSize: fontSizePx, lineHeight: '1.8', fontFamily: "'Source Serif 4', Georgia, serif", listStyleType: 'disc' }}>
+            {items.map((it, idx) => <li key={idx} className="pl-1 text-gray-600 dark:text-gray-400">{parseInline(it)}</li>)}
           </ul>
         );
         return;
@@ -624,8 +622,8 @@ const ArticleReader = ({ slug }) => {
       if (trimmed.startsWith("> ")) {
         const quote = trimmed.replace(/^>\s?/gm, "");
         renderedBlocks.push(
-          <blockquote key={index} className="my-8 pl-5 py-1 relative" style={{ borderLeft: '4px solid var(--color-toxic-green)', background: 'rgba(21,128,61,0.05)', borderRadius: '0 8px 8px 0' }}>
-            <p className="italic text-[var(--text-secondary)] leading-relaxed" style={{ fontFamily: "'Source Serif 4', Georgia, serif", fontSize: fontSizePx }}>
+          <blockquote key={index} className="my-8 pl-5 py-1 relative" style={{ borderLeft: '4px solid #15803d', background: 'rgba(21,128,61,0.05)', borderRadius: '0 8px 8px 0' }}>
+            <p className="italic text-gray-600 dark:text-gray-400 leading-relaxed" style={{ fontFamily: "'Source Serif 4', Georgia, serif", fontSize: fontSizePx }}>
               {parseInline(quote)}
             </p>
           </blockquote>
@@ -637,12 +635,11 @@ const ArticleReader = ({ slug }) => {
       renderedBlocks.push(
         <p
           key={index}
-          className="mb-6 text-[var(--text-secondary)] leading-relaxed"
+          className="mb-6 text-gray-600 dark:text-gray-400 leading-relaxed"
           style={{
             fontFamily: "'Source Serif 4', Georgia, 'Times New Roman', serif",
             fontSize: fontSizePx,
             lineHeight: '1.85',
-            color: 'var(--text-secondary)',
           }}
         >
           {parseInline(trimmed)}
@@ -656,10 +653,10 @@ const ArticleReader = ({ slug }) => {
       renderedBlocks.splice(
         middleIndex,
         0,
-        <div key="inline-newsletter" className="my-10 border border-[var(--border-primary)] bg-[var(--bg-secondary)] p-6 rounded-xl text-center relative overflow-hidden transition-colors duration-300">
+        <div key="inline-newsletter" className="my-10 border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#050505] p-6 rounded-xl text-center relative overflow-hidden transition-colors duration-300">
           <div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(135deg, rgba(21,128,61,0.04) 0%, transparent 60%)' }} />
-          <h4 className="text-sm font-bold text-[var(--text-primary)] uppercase tracking-widest mb-2 transition-colors">📬 Stay in the Loop</h4>
-          <p className="text-[13px] text-[var(--text-secondary)] max-w-sm mx-auto mb-5 transition-colors leading-relaxed">Enjoying Musa's engineering logs? Get deep technical checklists and insights delivered straight to your inbox.</p>
+          <h4 className="text-sm font-bold text-gray-900 dark:text-gray-100 uppercase tracking-widest mb-2 transition-colors">📬 Stay in the Loop</h4>
+          <p className="text-[13px] text-gray-600 dark:text-gray-400 max-w-sm mx-auto mb-5 transition-colors leading-relaxed">Enjoying Musa's engineering logs? Get deep technical checklists and insights delivered straight to your inbox.</p>
           <form onSubmit={handleInlineNewsletterSubmit} className="max-w-xs mx-auto flex gap-2">
             <input
               type="email"
@@ -667,18 +664,17 @@ const ArticleReader = ({ slug }) => {
               value={subEmail}
               onChange={(e) => setSubEmail(e.target.value)}
               required
-              className="flex-1 bg-[var(--bg-primary)] border border-[var(--border-secondary)] px-4 py-2.5 text-sm text-[var(--text-primary)] focus:border-[var(--color-toxic-green)] focus:outline-none rounded-lg font-sans transition-colors duration-300"
+              className="flex-1 bg-[#FAF9F6] dark:bg-[#0A0A0A] border border-gray-300 dark:border-gray-700 px-4 py-2.5 text-sm text-gray-900 dark:text-gray-100 focus:border-green-600 dark:focus:border-[#ADFF2F] focus:outline-none rounded-lg font-sans transition-colors duration-300"
             />
             <button
               type="submit"
               disabled={subLoading}
-              className="bg-[var(--color-toxic-green)] hover:opacity-90 text-white font-bold px-5 py-2.5 text-sm tracking-wide uppercase transition-all rounded-lg"
-              style={{ color: 'var(--color-obsidian)' }}
+              className="bg-green-600 dark:bg-[#ADFF2F] hover:opacity-90 text-white dark:text-black font-bold px-5 py-2.5 text-sm tracking-wide uppercase transition-all rounded-lg"
             >
               {subLoading ? "..." : "Subscribe"}
             </button>
           </form>
-          {subMsg && <div className="text-xs text-[var(--text-tertiary)] mt-3 font-mono transition-colors">{subMsg}</div>}
+          {subMsg && <div className="text-xs text-gray-500 dark:text-gray-500 mt-3 font-mono transition-colors">{subMsg}</div>}
         </div>
       );
     }
@@ -689,17 +685,17 @@ const ArticleReader = ({ slug }) => {
   // Render recursive comments tree
   const renderCommentTree = (commentsList, depth = 0) => {
     return commentsList.map((c) => (
-      <div key={c._id} className="border-l border-[var(--border-primary)] pl-4 mt-6 relative transition-colors" style={{ marginLeft: depth > 0 ? "16px" : "0" }}>
+      <div key={c._id} className="border-l border-gray-200 dark:border-gray-800 pl-4 mt-6 relative transition-colors" style={{ marginLeft: depth > 0 ? "16px" : "0" }}>
 
-        <div className="absolute left-0 top-3 w-3 h-px bg-[var(--border-primary)] transition-colors" />
+        <div className="absolute left-0 top-3 w-3 h-px bg-gray-200 dark:bg-gray-800 transition-colors" />
 
-        <div className="flex gap-3 items-center text-[10px] text-[var(--text-tertiary)] mb-2 uppercase transition-colors">
-          <span className="text-[var(--text-primary)] font-bold transition-colors">{c.userName}</span>
+        <div className="flex gap-3 items-center text-[10px] text-gray-500 dark:text-gray-500 mb-2 uppercase transition-colors">
+          <span className="text-gray-900 dark:text-gray-100 font-bold transition-colors">{c.userName}</span>
           <span>&bull;</span>
           <span>{new Date(c.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</span>
         </div>
 
-        <p className="text-[var(--text-secondary)] text-xs tracking-wide leading-relaxed font-mono pl-1 border-l border-[var(--color-toxic-green)]/20 mb-3 transition-colors">
+        <p className="text-gray-600 dark:text-gray-400 text-xs tracking-wide leading-relaxed font-mono pl-1 border-l border-green-600/20 dark:border-[#ADFF2F]/20 mb-3 transition-colors">
           {c.content}
         </p>
 
@@ -711,7 +707,7 @@ const ArticleReader = ({ slug }) => {
             // Scroll to comment form
             document.getElementById("comment-form")?.scrollIntoView({ behavior: "smooth" });
           }}
-          className="text-[9px] text-[var(--color-toxic-green)] hover:underline uppercase font-bold"
+          className="text-[9px] text-green-600 dark:text-[#ADFF2F] hover:underline uppercase font-bold"
         >
           [ REPLY TO ]
         </button>
@@ -729,10 +725,10 @@ const ArticleReader = ({ slug }) => {
   if (loading) {
     return (
       <LoadingWrapper text="JOURNAL_READER">
-        <div className="min-h-screen bg-[var(--bg-primary)] flex items-center justify-center font-mono transition-colors">
+        <div className="min-h-screen bg-[#FAF9F6] dark:bg-[#0A0A0A] flex items-center justify-center font-mono transition-colors">
           <div className="text-center">
-            <div className="inline-block w-8 h-8 border-2 border-[var(--border-secondary)] border-t-[var(--color-toxic-green)] rounded-full animate-spin mb-4" />
-            <p className="text-xs text-[var(--text-tertiary)] uppercase tracking-widest transition-colors">Parsing Article...</p>
+            <div className="inline-block w-8 h-8 border-2 border-gray-300 dark:border-gray-700 border-t-green-600 dark:border-t-[#ADFF2F] rounded-full animate-spin mb-4" />
+            <p className="text-xs text-gray-500 dark:text-gray-500 uppercase tracking-widest transition-colors">Parsing Article...</p>
           </div>
         </div>
       </LoadingWrapper>
@@ -742,11 +738,10 @@ const ArticleReader = ({ slug }) => {
   if (!post) return null;
 
   return (
-    <div className={`min-h-screen font-mono transition-colors duration-300 relative ${theme === "light" ? "bg-[var(--bg-primary)] text-[var(--text-primary)]" : "bg-[var(--bg-primary)] text-[var(--text-secondary)]"
-      }`}>
+    <div className="min-h-screen font-mono transition-colors duration-300 relative bg-[#FAF9F6] text-[#0A0A0A] dark:bg-[#0A0A0A] dark:text-[#f5f5f5]">
 
       {/* Cyberpunk Scanlines (only in dark mode) */}
-      {theme === "dark" && <div className="absolute inset-0 bg-scanline opacity-[0.01] dark:opacity-[0.03] pointer-events-none z-40" />}
+      {theme === "dark" && <div className="absolute inset-0 bg-scanline opacity-[0.01] dark:opacity-[0.03] pointer-events-none z-0" />}
 
       {/* Floating Highlight to Share tooltip */}
       {shareCoords && (
@@ -757,38 +752,38 @@ const ArticleReader = ({ slug }) => {
             left: `${shareCoords.left}px`,
             transform: "translateX(-50%)",
           }}
-          className="z-50 flex items-center gap-2 border border-[var(--border-primary)] bg-[var(--bg-secondary)] p-2 shadow-2xl rounded-none animate-flicker"
+          className="z-[60] flex items-center gap-2 border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#050505] p-2 shadow-2xl rounded-none animate-flicker"
         >
-          <span className="text-[9px] font-bold text-[var(--text-secondary)] px-1 border-r border-[var(--border-primary)] uppercase">SHARE:</span>
-          <button onClick={() => handleShareClick("twitter")} className="text-[var(--text-secondary)] hover:text-[var(--color-toxic-green)] transition-colors p-1" title="X (Twitter)">
+          <span className="text-[9px] font-bold text-gray-600 dark:text-gray-400 px-1 border-r border-gray-200 dark:border-gray-800 uppercase">SHARE:</span>
+          <button onClick={() => handleShareClick("twitter")} className="text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-[#ADFF2F] transition-colors p-1" title="X (Twitter)">
             <FaTwitter size={11} />
           </button>
-          <button onClick={() => handleShareClick("linkedin")} className="text-[var(--text-secondary)] hover:text-[var(--color-toxic-green)] transition-colors p-1" title="LinkedIn">
+          <button onClick={() => handleShareClick("linkedin")} className="text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-[#ADFF2F] transition-colors p-1" title="LinkedIn">
             <FaLinkedin size={11} />
           </button>
-          <button onClick={() => handleShareClick("email")} className="text-[var(--text-secondary)] hover:text-[var(--color-toxic-green)] transition-colors p-1" title="Email">
+          <button onClick={() => handleShareClick("email")} className="text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-[#ADFF2F] transition-colors p-1" title="Email">
             <FaEnvelope size={11} />
           </button>
         </div>
       )}
 
       {/* Dynamic Header */}
-      <header className="border-b border-[var(--border-primary)] bg-[var(--glass-bg)] sticky top-0 z-40 backdrop-blur-md px-6 py-3.5 flex items-center justify-between transition-colors duration-300">
-        <Link href="/blog" className="text-sm font-bold tracking-wide flex items-center gap-2 hover:text-[var(--color-toxic-green)] transition-colors text-[var(--text-primary)]">
+      <header className="border-b border-gray-200 dark:border-gray-800 bg-white/80 dark:bg-[#0A0A0A]/80 sticky top-0 z-50 backdrop-blur-md px-6 py-3.5 flex items-center justify-between transition-colors duration-300">
+        <Link href="/blog" className="text-sm font-bold tracking-wide flex items-center gap-2 hover:text-green-600 dark:hover:text-[#ADFF2F] transition-colors text-gray-900 dark:text-gray-100">
           <FaArrowLeft size={12} /> Back to Journal
         </Link>
         {/* Font size controls */}
         <div className="flex items-center gap-3">
-          <div className="flex rounded-full border border-[var(--border-secondary)] overflow-hidden text-[10px] font-bold">
-            <button onClick={() => setFontSize("sm")} className={`px-3 py-1.5 transition-colors ${fontSize === "sm" ? "bg-[var(--text-primary)] text-[var(--bg-primary)]" : "hover:bg-[var(--bg-tertiary)] text-[var(--text-secondary)]"}`}>A−</button>
-            <button onClick={() => setFontSize("md")} className={`px-3 py-1.5 border-x border-[var(--border-secondary)] transition-colors ${fontSize === "md" ? "bg-[var(--text-primary)] text-[var(--bg-primary)]" : "hover:bg-[var(--bg-tertiary)] text-[var(--text-secondary)]"}`}>A</button>
-            <button onClick={() => setFontSize("lg")} className={`px-3 py-1.5 transition-colors ${fontSize === "lg" ? "bg-[var(--text-primary)] text-[var(--bg-primary)]" : "hover:bg-[var(--bg-tertiary)] text-[var(--text-secondary)]"}`}>A+</button>
+          <div className="flex rounded-full border border-gray-300 dark:border-gray-700 overflow-hidden text-[10px] font-bold">
+            <button onClick={() => setFontSize("sm")} className={`px-3 py-1.5 transition-colors ${fontSize === "sm" ? "bg-gray-900 text-white dark:bg-white dark:text-black" : "hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-400"}`}>A−</button>
+            <button onClick={() => setFontSize("md")} className={`px-3 py-1.5 border-x border-gray-300 dark:border-gray-700 transition-colors ${fontSize === "md" ? "bg-gray-900 text-white dark:bg-white dark:text-black" : "hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-400"}`}>A</button>
+            <button onClick={() => setFontSize("lg")} className={`px-3 py-1.5 transition-colors ${fontSize === "lg" ? "bg-gray-900 text-white dark:bg-white dark:text-black" : "hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-400"}`}>A+</button>
           </div>
         </div>
       </header>
 
       {/* ── Cover Image Hero ── */}
-      <div className="w-full h-72 md:h-[500px] relative bg-[var(--bg-tertiary)] overflow-hidden select-none transition-colors duration-300">
+      <div className="w-full h-72 md:h-[500px] relative bg-gray-100 dark:bg-[#0E0E0E] overflow-hidden select-none transition-colors duration-300">
         {post.coverImage ? (
           <img
             src={post.coverImage}
@@ -797,14 +792,14 @@ const ArticleReader = ({ slug }) => {
           />
         ) : (
           <div className="w-full h-full bg-gradient-to-br from-emerald-50 to-slate-100 flex items-center justify-center">
-            <span className="text-sm text-[var(--text-tertiary)]">No cover image</span>
+            <span className="text-sm text-gray-500 dark:text-gray-400">No cover image</span>
           </div>
         )}
         {/* Gradient overlay for text legibility */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
         {/* Cover metadata */}
         <div className="absolute bottom-0 left-0 right-0 px-8 pb-8 max-w-4xl">
-          <span className="inline-block bg-[var(--color-toxic-green)] text-[var(--color-obsidian)] font-extrabold px-3 py-1 text-[9px] tracking-widest uppercase rounded-full mb-4 transition-colors">
+          <span className="inline-block bg-green-600 dark:bg-[#ADFF2F] text-white dark:text-black font-extrabold px-3 py-1 text-[9px] tracking-widest uppercase rounded-full mb-4 transition-colors">
             {post.category}
           </span>
           <h1 className="text-2xl md:text-4xl font-extrabold text-white tracking-tight leading-tight drop-shadow-lg" style={{ fontFamily: "'Inter', system-ui, sans-serif" }}>
@@ -814,27 +809,27 @@ const ArticleReader = ({ slug }) => {
       </div>
 
       {/* Main Grid Content */}
-      <div className="max-w-6xl mx-auto px-6 py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+      <div className="max-w-7xl mx-auto px-6 py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
 
           {/* Sticky Left Sidebar */}
-          <aside className="lg:col-span-3 hidden lg:block select-none">
+          <aside className="lg:col-span-2 hidden lg:block select-none">
             <div className="sticky top-24 space-y-6 max-h-[80vh] overflow-y-auto pr-2">
 
               {/* Reading time */}
-              <div className="rounded-2xl border border-[var(--border-primary)] p-5 bg-[var(--bg-secondary)] shadow-sm transition-colors">
-                <div className="flex gap-2 items-center text-[10px] text-[var(--text-tertiary)] uppercase font-bold mb-2 tracking-wider transition-colors">
+              <div className="rounded-2xl border border-gray-200 dark:border-gray-800 p-5 bg-white dark:bg-[#050505] shadow-sm transition-colors">
+                <div className="flex gap-2 items-center text-[10px] text-gray-500 dark:text-gray-500 uppercase font-bold mb-2 tracking-wider transition-colors">
                   <FaClock /> Estimated Read
                 </div>
-                <div className="text-2xl font-extrabold tracking-tight text-[var(--text-primary)] transition-colors">
-                  {post.readTime} <span className="text-sm font-medium text-[var(--text-tertiary)]">min</span>
+                <div className="text-2xl font-extrabold tracking-tight text-gray-900 dark:text-gray-100 transition-colors">
+                  {post.readTime} <span className="text-sm font-medium text-gray-500 dark:text-gray-500">min</span>
                 </div>
               </div>
 
               {/* Table of contents */}
               {headings.length > 0 && (
-                <div className="rounded-2xl border border-[var(--border-primary)] p-5 bg-[var(--bg-secondary)] shadow-sm transition-colors">
-                  <h4 className="text-[10px] font-extrabold text-[var(--text-tertiary)] uppercase tracking-widest border-b border-[var(--border-primary)] pb-2 mb-4 transition-colors">
+                <div className="rounded-2xl border border-gray-200 dark:border-gray-800 p-5 bg-white dark:bg-[#050505] shadow-sm transition-colors">
+                  <h4 className="text-[10px] font-extrabold text-gray-500 dark:text-gray-500 uppercase tracking-widest border-b border-gray-200 dark:border-gray-800 pb-2 mb-4 transition-colors">
                     Table of Contents
                   </h4>
                   <ul className="space-y-2 text-[11px] font-medium tracking-wide">
@@ -846,10 +841,10 @@ const ArticleReader = ({ slug }) => {
                             e.preventDefault();
                             document.getElementById(h.id)?.scrollIntoView({ behavior: "smooth" });
                           }}
-                          className={`hover:text-[var(--color-toxic-green)] transition-colors block truncate ${
+                          className={`hover:text-green-600 dark:hover:text-[#ADFF2F] transition-colors block truncate ${
                             activeId === h.id
-                              ? "text-[var(--color-toxic-green)] font-bold border-l-2 border-[var(--color-toxic-green)] pl-2"
-                              : "text-[var(--text-tertiary)]"
+                              ? "text-green-600 dark:text-[#ADFF2F] font-bold border-l-2 border-green-600 dark:border-[#ADFF2F] pl-2"
+                              : "text-gray-500 dark:text-gray-500"
                           }`}
                         >
                           {h.title}
@@ -861,18 +856,18 @@ const ArticleReader = ({ slug }) => {
               )}
 
               {/* Share buttons */}
-              <div className="rounded-2xl border border-[var(--border-primary)] p-5 bg-[var(--bg-secondary)] shadow-sm transition-colors">
-                <h4 className="text-[10px] font-extrabold text-[var(--text-tertiary)] uppercase tracking-widest border-b border-[var(--border-primary)] pb-2 mb-4 transition-colors">
+              <div className="rounded-2xl border border-gray-200 dark:border-gray-800 p-5 bg-white dark:bg-[#050505] shadow-sm transition-colors">
+                <h4 className="text-[10px] font-extrabold text-gray-500 dark:text-gray-500 uppercase tracking-widest border-b border-gray-200 dark:border-gray-800 pb-2 mb-4 transition-colors">
                   Share Article
                 </h4>
                 <div className="flex gap-2">
-                  <button onClick={() => handleShareClick("twitter")} className="flex-1 border border-[var(--border-primary)] hover:border-sky-400 hover:text-sky-500 p-2.5 text-xs transition-colors text-[var(--text-secondary)] rounded-xl">
+                  <button onClick={() => handleShareClick("twitter")} className="flex-1 border border-gray-200 dark:border-gray-800 hover:border-sky-400 hover:text-sky-500 p-2.5 text-xs transition-colors text-gray-600 dark:text-gray-400 rounded-xl">
                     <FaTwitter className="mx-auto" />
                   </button>
-                  <button onClick={() => handleShareClick("linkedin")} className="flex-1 border border-[var(--border-primary)] hover:border-blue-600 hover:text-blue-600 p-2.5 text-xs transition-colors text-[var(--text-secondary)] rounded-xl">
+                  <button onClick={() => handleShareClick("linkedin")} className="flex-1 border border-gray-200 dark:border-gray-800 hover:border-blue-600 hover:text-blue-600 p-2.5 text-xs transition-colors text-gray-600 dark:text-gray-400 rounded-xl">
                     <FaLinkedin className="mx-auto" />
                   </button>
-                  <button onClick={() => handleShareClick("email")} className="flex-1 border border-[var(--border-primary)] hover:border-[var(--color-toxic-green)] hover:text-[var(--color-toxic-green)] p-2.5 text-xs transition-colors text-[var(--text-secondary)] rounded-xl">
+                  <button onClick={() => handleShareClick("email")} className="flex-1 border border-gray-200 dark:border-gray-800 hover:border-green-600 hover:text-green-600 dark:hover:border-[#ADFF2F] dark:hover:text-[#ADFF2F] p-2.5 text-xs transition-colors text-gray-600 dark:text-gray-400 rounded-xl">
                     <FaEnvelope className="mx-auto" />
                   </button>
                 </div>
@@ -881,20 +876,20 @@ const ArticleReader = ({ slug }) => {
           </aside>
 
           {/* Core Article text reader */}
-          <main className="lg:col-span-6">
+          <main className="lg:col-span-8">
 
             {/* Author Byline */}
-            <div className="flex items-center justify-between border-b border-[var(--border-primary)] pb-5 mb-8 select-none transition-colors duration-300">
+            <div className="flex items-center justify-between border-b border-gray-200 dark:border-gray-800 pb-5 mb-8 select-none transition-colors duration-300">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-emerald-600 text-white font-extrabold flex items-center justify-center rounded-full text-xs shadow-md transition-colors">MK</div>
                 <div>
-                  <span className="text-sm text-[var(--text-primary)] font-semibold block transition-colors" style={{ fontFamily: "'Inter', system-ui, sans-serif" }}>{post.author?.name || "Musa Musa Kannike"}</span>
-                  <span className="text-[10px] text-[var(--text-tertiary)] uppercase tracking-wider">Fullstack Engineer</span>
+                  <span className="text-sm text-gray-900 dark:text-gray-100 font-semibold block transition-colors" style={{ fontFamily: "'Inter', system-ui, sans-serif" }}>{post.author?.name || "Musa Musa Kannike"}</span>
+                  <span className="text-[10px] text-gray-500 dark:text-gray-500 uppercase tracking-wider">Fullstack Engineer</span>
                 </div>
               </div>
               <div className="text-right">
-                <span className="block text-[11px] text-[var(--text-tertiary)]">{new Date(post.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</span>
-                <span className="flex items-center gap-1 text-[10px] text-[var(--text-tertiary)] justify-end mt-0.5"><FaEye size={9} /> {post.views} views</span>
+                <span className="block text-[11px] text-gray-500 dark:text-gray-500">{new Date(post.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</span>
+                <span className="flex items-center gap-1 text-[10px] text-gray-500 dark:text-gray-500 justify-end mt-0.5"><FaEye size={9} /> {post.views} views</span>
               </div>
             </div>
 
@@ -909,20 +904,20 @@ const ArticleReader = ({ slug }) => {
 
             {/* Content Upgrade download bundle card */}
             {post.contentUpgrade && post.contentUpgrade.title && (
-              <div className="mt-12 border-2 border-dashed border-[var(--color-toxic-green)]/40 bg-[var(--bg-tertiary)] p-6 rounded-none relative overflow-hidden select-none transition-colors duration-300">
+              <div className="mt-12 border-2 border-dashed border-green-600/40 dark:border-[#ADFF2F]/40 bg-gray-100 dark:bg-[#0E0E0E] p-6 rounded-none relative overflow-hidden select-none transition-colors duration-300">
                 <div className="absolute inset-0 bg-scanline opacity-[0.01] pointer-events-none" />
                 <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
                   <div>
-                    <span className="bg-[var(--color-toxic-green)] text-[var(--color-obsidian)] font-extrabold px-2 py-0.5 text-[8px] tracking-widest uppercase transition-colors">
+                    <span className="bg-green-600 dark:bg-[#ADFF2F] text-white dark:text-black font-extrabold px-2 py-0.5 text-[8px] tracking-widest uppercase transition-colors">
                       CONTENT UPGRADE
                     </span>
-                    <h4 className="text-sm font-bold text-[var(--text-primary)] mt-2 mb-1 transition-colors">{post.contentUpgrade.title}</h4>
-                    <p className="text-[10px] text-[var(--text-secondary)] max-w-md leading-relaxed transition-colors">{post.contentUpgrade.description}</p>
+                    <h4 className="text-sm font-bold text-gray-900 dark:text-gray-100 mt-2 mb-1 transition-colors">{post.contentUpgrade.title}</h4>
+                    <p className="text-[10px] text-gray-600 dark:text-gray-400 max-w-md leading-relaxed transition-colors">{post.contentUpgrade.description}</p>
                   </div>
                   <a
                     href={post.contentUpgrade.fileUrl}
                     target="_blank"
-                    className="flex items-center justify-center gap-2 border border-[var(--text-primary)] text-[var(--text-primary)] font-bold py-2.5 px-4 text-xs tracking-wider uppercase hover:bg-[var(--color-toxic-green)] hover:text-[var(--color-obsidian)] hover:border-[var(--color-toxic-green)] transition-all rounded-none w-full sm:w-auto"
+                    className="flex items-center justify-center gap-2 border border-gray-900 dark:border-gray-100 text-gray-900 dark:text-gray-100 font-bold py-2.5 px-4 text-xs tracking-wider uppercase hover:bg-green-600 hover:text-white dark:hover:bg-[#ADFF2F] dark:hover:text-black hover:border-green-600 dark:hover:border-[#ADFF2F] transition-all rounded-none w-full sm:w-auto"
                   >
                     <FaFileDownload /> DOWNLOAD PDF
                   </a>
@@ -931,15 +926,15 @@ const ArticleReader = ({ slug }) => {
             )}
 
             {/* Comments section */}
-            <section className="mt-16 border-t border-[var(--border-primary)] pt-10 transition-colors">
-              <div className="flex gap-2 items-center text-base font-bold text-[var(--text-primary)] mb-6 transition-colors" style={{ fontFamily: "'Inter', system-ui, sans-serif" }}>
-                <FaCommentDots className="text-[var(--color-toxic-green)]" size={16} />
-                Discussion <span className="text-sm font-normal text-[var(--text-tertiary)]">{comments.length} comment{comments.length !== 1 ? 's' : ''}</span>
+            <section className="mt-16 border-t border-gray-200 dark:border-gray-800 pt-10 transition-colors">
+              <div className="flex gap-2 items-center text-base font-bold text-gray-900 dark:text-gray-100 mb-6 transition-colors" style={{ fontFamily: "'Inter', system-ui, sans-serif" }}>
+                <FaCommentDots className="text-green-600 dark:text-[#ADFF2F]" size={16} />
+                Discussion <span className="text-sm font-normal text-gray-500 dark:text-gray-500">{comments.length} comment{comments.length !== 1 ? 's' : ''}</span>
               </div>
 
               {/* Error/Success Alerts */}
               {commentMsg && (
-                <div className="mb-6 border border-[var(--border-primary)] bg-[var(--bg-secondary)] p-3 text-[10px] text-[var(--text-secondary)] font-mono transition-colors">
+                <div className="mb-6 border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#050505] p-3 text-[10px] text-gray-600 dark:text-gray-400 font-mono transition-colors">
                   {commentMsg}
                 </div>
               )}
@@ -948,7 +943,7 @@ const ArticleReader = ({ slug }) => {
               <form id="comment-form" onSubmit={handleCommentSubmit} className="space-y-4">
 
                 {replyToId && (
-                  <div className="flex justify-between items-center bg-[var(--bg-tertiary)] border-l-2 border-[var(--color-toxic-green)] px-3 py-2 text-[10px] text-[var(--text-secondary)] uppercase select-none transition-colors duration-300">
+                  <div className="flex justify-between items-center bg-gray-100 dark:bg-[#0E0E0E] border-l-2 border-green-600 dark:border-[#ADFF2F] px-3 py-2 text-[10px] text-gray-600 dark:text-gray-400 uppercase select-none transition-colors duration-300">
                     <span>REPLYING TO: {replyToName}</span>
                     <button
                       type="button"
@@ -956,7 +951,7 @@ const ArticleReader = ({ slug }) => {
                         setReplyToId(null);
                         setReplyToName("");
                       }}
-                      className="text-[var(--color-toxic-green)] hover:underline"
+                      className="text-green-600 dark:text-[#ADFF2F] hover:underline"
                     >
                       [ CANCEL ]
                     </button>
@@ -964,12 +959,12 @@ const ArticleReader = ({ slug }) => {
                 )}
 
                 {!user && (
-                  <div className="border border-dashed border-[var(--border-primary)] p-4 text-center rounded-none select-none transition-colors">
-                    <p className="text-[10px] text-[var(--text-tertiary)] mb-3 transition-colors">You must be logged in to participate in the discussions.</p>
+                  <div className="border border-dashed border-gray-200 dark:border-gray-800 p-4 text-center rounded-none select-none transition-colors">
+                    <p className="text-[10px] text-gray-500 dark:text-gray-500 mb-3 transition-colors">You must be logged in to participate in the discussions.</p>
                     <button
                       type="button"
                       onClick={() => setIsAuthOpen(true)}
-                      className="text-xs bg-[var(--text-primary)] text-[var(--bg-primary)] font-extrabold px-4 py-2 uppercase tracking-wider rounded-none hover:bg-[var(--color-toxic-green)] hover:text-[var(--color-obsidian)] transition-colors duration-300"
+                      className="text-xs bg-gray-900 dark:bg-white text-white dark:text-black font-extrabold px-4 py-2 uppercase tracking-wider rounded-none hover:bg-green-600 hover:text-white dark:hover:bg-[#ADFF2F] dark:hover:text-black transition-colors duration-300"
                     >
                       Connect Account
                     </button>
@@ -978,8 +973,8 @@ const ArticleReader = ({ slug }) => {
 
                 {user && (
                   <div className="space-y-3">
-                    <div className="text-[9px] text-[var(--text-tertiary)] uppercase select-none transition-colors">
-                      COMMENTING AS: <span className="text-[var(--text-primary)] font-bold transition-colors">{user.name} ({user.email})</span>
+                    <div className="text-[9px] text-gray-500 dark:text-gray-500 uppercase select-none transition-colors">
+                      COMMENTING AS: <span className="text-gray-900 dark:text-gray-100 font-bold transition-colors">{user.name} ({user.email})</span>
                     </div>
                     <textarea
                       placeholder="ENTER YOUR COMMENT HERE..."
@@ -987,12 +982,12 @@ const ArticleReader = ({ slug }) => {
                       value={commentContent}
                       onChange={(e) => setCommentContent(e.target.value)}
                       required
-                      className="w-full bg-[var(--bg-primary)] border border-[var(--border-secondary)] p-3 text-xs text-[var(--text-primary)] placeholder-[var(--text-tertiary)] focus:border-[var(--color-toxic-green)] focus:outline-none rounded-none font-mono transition-colors duration-300"
+                      className="w-full bg-[#FAF9F6] dark:bg-[#0A0A0A] border border-gray-300 dark:border-gray-700 p-3 text-xs text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-500 focus:border-green-600 dark:focus:border-[#ADFF2F] focus:outline-none rounded-none font-mono transition-colors duration-300"
                     />
                     <button
                       type="submit"
                       disabled={commentLoading}
-                      className="flex items-center justify-center gap-2 bg-[var(--color-toxic-green)] text-[var(--color-obsidian)] font-extrabold px-6 py-3 text-xs tracking-wider uppercase transition-colors hover:bg-[var(--text-primary)] hover:text-[var(--bg-primary)] rounded-none disabled:opacity-50"
+                      className="flex items-center justify-center gap-2 bg-green-600 dark:bg-[#ADFF2F] text-white dark:text-black font-extrabold px-6 py-3 text-xs tracking-wider uppercase transition-colors hover:bg-gray-900 hover:text-white dark:hover:bg-white dark:hover:text-black rounded-none disabled:opacity-50"
                     >
                       <FaPaperPlane size={10} /> {commentLoading ? "PUBLISHING..." : "SUBMIT COMMENT"}
                     </button>
@@ -1005,7 +1000,7 @@ const ArticleReader = ({ slug }) => {
                 {comments.length > 0 ? (
                   renderCommentTree(comments)
                 ) : (
-                  <div className="py-10 text-center rounded-2xl border border-dashed border-[var(--border-primary)] text-sm text-[var(--text-tertiary)] select-none transition-colors">
+                  <div className="py-10 text-center rounded-2xl border border-dashed border-gray-200 dark:border-gray-800 text-sm text-gray-500 dark:text-gray-500 select-none transition-colors">
                     No comments yet — be the first to start the discussion!
                   </div>
                 )}
@@ -1014,27 +1009,27 @@ const ArticleReader = ({ slug }) => {
           </main>
 
           {/* Right sidebar — Up Next */}
-          <aside className="lg:col-span-3 hidden lg:block select-none">
+          <aside className="lg:col-span-2 hidden lg:block select-none">
             {nextPost && (
-              <div className="sticky top-24 rounded-2xl border border-[var(--border-primary)] bg-[var(--bg-secondary)] overflow-hidden shadow-sm transition-colors duration-300">
+              <div className="sticky top-24 rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#050505] overflow-hidden shadow-sm transition-colors duration-300">
                 {nextPost.coverImage && (
                   <div className="h-36 overflow-hidden">
                     <img src={nextPost.coverImage} alt={nextPost.title} className="w-full h-full object-cover" />
                   </div>
                 )}
                 <div className="p-5">
-                  <span className="inline-block bg-[var(--text-primary)] text-[var(--bg-primary)] px-2.5 py-0.5 text-[9px] font-bold tracking-widest uppercase rounded-full mb-3 transition-colors">
+                  <span className="inline-block bg-gray-900 dark:bg-white text-white dark:text-black px-2.5 py-0.5 text-[9px] font-bold tracking-widest uppercase rounded-full mb-3 transition-colors">
                     Up Next
                   </span>
-                  <h4 className="text-sm font-bold text-[var(--text-primary)] mb-2 tracking-tight line-clamp-2 transition-colors leading-snug" style={{ fontFamily: "'Inter', system-ui, sans-serif" }}>
+                  <h4 className="text-sm font-bold text-gray-900 dark:text-gray-100 mb-2 tracking-tight line-clamp-2 transition-colors leading-snug" style={{ fontFamily: "'Inter', system-ui, sans-serif" }}>
                     <Link href={`/blog/${nextPost.slug}`}>{nextPost.title}</Link>
                   </h4>
-                  <p className="text-[11px] text-[var(--text-secondary)] leading-relaxed line-clamp-3 mb-4 transition-colors">
+                  <p className="text-[11px] text-gray-600 dark:text-gray-400 leading-relaxed line-clamp-3 mb-4 transition-colors">
                     {nextPost.summary}
                   </p>
                   <Link
                     href={`/blog/${nextPost.slug}`}
-                    className="inline-flex items-center gap-1.5 text-xs text-[var(--color-toxic-green)] font-bold hover:underline tracking-wide"
+                    className="inline-flex items-center gap-1.5 text-xs text-green-600 dark:text-[#ADFF2F] font-bold hover:underline tracking-wide"
                   >
                     Read Article →
                   </Link>
@@ -1045,13 +1040,16 @@ const ArticleReader = ({ slug }) => {
         </div>
       </div>
 
-      {/* Next article scroll sentinel */}
+      {/* Next article link */}
       {nextPost && (
-        <div ref={nextSentinelRef} className="py-16 border-t border-[var(--border-primary)] text-center bg-gradient-to-b from-transparent to-[var(--bg-secondary)] select-none transition-colors">
-          <div className="inline-block w-5 h-5 border-2 border-[var(--border-secondary)] border-t-[var(--color-toxic-green)] rounded-full animate-spin mb-3" />
-          <p className="text-xs text-[var(--text-tertiary)] mb-1">Next up</p>
-          <p className="text-sm text-[var(--text-primary)] font-bold" style={{ fontFamily: "'Inter', system-ui, sans-serif" }}>{nextPost.title}</p>
-        </div>
+        <Link
+          href={`/blog/${nextPost.slug}`}
+          className="block py-16 border-t border-gray-200 dark:border-gray-800 text-center bg-gradient-to-b from-transparent to-gray-50 dark:to-[#050505] select-none transition-colors hover:opacity-80"
+        >
+          <p className="text-xs text-gray-500 dark:text-gray-500 mb-1">Next up</p>
+          <p className="text-sm text-gray-900 dark:text-gray-100 font-bold" style={{ fontFamily: "'Inter', system-ui, sans-serif" }}>{nextPost.title}</p>
+          <span className="inline-block mt-3 text-xs text-green-600 dark:text-[#ADFF2F] font-bold">Read Article →</span>
+        </Link>
       )}
 
       {/* Auth modal toggle */}
