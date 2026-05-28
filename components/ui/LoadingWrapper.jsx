@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 
-export default function LoadingWrapper({ children, text = "CODIAC" }) {
+export default function LoadingWrapper({ children, text = "CODIAC", lightMode = false }) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isFadingOut, setIsFadingOut] = useState(false);
 
@@ -33,7 +33,7 @@ export default function LoadingWrapper({ children, text = "CODIAC" }) {
               inset: 0;
               width: 100vw;
               height: 100vh;
-              background: #0a0a0a;
+              background: ${lightMode ? '#FAF9F6' : '#0a0a0a'};
               display: flex;
               align-items: center;
               justify-content: center;
@@ -54,14 +54,14 @@ export default function LoadingWrapper({ children, text = "CODIAC" }) {
             .loader-ring {
               width: 58px;
               height: 58px;
-              border: 3px solid rgba(255, 255, 255, 0.08);
-              border-top-color: #fff;
+              border: 3px solid ${lightMode ? 'rgba(0, 0, 0, 0.08)' : 'rgba(255, 255, 255, 0.08)'};
+              border-top-color: ${lightMode ? '#15803d' : '#fff'};
               border-radius: 50%;
               animation: spin 0.75s linear infinite;
             }
             .loader-text {
               font-family: "Syne", system-ui, sans-serif;
-              color: #fff;
+              color: ${lightMode ? '#0a0a0a' : '#fff'};
               font-size: 16px;
               font-weight: 700;
               letter-spacing: 0.28em;

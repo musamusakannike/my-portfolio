@@ -724,8 +724,8 @@ const ArticleReader = ({ slug }) => {
 
   if (loading) {
     return (
-      <LoadingWrapper text="JOURNAL_READER">
-        <div className="min-h-screen bg-[#FAF9F6] dark:bg-[#0A0A0A] flex items-center justify-center font-mono transition-colors">
+      <LoadingWrapper text="" lightMode={true}>
+        <div className="min-h-screen bg-[#FAF9F6] flex items-center justify-center font-mono transition-colors">
           <div className="text-center">
             <div className="inline-block w-8 h-8 border-2 border-gray-300 dark:border-gray-700 border-t-green-600 dark:border-t-[#ADFF2F] rounded-full animate-spin mb-4" />
             <p className="text-xs text-gray-500 dark:text-gray-500 uppercase tracking-widest transition-colors">Parsing Article...</p>
