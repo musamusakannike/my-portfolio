@@ -4,8 +4,18 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import gsap from "gsap";
 import * as THREE from "three";
 import ThemeSwitcher from "@/components/ui/ThemeSwitcher";
+import { getDefaultContent, VARIANT_ROUTES } from "@/utils/siteContentDefaults";
 
-export default function Hero() {
+const PORTFOLIO_NAV = [
+  { variant: "main", label: "Fullstack" },
+  { variant: "frontend", label: "Frontend" },
+  { variant: "backend", label: "Backend" },
+  { variant: "mobile", label: "Mobile" },
+];
+
+export default function Hero({ content, variant = "main" }) {
+  const hero = content || getDefaultContent(variant).hero;
+  const stats = Array.isArray(hero.stats) ? hero.stats : [];
   const canvasRef = useRef(null);
   const loaderRef = useRef(null);
   const fallbackRef = useRef(null);
@@ -245,11 +255,19 @@ export default function Hero() {
     <section className="hero">
       {/* ── Nav ── */}
       <nav className={`nav ${navScrolled ? "scrolled" : ""}`}>
-        <div className="logo">CODIAC</div>
+        <div className="logo">{hero.logo || "CODIAC"}</div>
         <div className="navRight">
-          <a href="#projects">
-            <button className="btnGhost" type="button">Work</button>
-          </a>
+          <div className="portfolioNav">
+            {PORTFOLIO_NAV.map((p) => (
+              <a
+                key={p.variant}
+                href={VARIANT_ROUTES[p.variant]}
+                className={`portfolioLink${p.variant === variant ? " active" : ""}`}
+              >
+                {p.label}
+              </a>
+            ))}
+          </div>
           <a href="#contact">
             <button className="btnPrimary" type="button">Hire me</button>
           </a>
@@ -276,13 +294,13 @@ export default function Hero() {
 
           {/* Headline */}
           <h1 id={ids.headline} className="headline">
-            Musa<span className="mobileHide"><br /></span> Musa<br />
-            <em>Kannike</em>
+            {hero.titleLine1}<br />
+            <em>{hero.titleLine2}</em>
           </h1>
 
           {/* Sub */}
           <p id={ids.sub} className="heroSub text-white text-shadow-md">
-            Fullstack developer crafting elegant products — from pixel-perfect interfaces to robust, scalable backends.
+            {hero.sub}
           </p>
 
           {/* CTA buttons */}
@@ -304,20 +322,15 @@ export default function Hero() {
 
           {/* Stats */}
           <div id={ids.stats} className="heroStats">
-            <div className="statItem">
-              <span className="statNum">5+</span>
-              <span className="statLbl">Years exp.</span>
-            </div>
-            <div className="statSep" />
-            <div className="statItem">
-              <span className="statNum">30+</span>
-              <span className="statLbl">Projects shipped</span>
-            </div>
-            <div className="statSep" />
-            <div className="statItem">
-              <span className="statNum">12+</span>
-              <span className="statLbl">Happy clients</span>
-            </div>
+            {stats.map((s, i) => (
+              <React.Fragment key={`${s.label}-${i}`}>
+                {i > 0 && <div className="statSep" />}
+                <div className="statItem">
+                  <span className="statNum">{s.num}</span>
+                  <span className="statLbl">{s.label}</span>
+                </div>
+              </React.Fragment>
+            ))}
           </div>
         </div>
 
@@ -435,6 +448,40 @@ export default function Hero() {
           display: flex;
           align-items: center;
           gap: 12px;
+        }
+
+        .portfolioNav {
+          display: flex;
+          align-items: center;
+          gap: 2px;
+          background: var(--glass-bg);
+          border: 1px solid var(--border-primary);
+          border-radius: 100px;
+          padding: 4px;
+          backdrop-filter: blur(12px);
+        }
+
+        .portfolioLink {
+          font-family: inherit;
+          font-size: 13px;
+          font-weight: 500;
+          color: var(--text-secondary);
+          padding: 7px 14px;
+          border-radius: 100px;
+          text-decoration: none;
+          transition: color 0.25s, background 0.25s;
+          white-space: nowrap;
+        }
+
+        .portfolioLink:hover { color: var(--text-primary); }
+
+        .portfolioLink.active {
+          background: var(--text-primary);
+          color: var(--bg-primary);
+        }
+
+        @media (max-width: 760px) {
+          .portfolioNav { display: none; }
         }
 
         .btnGhost {

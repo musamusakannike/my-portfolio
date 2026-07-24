@@ -3,60 +3,18 @@
 import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { getDefaultContent } from "@/utils/siteContentDefaults";
 
 gsap.registerPlugin(ScrollTrigger);
-
-const experiences = [
-  {
-    id: "exp-4",
-    title: "Fullstack Developer",
-    company: "Cloudstech",
-    location: "Remote",
-    period: "Jan 2026 – Present",
-    description:
-      "Building high-quality web and mobile apps for global clients. I create scalable solutions and turn requirements into working software.",
-    skills: ["Next.js", "Express", "MongoDB", "React Native", "Redux"],
-    isCurrent: true,
-  },
-  {
-    id: "exp-3",
-    title: "Backend Developer",
-    company: "360gadgetsafrica",
-    location: "Remote",
-    period: "Oct 2024 – Present",
-    description:
-      "Improved backend systems. Designed APIs, optimized databases, and made high-traffic online stores faster and more reliable.",
-    skills: ["Node.js", "Express", "MongoDB", "REST API"],
-    isCurrent: true,
-  },
-  {
-    id: "exp-2",
-    title: "Mobile App Dev Intern",
-    company: "Terrachow Logistics",
-    location: "Remote",
-    period: "Jan 2024 – Oct 2024",
-    description:
-      "Built and maintained mobile apps. Added new features for tracking deliveries and managing users.",
-    skills: ["React Native", "TypeScript", "Redux"],
-    isCurrent: false,
-  },
-  {
-    id: "exp-1",
-    title: "Freelance Developer",
-    company: "Self-employed",
-    location: "Remote",
-    period: "Jan 2022 – Present",
-    description:
-      "Complete development for small businesses. I handle everything from planning and design to building and launching custom websites.",
-    skills: ["Next.js", "Tailwind CSS", "Node.js", "MongoDB"],
-    isCurrent: true,
-  },
-];
 
 // Slight stagger offsets per card so the list feels organic, not rigid
 const marginOffsets = ["0%", "5%", "0%", "5%"];
 
-export default function Experience() {
+export default function Experience({ content, variant = "main" }) {
+  const experiences =
+    Array.isArray(content) && content.length
+      ? content
+      : getDefaultContent(variant).experiences;
   const sectionRef = useRef(null);
   const blobRef = useRef(null);
   const titleRef = useRef(null);
@@ -233,9 +191,9 @@ export default function Experience() {
 
           {experiences.map((exp, i) => (
             <article
-              key={exp.id}
+              key={exp.id || `${exp.title}-${i}`}
               className="exp-card"
-              style={{ marginLeft: marginOffsets[i] }}
+              style={{ marginLeft: marginOffsets[i % marginOffsets.length] }}
             >
               {/* Timeline node */}
               <div className="card-node">
@@ -246,7 +204,7 @@ export default function Experience() {
 
               {/* Floating year — parallax element */}
               <div className="card-year-label">
-                {exp.period.split("–")[0].trim()}
+                {(exp.period || "").split("–")[0].trim()}
               </div>
 
               {/* Card */}
@@ -288,7 +246,7 @@ export default function Experience() {
                 <p className="card-desc">{exp.description}</p>
 
                 <div className="card-skills">
-                  {exp.skills.map((s) => (
+                  {(exp.skills || []).map((s) => (
                     <span key={s} className="skill-tag">
                       {s}
                     </span>

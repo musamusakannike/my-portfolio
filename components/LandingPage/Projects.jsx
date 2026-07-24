@@ -5,206 +5,9 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import Image from "next/image";
+import { DEFAULT_PROJECTS } from "@/utils/siteContentDefaults";
 
 gsap.registerPlugin(ScrollTrigger);
-
-// ─── Import images – replace with your actual paths ───────────────────────────
-import terrachowImg from "@/assets/images/terrachow.png";
-import lamatfikrImg from "@/assets/images/lamatfikr.png";
-import proffyemphyImg from "@/assets/images/proffyemphy.png";
-import swiftratesImg from "@/assets/images/swiftrates.png";
-import synapseImg from "@/assets/images/synapse.png";
-import taashamImg from "@/assets/images/taasham.png";
-import glamconnectImg from "@/assets/images/glamconnect.png";
-import gadgetsafricaImg from "@/assets/images/360gadgets.png";
-import aiWordProcessorImg from "@/assets/images/ai-word-processor.png";
-import cloudstechImg from "@/assets/images/cloudstech.png";
-import quranicImg from "@/assets/images/quranic.png";
-import bbosspayImg from "@/assets/images/bbosspay.png";
-
-const projects = [
-  {
-    title: "Terrachow",
-    category: "Mobile App",
-    description:
-      "A food delivery platform connecting users with local vendors. Features real-time tracking, secure payments, and easy delivery management.",
-    tags: ["React Native", "Node.js", "MongoDB"],
-    role: "Team Member",
-    image: terrachowImg,
-    isPrivate: true,
-    links: {
-      website: "https://store.terrachow.com/",
-      playStore:
-        "https://play.google.com/store/apps/details?id=com.terrachow.terrachow",
-      appStore: "https://apps.apple.com/us/app/terrachow/id1587526296",
-    },
-  },
-  {
-    title: "360GadgetsAfrica",
-    category: "E-Commerce",
-    description:
-      "A complete e-commerce platform for gadgets and digital services. Buy airtime, data, and the latest tech with ease.",
-    tags: ["React", "React Native", "Node.js"],
-    role: "Team Member",
-    isPrivate: true,
-    image: gadgetsafricaImg,
-    links: {
-      website: "https://360gadgetsafrica.com/",
-      playStore:
-        "https://play.google.com/store/apps/details?id=com.gadgetsafrica.gadgetsafrica",
-      appStore:
-        "https://apps.apple.com/us/app/360gadgetsafrica/id6736353137",
-    },
-  },
-  {
-    title: "Cloudstech",
-    category: "Software & AI Agency",
-    description: "An international software and AI agency that builds innovative solutions for businesses.",
-    tags: ["Next.js", "Gemini API", "Supabase"],
-    role: "Team Member",
-    image: cloudstechImg,
-    isPrivate: true,
-    links: {
-      website: "https://www.cloudstech.org/",
-    },
-  },
-  {
-    title: "Quranic",
-    category: "Mobile App",
-    description: "An Islamic app that helps users explore the Quran with beautiful translations and recitations.",
-    tags: ["React Native", "Node.js", "MongoDB"],
-    role: "Sole Developer",
-    image: quranicImg,
-    isPrivate: true,
-    links: {
-      website: "https://quranic.expo.app/",
-      playStore: "https://play.google.com/store/apps/details?id=com.codiac.quranic",
-      appStore: "https://apps.apple.com/ng/app/quranic-read-listen/id6760474571",
-    },
-  },
-  {
-    title: "BBossPay",
-    category: "Virtual Topup Platform",
-    description: "A Nigerian based virtual topup platform to purchase data, airtime, and bill at cheap rates",
-    tags: ["Next.js", "React Native", "Node.js"],
-    role: "Developer",
-    image: bbosspayImg,
-    isPrivate: true,
-    links: {
-      website: "https://www.bbosspay.com/",
-    },
-  },
-  {
-    title: "LamatFikr",
-    category: "Social Platform",
-    description:
-      "A global social network with a built-in marketplace. Connects people through chats, feeds, and online shopping.",
-    tags: ["Node.js", "MongoDB", "GetStream", "Next.js"],
-    role: "Team Member",
-    image: lamatfikrImg,
-    isPrivate: true,
-    links: { website: "https://lamatfikr.com" },
-  },
-  {
-    title: "GlamConnect",
-    category: "Service Marketplace",
-    description:
-      "A platform connecting beauty professionals with clients. Simplifies booking, portfolio showcasing, and payments.",
-    tags: ["Next.js", "Flutter", "Node.js"],
-    role: "Team Member",
-    image: glamconnectImg,
-    isPrivate: true,
-    links: {
-      website: "https://glamconnect.sa",
-      playStore:
-        "https://play.google.com/store/apps/details?id=sa.aba.glam_connect",
-      appStore: "https://apps.apple.com/us/app/glamconnect/id6755059933",
-    },
-  },
-  {
-    title: "Synapse AI",
-    category: "AI / ML",
-    description:
-      "A smart learning assistant powered by AI. Helps users study better through personalized conversations.",
-    tags: ["React", "Gemini API", "React Native"],
-    role: "Sole Developer",
-    image: synapseImg,
-    links: {
-      website: "https://synapse.codiac.online",
-      github: {
-        frontend:
-          "https://github.com/musamusakannike/synapse/tree/main/frontend",
-        server:
-          "https://github.com/musamusakannike/synapse/tree/main/server",
-        mobile:
-          "https://github.com/musamusakannike/synapse/tree/main/mobile",
-      },
-    },
-  },
-  {
-    title: "Swiftrates",
-    category: "Fintech",
-    description:
-      "A fast currency converter with live market rates. Provides accurate and up-to-date exchange information.",
-    tags: ["React Native", "NativeWind", "REST API"],
-    role: "Developer",
-    image: swiftratesImg,
-    isPrivate: true,
-    links: {
-      website: "https://swiftrates.net",
-      playStore:
-        "https://play.google.com/store/apps/details?id=com.prhuzaifa.swiftReats",
-      appStore: "https://apps.apple.com/us/app/swiftrates/id6752546067",
-    },
-  },
-  {
-    title: "Proffyemphy",
-    category: "E-Learning",
-    description:
-      "An e-learning platform for students. Offers video lessons, practice tests, and progress tracking across devices.",
-    tags: ["Next.js", "Electron", "React Native"],
-    role: "Developer",
-    image: proffyemphyImg,
-    isPrivate: true,
-    links: {
-      website: "https://proffyemphy.vercel.app/",
-      playStore:
-        "https://play.google.com/store/apps/details?id=com.musamusakannike.proffyemphymobileapp",
-      desktop:
-        "https://pub-c55ee396a09e45e6b0bd6191ca45d178.r2.dev/proffyemphyidealacademy/desktop-1.0.0-setup.exe",
-    },
-  },
-  {
-    title: "TaasHAM",
-    category: "Freelance",
-    description:
-      "A freelance marketplace for event planners. Features project bidding, secure payments, and user reviews.",
-    tags: ["Next.js", "Payment Gateway", "Arabic RTL"],
-    role: "Team Member",
-    image: taashamImg,
-    isPrivate: true,
-    isBeta: true,
-    links: { website: "https://taasham.com" },
-  },
-  {
-    title: "AI Word Processor",
-    category: "AI Tool",
-    description:
-      "Creates Word documents from text prompts using AI. Automates document creation and formatting.",
-    tags: ["Next.js", "Python", "Fast API", "Gemini API"],
-    role: "Sole Developer",
-    image: aiWordProcessorImg,
-    links: {
-      website: "https://ai-word-processor.vercel.app",
-      github: {
-        frontend:
-          "https://github.com/musamusakannike/AI-Word-Processor/tree/main/frontend",
-        server:
-          "https://github.com/musamusakannike/AI-Word-Processor/tree/main/server",
-      },
-    },
-  },
-];
 
 // ─── Icon components (inline SVG to avoid extra deps) ────────────────────────
 const IconGlobe = () => (
@@ -258,8 +61,9 @@ function ProjectCard({
 }) {
   const [expanded, setExpanded] = useState(false);
 
-  const githubLinks = project.links.github
-    ? Object.entries(project.links.github).filter(([, v]) => v)
+  const links = project.links || {};
+  const githubLinks = links.github
+    ? Object.entries(links.github).filter(([, v]) => v)
     : [];
 
   return (
@@ -330,9 +134,9 @@ function ProjectCard({
 
         {/* Links */}
         <div className="card-links">
-          {project.links.website && (
+          {links.website && (
             <a
-              href={project.links.website}
+              href={links.website}
               target="_blank"
               rel="noopener noreferrer"
               className="link-btn link-primary"
@@ -346,9 +150,9 @@ function ProjectCard({
           )}
 
           <div className="link-row">
-            {project.links.playStore && (
+            {links.playStore && (
               <a
-                href={project.links.playStore}
+                href={links.playStore}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="link-btn link-ghost"
@@ -358,9 +162,9 @@ function ProjectCard({
                 <span>Play Store</span>
               </a>
             )}
-            {project.links.appStore && (
+            {links.appStore && (
               <a
-                href={project.links.appStore}
+                href={links.appStore}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="link-btn link-ghost"
@@ -370,9 +174,9 @@ function ProjectCard({
                 <span>App Store</span>
               </a>
             )}
-            {project.links.desktop && (
+            {links.desktop && (
               <a
-                href={project.links.desktop}
+                href={links.desktop}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="link-btn link-ghost"
@@ -809,7 +613,11 @@ function ProjectCard({
 }
 
 // ─── Main Projects section ─────────────────────────────────────────────────────
-export default function Projects() {
+export default function Projects({ projects: projectsProp, variant = "main" }) {
+  const projects =
+    Array.isArray(projectsProp) && projectsProp.length
+      ? projectsProp
+      : DEFAULT_PROJECTS.filter((p) => p.portfolios.includes(variant));
   const sectionRef = useRef(null);
   const progressRef = useRef(null);
   const [activeIdx, setActiveIdx] = useState(0);
@@ -941,7 +749,7 @@ export default function Projects() {
           {/* Active title label */}
           <div className="rail-label">
             <span className="rail-num">{String(activeIdx + 1).padStart(2, "0")}</span>
-            <span className="rail-title">{projects[activeIdx].title}</span>
+            <span className="rail-title">{projects[activeIdx]?.title}</span>
           </div>
         </div>
 

@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import Link from "next/link";
 import {
   FaGithub,
@@ -8,8 +9,11 @@ import {
   FaLinkedin,
   FaArrowUp,
 } from "react-icons/fa";
+import { getDefaultContent } from "@/utils/siteContentDefaults";
 
-const Footer = () => {
+const Footer = ({ content, variant = "main" }) => {
+  const footer = content || getDefaultContent(variant).footer;
+  const tagline = footer.tagline || getDefaultContent(variant).footer.tagline;
   const currentYear = new Date().getFullYear();
 
   const scrollToTop = () => {
@@ -32,8 +36,12 @@ const Footer = () => {
               KANNIKE
             </Link>
             <p className="text-neutral-600 dark:text-gray-500 text-sm max-w-sm mb-6">
-              Deployed from Ilorin, Nigeria. <br />
-              Building high-quality web applications and AI systems.
+              {String(tagline).split("\n").map((line, i, arr) => (
+                <React.Fragment key={i}>
+                  {line}
+                  {i < arr.length - 1 && <br />}
+                </React.Fragment>
+              ))}
             </p>
             <div className="flex gap-4">
               <a

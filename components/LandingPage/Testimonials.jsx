@@ -4,40 +4,15 @@ import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { FaQuoteLeft, FaCheckCircle, FaStar } from "react-icons/fa";
+import { getDefaultContent } from "@/utils/siteContentDefaults";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const testimonials = [
-  {
-    name: "Jimoh Abdullah",
-    role: "Co-founder @ Synapse AI",
-    feedback:
-      "Musa is an exceptional developer with a keen eye for detail. His ability to translate complex requirements into elegant code is truly impressive.",
-    verified: true,
-  },
-  {
-    name: "Ibrahim Mubaraq",
-    role: "Co-founder @ Synapse AI",
-    feedback:
-      "Working with Musa was a game-changer for our project. His technical skills and problem-solving abilities are top-notch.",
-    verified: true,
-  },
-  {
-    name: "Abdulrahman Habeeb",
-    role: "CEO @ 360gadgetsafrica",
-    feedback:
-      "I hired Musa for a complex web application, and he delivered beyond my expectations. His communication and project management skills are excellent.",
-    verified: true,
-  },
-  {
-    name: "Adeniyi Taoheed",
-    role: "CEO @ Cloudstech",
-    feedback: "Musa is a very good developer. He is able to deliver projects on time and with high quality. I would recommend him for any development work.",
-    verified: true,
-  }
-];
-
-export default function Testimonials() {
+export default function Testimonials({ content, variant = "main" }) {
+  const testimonials =
+    Array.isArray(content) && content.length
+      ? content
+      : getDefaultContent(variant).testimonials;
   const sectionRef = useRef(null);
 
   useEffect(() => {

@@ -8,6 +8,8 @@ import LoadingWrapper from "@/components/ui/LoadingWrapper";
 import TerminalWindow from "@/components/ui/TerminalWindow";
 import ThemeSwitcher from "@/components/ui/ThemeSwitcher";
 import { useTheme } from "@/components/ThemeProvider";
+import SiteContentManager from "@/components/admin/SiteContentManager";
+import ProjectsManager from "@/components/admin/ProjectsManager";
 
 const SafeHtmlRenderer = ({ html }) => {
   const iframeRef = useRef(null);
@@ -600,6 +602,8 @@ const AdminDashboard = () => {
             {/* Left Control Navigation (Sidebar) */}
             <aside className="lg:col-span-3 space-y-2 select-none">
               {[
+                { id: "PORTFOLIO_CONTENT", label: "PORTFOLIO CONTENT", icon: <FaGlobe /> },
+                { id: "PORTFOLIO_PROJECTS", label: "PORTFOLIO PROJECTS", icon: <FaFileAlt /> },
                 { id: "MANAGE_POSTS", label: "MANAGE POSTS", icon: <FaFolder /> },
                 { id: "WRITE_POST", label: "WRITE JOURNAL", icon: <FaPen /> },
                 { id: "CATEGORIES", label: "MANAGE CATEGORIES", icon: <FaTags /> },
@@ -1309,6 +1313,12 @@ const AdminDashboard = () => {
                   </form>
                 </TerminalWindow>
               )}
+
+              {/* Tab: PORTFOLIO CONTENT */}
+              {activeTab === "PORTFOLIO_CONTENT" && <SiteContentManager />}
+
+              {/* Tab: PORTFOLIO PROJECTS */}
+              {activeTab === "PORTFOLIO_PROJECTS" && <ProjectsManager />}
             </section>
           </div>
         </main>
