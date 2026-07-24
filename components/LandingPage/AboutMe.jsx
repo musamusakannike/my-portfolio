@@ -21,70 +21,78 @@ import {
   SiTailwindcss,
 } from "react-icons/si";
 import { TbBrandReactNative } from "react-icons/tb";
+import { FaCode } from "react-icons/fa";
+import { getDefaultContent } from "@/utils/siteContentDefaults";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const skills = [
-  { name: "JavaScript", icon: <FaJs className="text-yellow-400" /> },
-  { name: "TypeScript", icon: <SiTypescript className="text-blue-500" /> },
-  { name: "Python", icon: <FaPython className="text-blue-300" /> },
-  { name: "React", icon: <FaReact className="text-cyan-400" /> },
-  { name: "Next.js", icon: <SiNextdotjs className="text-[#0A0A0A] dark:text-white" /> },
-  { name: "React Native", icon: <TbBrandReactNative className="text-cyan-400" /> },
-  { name: "Node.js", icon: <FaNodeJs className="text-green-500" /> },
-  { name: "Express", icon: <SiExpress className="text-[#0A0A0A] dark:text-white" /> },
-  { name: "MongoDB", icon: <SiMongodb className="text-green-400" /> },
-  { name: "Tailwind", icon: <SiTailwindcss className="text-cyan-300" /> },
-  { name: "Git", icon: <FaGitAlt className="text-orange-500" /> },
-  { name: "HTML5", icon: <FaHtml5 className="text-orange-500" /> },
+// Map skill name -> icon. Unknown skills fall back to a generic code glyph.
+const SKILL_ICONS = {
+  JavaScript: <FaJs className="text-yellow-400" />,
+  TypeScript: <SiTypescript className="text-blue-500" />,
+  Python: <FaPython className="text-blue-300" />,
+  React: <FaReact className="text-cyan-400" />,
+  "Next.js": <SiNextdotjs className="text-[#0A0A0A] dark:text-white" />,
+  "React Native": <TbBrandReactNative className="text-cyan-400" />,
+  "Node.js": <FaNodeJs className="text-green-500" />,
+  Express: <SiExpress className="text-[#0A0A0A] dark:text-white" />,
+  MongoDB: <SiMongodb className="text-green-400" />,
+  Tailwind: <SiTailwindcss className="text-cyan-300" />,
+  Git: <FaGitAlt className="text-orange-500" />,
+  HTML5: <FaHtml5 className="text-orange-500" />,
+};
+
+const skillIcon = (name) =>
+  SKILL_ICONS[name] || <FaCode className="text-[var(--text-secondary)]" />;
+
+// Trait icons are cycled by index (the trait text itself is editable).
+const TRAIT_ICONS = [
+  (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+      <polyline points="16 18 22 12 16 6" />
+      <polyline points="8 6 2 12 8 18" />
+    </svg>
+  ),
+  (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+      <rect x="2" y="3" width="20" height="14" rx="2" />
+      <line x1="8" y1="21" x2="16" y2="21" />
+      <line x1="12" y1="17" x2="12" y2="21" />
+    </svg>
+  ),
+  (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+      <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+    </svg>
+  ),
+  (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+      <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
+      <circle cx="9" cy="7" r="4" />
+      <path d="M23 21v-2a4 4 0 00-3-3.87" />
+      <path d="M16 3.13a4 4 0 010 7.75" />
+    </svg>
+  ),
 ];
 
-const traits = [
-  {
-    label: "Clean Code",
-    desc: "I write readable, maintainable code with a focus on long-term scalability.",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <polyline points="16 18 22 12 16 6" />
-        <polyline points="8 6 2 12 8 18" />
-      </svg>
-    ),
-  },
-  {
-    label: "Full-Stack",
-    desc: "Comfortable at every layer — from database schema to pixel-perfect UI.",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <rect x="2" y="3" width="20" height="14" rx="2" />
-        <line x1="8" y1="21" x2="16" y2="21" />
-        <line x1="12" y1="17" x2="12" y2="21" />
-      </svg>
-    ),
-  },
-  {
-    label: "Fast Learner",
-    desc: "I pick up new stacks and patterns quickly, thriving in evolving environments.",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
-      </svg>
-    ),
-  },
-  {
-    label: "Collaborative",
-    desc: "Strong communicator who enjoys pairing, code review, and team problem-solving.",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
-        <circle cx="9" cy="7" r="4" />
-        <path d="M23 21v-2a4 4 0 00-3-3.87" />
-        <path d="M16 3.13a4 4 0 010 7.75" />
-      </svg>
-    ),
-  },
-];
+// Minimal **bold** parser so bio copy can emphasise words.
+const renderBold = (text) =>
+  String(text || "")
+    .split(/(\*\*[^*]+\*\*)/g)
+    .map((part, i) =>
+      part.startsWith("**") && part.endsWith("**") ? (
+        <strong key={i}>{part.slice(2, -2)}</strong>
+      ) : (
+        <React.Fragment key={i}>{part}</React.Fragment>
+      )
+    );
 
-export default function About() {
+export default function About({ content, variant = "main", cvUrl }) {
+  const about = content || getDefaultContent(variant).about;
+  const skills = Array.isArray(about.skills) ? about.skills : [];
+  const traits = Array.isArray(about.traits) ? about.traits : [];
+  const bio = Array.isArray(about.bio) ? about.bio : [];
+  const resolvedCv = cvUrl || getDefaultContent(variant).cvUrl;
   const sectionRef = useRef(null);
   const canvasRef = useRef(null);
 
@@ -285,31 +293,28 @@ export default function About() {
         <div className="about-left">
           {/* Eyebrow */}
           <div className="mb-5 font-mono border-b border-white/20 inline pb-1 px-1">
-            ABOUT ME
+            {about.eyebrow}
           </div>
 
           {/* Heading */}
           <h2 className="about-heading">
-            Turning ideas<br />
-            into <em>real products</em>
+            {about.headingLead}{" "}
+            <em>{about.headingHighlight}</em>
           </h2>
 
           <hr className="about-divider" />
 
           {/* Bio */}
           <div className="about-bio">
-            <p>
-              I'm <strong>Musa Musa Kannike</strong>, a fullstack developer with a passion for building products that are as solid under the hood as they are beautiful on the surface. I work across the entire stack — crafting responsive frontends, robust APIs, and everything in between.
-            </p>
-            <p>
-              With 5+ years of experience, I've shipped 30+ projects ranging from greenfield startups to complex enterprise systems. I care deeply about developer experience, code quality, and shipping things that actually work.
-            </p>
+            {bio.map((para, i) => (
+              <p key={i}>{renderBold(para)}</p>
+            ))}
           </div>
 
           {/* Download CV */}
           <a
             className="about-download"
-            href="/Musa Musa Kannike CV.pdf"
+            href={resolvedCv}
             download
           >
             <FaDownload />
@@ -318,9 +323,9 @@ export default function About() {
 
           {/* Trait cards */}
           <div className="traits-grid">
-            {traits.map((t) => (
-              <div key={t.label} className="trait-card">
-                <div className="trait-icon">{t.icon}</div>
+            {traits.map((t, i) => (
+              <div key={t.label || i} className="trait-card">
+                <div className="trait-icon">{TRAIT_ICONS[i % TRAIT_ICONS.length]}</div>
                 <div>
                   <div className="trait-label">{t.label}</div>
                   <div className="trait-desc">{t.desc}</div>
@@ -341,10 +346,10 @@ export default function About() {
               Tech stack
             </div>
             <div className="skills-grid">
-              {skills.map((s) => (
-                <div key={s.name} className="skill-pill">
-                  <span className="skill-icon">{s.icon}</span>
-                  <span className="skill-name">{s.name}</span>
+              {skills.map((name) => (
+                <div key={name} className="skill-pill">
+                  <span className="skill-icon">{skillIcon(name)}</span>
+                  <span className="skill-name">{name}</span>
                 </div>
               ))}
             </div>

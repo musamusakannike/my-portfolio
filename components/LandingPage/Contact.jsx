@@ -4,10 +4,12 @@ import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { FaPaperPlane } from "react-icons/fa";
+import { getDefaultContent } from "@/utils/siteContentDefaults";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function Contact() {
+export default function Contact({ content, variant = "main" }) {
+  const contact = content || getDefaultContent(variant).contact;
   const sectionRef = useRef(null);
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [status, setStatus] = useState({ type: "", message: "" });
@@ -84,13 +86,13 @@ export default function Contact() {
         <header className="contact-header">
           <div className="eyebrow contact-eyebrow">
             <span className="eyebrowDot" />
-            Get in Touch
+            {contact.eyebrow}
           </div>
           <h2 className="contact-heading">
-            Let's work <br /> <em>together</em>
+            {contact.headingLead} <br /> <em>{contact.headingHighlight}</em>
           </h2>
           <p className="contact-subtitle">
-            Have a project in mind or just want to say hi? I'd love to hear from you.
+            {contact.subtitle}
           </p>
         </header>
 

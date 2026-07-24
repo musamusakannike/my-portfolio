@@ -22,6 +22,7 @@ export async function POST(req) {
 
     const formData = await req.formData();
     const file = formData.get("file");
+    const folderInput = formData.get("folder");
 
     if (!file) {
       return NextResponse.json({ error: "No file was attached to the request" }, { status: 400 });
@@ -31,10 +32,14 @@ export async function POST(req) {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
+    // Restrict destination to a known set of folders to avoid arbitrary keys
+    const allowedFolders = ["blog", "projects", "cv"];
+    const folder = allowedFolders.includes(folderInput) ? folderInput : "blog";
+
     // Sanitize and structure R2 asset storage location
     const timestamp = Date.now();
     const sanitizedFilename = file.name.replace(/[^a-zA-Z0-9.-]/g, "_");
-    const key = `blog/${timestamp}_${sanitizedFilename}`;
+    const key = `${folder}/${timestamp}_${sanitizedFilename}`;
 
     const bucketName = process.env.R2_BUCKET_NAME || "portfolio-bucket";
 
